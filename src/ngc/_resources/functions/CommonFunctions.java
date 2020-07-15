@@ -19,19 +19,7 @@ import static org.powerbot.script.Condition.sleep;
 
 public class CommonFunctions {
 
-    public static int getCombatSkill(ClientContext ctx) {
-        switch( ctx.combat.style().name().toLowerCase() ) {
-            case "accurate":
-                return Constants.SKILLS_ATTACK;
-            case "aggressive":
-                return Constants.SKILLS_STRENGTH;
-            case "defensive":
-                return Constants.SKILLS_DEFENSE;
-            default:
-                return Constants.SKILLS_RANGE;
-        }
-    }
-
+    // Prompts
     public static int promptForCombatStyle(ClientContext ctx) {
         String selectedStyle = (String) JOptionPane.showInputDialog(null, "Combat Type", "Select Style", QUESTION_MESSAGE, null, new String[] {"Melee", "Ranged", "Magic"}, "Melee");
 
@@ -139,6 +127,8 @@ public class CommonFunctions {
                 title));
     }
 
+
+    // Cannon
     public static void reloadCannon(ClientContext ctx) {
         GameObject cannon = ctx.objects.select().id(6).nearest().poll();
 
@@ -206,6 +196,7 @@ public class CommonFunctions {
         }
     }
 
+    // Teleports
     public static void teleportAway( ClientContext ctx) {
         Item sceptre = ctx.inventory.select().id(Items.SKULL_SCEPTRE_I_21276).poll();
 
@@ -268,7 +259,7 @@ public class CommonFunctions {
         }
     }
 
-
+    // ITems
     public static void usePotion(ClientContext ctx, int[] potionIds) {
         Item pot = ctx.inventory.select().id(potionIds).first().poll();
 
@@ -297,6 +288,7 @@ public class CommonFunctions {
         }
     }
 
+    // Loot
     public static boolean isValidLoot(ClientContext ctx, GroundItem groundItem, LootItem i, int maxDistanceToLoot, boolean ignoreB2P) {
         return (!ctx.inventory.isFull() || (groundItem.stackable() && ctx.inventory.select().id(groundItem.id()).count() > 0))
                 && groundItem.stackSize() >= i.getMinStackSize()
@@ -307,6 +299,7 @@ public class CommonFunctions {
                 && groundItem.inViewport() && (maxDistanceToLoot < 0 || groundItem.tile().distanceTo(ctx.players.local()) <= maxDistanceToLoot);
     }
 
+    // Misc
     public static void moveMouseOffscreen(ClientContext ctx, boolean leftSide) {
         int x;
         if( leftSide ) {
@@ -321,8 +314,10 @@ public class CommonFunctions {
         ctx.input.move(new Point(x, y));
     }
 
+    // Food
     public static int[] allFoodIds() {
         return new int[] {
+                Items.HERRING_347,
                 Items.TUNA_361,
                 Items.SALMON_329,
                 Items.TROUT_333,
@@ -342,6 +337,7 @@ public class CommonFunctions {
         };
     }
 
+    // Combat
     public static int[] guthansEquipment() {
         return new int[] {
                 Items.GUTHANS_HELM_4724,
@@ -367,12 +363,23 @@ public class CommonFunctions {
                 Items.BERSERKER_RING_I_11773
         };
     }
+    public static String getCombatStyleName(int style){
+        switch (style){
+            case Constants.SKILLS_ATTACK: return "Attack";
+            case Constants.SKILLS_STRENGTH: return "Strength";
+            case Constants.SKILLS_RANGE: return "Range";
+            case Constants.SKILLS_DEFENSE: return "Defence";
+            case Constants.SKILLS_MAGIC: return "Magic";
+            default: return "None";
+        }
+    }
 
     // Slayer Tower Data
     public static final Tile[] pathToSlayerStairsLevelOne = {new Tile(3423, 3538, 0), new Tile(3419, 3538, 0), new Tile(3415, 3538, 0), new Tile(3412, 3542, 0), new Tile(3415, 3545, 0), new Tile(3419, 3545, 0), new Tile(3423, 3545, 0), new Tile(3427, 3545, 0), new Tile(3427, 3549, 0), new Tile(3425, 3553, 0), new Tile(3421, 3555, 0), new Tile(3418, 3558, 0), new Tile(3415, 3561, 0), new Tile(3413, 3565, 0), new Tile(3416, 3568, 0), new Tile(3420, 3569, 0), new Tile(3423, 3572, 0), new Tile(3427, 3573, 0), new Tile(3431, 3573, 0), new Tile(3435, 3573, 0), new Tile(3439, 3573, 0), new Tile(3443, 3573, 0), new Tile(3446, 3570, 0), new Tile(3446, 3566, 0), new Tile(3446, 3562, 0), new Tile(3442, 3560, 0), new Tile(3438, 3559, 0), new Tile(3436, 3555, 0), new Tile(3436, 3551, 0), new Tile(3437, 3547, 0), new Tile(3437, 3543, 0)};
     public static final int slayerStairsLevelOneId = 2114;
     public static final Tile[] pathToSlayerDoorLevelTwo = {new Tile(3433, 3537, 1), new Tile(3437, 3535, 1), new Tile(3441, 3535, 1), new Tile(3445, 3536, 1), new Tile(3447, 3540, 1), new Tile(3447, 3544, 1), new Tile(3447, 3548, 1), new Tile(3447, 3552, 1), new Tile(3444, 3555, 1), new Tile(3441, 3558, 1), new Tile(3439, 3562, 1), new Tile(3436, 3566, 1), new Tile(3433, 3570, 1), new Tile(3430, 3573, 1), new Tile(3426, 3573, 1), new Tile(3422, 3573, 1), new Tile(3418, 3573, 1), new Tile(3414, 3571, 1), new Tile(3413, 3567, 1), new Tile(3413, 3563, 1), new Tile(3417, 3562, 1), new Tile(3421, 3562, 1), new Tile(3424, 3559, 1), new Tile(3427, 3556, 1)};
 
+    // NPC
     public static ArrayList<Npc> getNearbyNpcList(ClientContext ctx) {
         ArrayList npcs = new ArrayList();
 
@@ -385,6 +392,7 @@ public class CommonFunctions {
 
     }
 
+    // XP
     public static double xpPerHour(ClientContext ctx, int combatSkill, double startXP, long runtime) {
         // Pull XP for combat style
         int currentXP = ctx.skills.experience(combatSkill);

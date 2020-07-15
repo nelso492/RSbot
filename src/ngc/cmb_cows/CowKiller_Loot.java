@@ -24,9 +24,8 @@ public class CowKiller_Loot extends BaseAction<ClientContext> {
 
         return
                 ctx.groundItems.select().id(this.lootIds).nearest().peek().valid() &&
-                ctx.groundItems.select().id(this.lootIds).nearest().peek().stackSize() >= 4 &&
-                ctx.groundItems.select().id(this.lootIds).nearest().peek().tile().distanceTo(ctx.players.local()) < 4 &&
-                !ctx.inventory.isFull();
+                ctx.groundItems.select().id(this.lootIds).nearest().peek().stackSize() >= 2 &&
+                ctx.groundItems.select().id(this.lootIds).nearest().peek().tile().matrix(ctx).reachable();
     }
 
     @Override

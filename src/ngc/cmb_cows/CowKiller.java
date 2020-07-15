@@ -29,8 +29,9 @@ public class CowKiller extends PollingScript<ClientContext> implements MessageLi
     private int arrowId;
     private Long lastGuiUpdateTimestamp;
     private String readableTimestamp;
-    private int invCount;
-    private int[] droppables; //Droppable items that aren't pots, bolts, etc
+
+    private int combatStyle;
+    private String combatName;
 
 
     // Loot
@@ -65,17 +66,18 @@ public class CowKiller extends PollingScript<ClientContext> implements MessageLi
     }
 
     @Override
-    public void start(){
+    public void start() {
         // Initial Setup
         status = "Setup";
         ctx.properties.setProperty("randomevents.disable", "true"); //Ignore random events
         combatMinHealthPercent = 20;
         currentPhase = Phase.Start;
-        arrowId = Items.IRON_ARROW_884;
+        arrowId = CommonFunctions.promptForArrowType();
         currentTarget = ctx.npcs.nil();
-        droppables = new int[] {arrowId, Items.COWHIDE_1739, Items.RAW_BEEF_2132, Items.BONES_526};
         lastGuiUpdateTimestamp = 0L;
-        invCount = ctx.inventory.select().count();
+
+        this.combatStyle = CommonFunctions.promptForCombatStyle(ctx);
+        this.combatName = CommonFunctions.getCombatStyleName(this.combatStyle);
 
 
         // -- Combat Phase --
@@ -110,7 +112,7 @@ public class CowKiller extends PollingScript<ClientContext> implements MessageLi
         }*/
         Step currentState = null;
 
-        if( !currentTarget.valid() ) {
+        if (!currentTarget.valid()) {
             currentTarget = ctx.players.local().interacting().valid() ?
                     (Npc) ctx.players.local().interacting() :
                     ctx.npcs.select(new Filter<Npc>() {
@@ -126,24 +128,21 @@ public class CowKiller extends PollingScript<ClientContext> implements MessageLi
 
 
         // Reset any errant inventory selection
-        if( ctx.inventory.selectedItem().valid() ) {
+        if (ctx.inventory.selectedItem().valid()) {
             ctx.inventory.selectedItem().click(); // unselect itself
         }
 
-        switch( currentState ) {
-                        case WaitForDrop:
+        switch (currentState) {
+            case WaitForDrop:
                 waitForCombatLoot.execute();
                 break;
 
             case Loot:
-                if( ctx.inventory.select().id(arrowId).poll().valid() && ctx.inventory.select().id(arrowId).poll().stackSize() > 50 ) {
+                if (ctx.inventory.select().id(arrowId).poll().valid() && ctx.inventory.select().id(arrowId).poll().stackSize() > 50) {
                     ctx.inventory.select().id(arrowId).poll().interact("Wield");
                 }
-                if( !ctx.players.local().inMotion() ) {
+                if (!ctx.players.local().inMotion()) {
                     lootAction.execute();
-
-                    // We looted, so update inventory count
-                    invCount = ctx.inventory.select().count();
                 }
                 break;
             case EatFood:
@@ -165,7 +164,7 @@ public class CowKiller extends PollingScript<ClientContext> implements MessageLi
     public void messaged(MessageEvent messageEvent) {
         String msg = messageEvent.text();
 
-        if( msg.contains("you are dead") ) {
+        if (msg.contains("you are dead")) {
             currentPhase = Phase.Reset;
             ctx.controller.stop();
         }
@@ -176,25 +175,9 @@ public class CowKiller extends PollingScript<ClientContext> implements MessageLi
         g.drawString("Runtime: " + readableTimestamp, GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(6));
 
         g.setColor(GuiHelper.getTextColorImportant());
-        g.drawString("Range : " + ctx.skills.level(Constants.SKILLS_ATTACK), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(5));
+        g.drawString(this.combatName + " : " + ctx.skills.level(this.combatStyle), GuiHelper.getDialogMiddleX(), GuiHelper.getDialogStartY(6));
 
-         //  Draw Background
-           /* g.setColor(GuiHelper.getBaseColor());
-            g.fillRoundRect(GuiHelper.getDialogX(), GuiHelper.getDialogY(), GuiHelper.getDialogWidth(), GuiHelper.getDialogHeight(), 4, 4);
-            g.setColor(GuiHelper.getTextColorWhite());
-            g.drawRoundRect(GuiHelper.getDialogX(), GuiHelper.getDialogY(), GuiHelper.getDialogWidth(), GuiHelper.getDialogHeight(), 4, 4);
-            g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
-
-            //   Draw Data
-            g.drawString("Runtime: " + GuiHelper.getReadableRuntime(getRuntime()), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(1));
-
-            g.setColor(GuiHelper.getTextColorImportant());
-            g.drawString("Range : " + ctx.skills.level(Constants.SKILLS_RANGE), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(5));
-
-            g.setColor(GuiHelper.getTextColorInformation());
-
-            if(currentTarget != null)
-            g.drawString("Target HP: " + (currentTarget.valid() ? currentTarget.healthPercent() : 0) + "%", GuiHelper.getDialogMiddleX(), GuiHelper.getDialogStartY(1));*/
+        g.setColor((GuiHelper.getTextColorInformation()));
 
     }
 
@@ -212,21 +195,21 @@ public class CowKiller extends PollingScript<ClientContext> implements MessageLi
         currentPhase = checkNextPhase();
 
         /* -- COMBAT -- */
-        if( currentPhase == Phase.Combat ) {
+        if (currentPhase == Phase.Combat) {
 
             // Loot
-            if( lootAction.activate() ) {
+            if (lootAction.activate()) {
                 status = "Loot";
                 return Step.Loot;
             }
 
             // Emergency Eat to prolong trip.
-            if( eatFood.activate() ) {
+            if (eatFood.activate()) {
                 return Step.EatFood;
             }
 
             // Attack
-            if( combatAction.activate() ) {
+            if (combatAction.activate()) {
                 return Step.FightCow;
             }
         }
@@ -239,10 +222,9 @@ public class CowKiller extends PollingScript<ClientContext> implements MessageLi
         return ctx.npcs.select().name("Cow").nearest().poll().valid();
     }
 
-
     private void checkPhase() {
         // Check Phase
-        if( isNpcNearby() ) {
+        if (isNpcNearby()) {
             currentPhase = Phase.Combat;
         }
     }
@@ -252,13 +234,11 @@ public class CowKiller extends PollingScript<ClientContext> implements MessageLi
     }
 
     private void updateGUIData() {
-        if( getRuntime() - lastGuiUpdateTimestamp > 10000 ) {
+        if (getRuntime() - lastGuiUpdateTimestamp > 10000) {
             lastGuiUpdateTimestamp = getRuntime();
             readableTimestamp = GuiHelper.getReadableRuntime(lastGuiUpdateTimestamp);
         }
     }
-
-
 
 
 }
