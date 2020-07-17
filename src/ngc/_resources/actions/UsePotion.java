@@ -70,7 +70,7 @@ public class UsePotion extends BaseAction<ClientContext> {
             }else if( skillDistance >= skill50){
                 drinkPotion = GaussianTools.takeActionUnlikely();
             }else if( skillDistance >= skill25){
-                drinkPotion = GaussianTools.takeActionLikely();
+                drinkPotion = !GaussianTools.takeActionLikely();
             }else{
                 drinkPotion = true;
             }

@@ -31,10 +31,10 @@ public class GuzzleRockCake extends BaseAction<ClientContext> {
                 guzzle = GaussianTools.takeActionNormal();
                 break;
             case 3:
-                guzzle = GaussianTools.takeActionLikely();
+                guzzle = !GaussianTools.takeActionUnlikely();
                 break;
             case 4:
-                guzzle = GaussianTools.takeActionAlways();
+                guzzle = !GaussianTools.takeActionNever();
                 break;
             default:
                 guzzle = true;

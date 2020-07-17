@@ -2,6 +2,7 @@ package ngc._resources.actions;
 
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._template.BaseAction;
+import ngc._resources.functions.AntibanActions;
 import ngc._resources.functions.CommonFunctions;
 import ngc._resources.functions.GaussianTools;
 import org.powerbot.script.Condition;
@@ -53,7 +54,7 @@ public class CombatAction extends BaseAction<ClientContext> {
     @Override
     public void execute() {
         // Add a touch of AFK
-        sleep(Math.abs(GaussianTools.getRandomGaussian(0, 500)));
+        AntibanActions.sleepDelay(Random.nextInt(0, 3));
 
         // Check for npc interacting with player
         Npc target = ctx.npcs.select().select(new Filter<Npc>() {
@@ -64,7 +65,7 @@ public class CombatAction extends BaseAction<ClientContext> {
         }).poll();
 
 
-        if( !target.valid() ) {
+        if (!target.valid()) {
             // None Found. Find nearest valid target
             target = ctx.npcs.select().select(new Filter<Npc>() {
                 @Override
@@ -78,8 +79,8 @@ public class CombatAction extends BaseAction<ClientContext> {
 
 
         // Target Npc
-        if( npc.inViewport() && (!npc.interacting().valid() || npc.interacting().name().equals(ctx.players.local().name())) ) {
-            if( npc.interact("Attack", npc.name()) ) {
+        if (npc.inViewport() && (!npc.interacting().valid() || npc.interacting().name().equals(ctx.players.local().name()))) {
+            if (npc.interact("Attack", npc.name())) {
                 // Chill for a sec
                 sleep(500);
 
@@ -87,8 +88,8 @@ public class CombatAction extends BaseAction<ClientContext> {
                 waitForCombat();
 
                 // Triple check we've got a target
-                if( ctx.players.local().interacting().valid() ) {
-                    if( config.getNpcDeathAnimation() > 0 ) {
+                if (ctx.players.local().interacting().valid()) {
+                    if (config.getNpcDeathAnimation() > 0) {
                         // Wait for drop like a good human
                         Condition.wait(new Callable<Boolean>() {
                             @Override
@@ -100,7 +101,7 @@ public class CombatAction extends BaseAction<ClientContext> {
                 }
             }
         } else {
-            if( config.getSafeTile() == null ) {
+            if (config.getSafeTile() == null) {
                 ctx.camera.turnTo(npc);
 
                 Condition.wait(new Callable<Boolean>() {
@@ -110,7 +111,7 @@ public class CombatAction extends BaseAction<ClientContext> {
                     }
                 }, 100, 20);
 
-                if( !npc.inViewport() ) {
+                if (!npc.inViewport()) {
                     Tile playerTile = ctx.players.local().tile();
                     ArrayList<Tile> destinationTiles = new ArrayList<>();
                     int secondaryOffset = Random.nextInt(-3, 3);
@@ -129,10 +130,10 @@ public class CombatAction extends BaseAction<ClientContext> {
                         }
                     });
 
-                    for( Tile t : destinationTiles ) {
+                    for (Tile t : destinationTiles) {
 
                         // move to "safe" tile
-                        if( t.matrix(ctx).reachable() ) {
+                        if (t.matrix(ctx).reachable()) {
                             CommonFunctions.walkToSafespot(ctx, t);
                             sleep();
 
@@ -143,7 +144,7 @@ public class CombatAction extends BaseAction<ClientContext> {
                                 }
                             }, 150, 30);
 
-                            if( ctx.players.local().tile().distanceTo(npc) >= config.getMinDistanceToTarget() ) {
+                            if (ctx.players.local().tile().distanceTo(npc) >= config.getMinDistanceToTarget()) {
                                 break;
                             }
                         }

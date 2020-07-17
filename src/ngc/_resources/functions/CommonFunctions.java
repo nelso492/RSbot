@@ -19,6 +19,19 @@ import static org.powerbot.script.Condition.sleep;
 
 public class CommonFunctions {
 
+    public static void openTab(ClientContext ctx, Game.Tab tab) {
+        if (ctx.game.tab() != tab) {
+            ctx.game.tab(tab);
+
+            Condition.wait(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return ctx.game.tab() == tab;
+                }
+            }, 250, 10);
+        }
+    }
+
     // Prompts
     public static int promptForCombatStyle(ClientContext ctx) {
         String selectedStyle = (String) JOptionPane.showInputDialog(null, "Combat Type", "Select Style", QUESTION_MESSAGE, null, new String[] {"Melee", "Ranged", "Magic"}, "Melee");

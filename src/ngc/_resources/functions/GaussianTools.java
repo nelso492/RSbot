@@ -3,40 +3,45 @@ package ngc._resources.functions;
 import org.powerbot.script.Random;
 
 public class GaussianTools {
-    public static boolean takeActionAlways() {
-        return Math.abs(baseTenGaussian()) <= 30; // 99.7&
-    }
-
-    public static boolean takeActionDefinite() {
-        return Math.abs(baseTenGaussian()) <= 20; // 97%
-    }
 
     public static boolean takeActionLikely() {
-        double n = baseTenGaussian();
-        return (n >= -10) && (n <= 20); // 81%
+        return !takeActionUnlikely();
     }
 
+    /**
+     * 68% chance of execution
+     * @return
+     */
     public static boolean takeActionNormal() {
-        return Math.abs(baseTenGaussian()) <= 10; // 68%
+        double base = baseGaussian();
+        return base >= 35 && base <= 65;
     }
 
+    /**
+     * 15% Chance
+     * @return
+     */
     public static boolean takeActionUnlikely() {
-        return baseTenGaussian() > 10; // 15%
+        return baseGaussian() < 25 ; // 15%
     }
 
+    /**
+     * 10% chance
+     * @return
+     */
     public static boolean takeActionRarely() {
-        return Math.abs(baseTenGaussian()) > 20; // 5%
+        return baseGaussian() > 20; // 10%
     }
 
+    /**
+     * 2.2% chance of execution
+     * @return
+     */
     public static boolean takeActionNever() {
-        return baseTenGaussian() > 20; // 2.2%
+        return baseGaussian() < 20; // 2.2%
     }
 
-    private static double baseTenGaussian() {
-        return Random.nextGaussian() * 10;
-    }
-
-    public static int getRandomGaussian(int median, int deviation) {
-        return (int) (Random.nextGaussian() * median) + deviation;
+    private static double baseGaussian() {
+        return Random.nextGaussian(0, 100, 50, 15);
     }
 }

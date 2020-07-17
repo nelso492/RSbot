@@ -2,6 +2,7 @@ package ngc._resources.actions;
 
 import ngc._resources.Items;
 import ngc._resources.actions._template.BaseAction;
+import ngc._resources.functions.AntibanActions;
 import ngc._resources.functions.CommonFunctions;
 import ngc._resources.functions.GaussianTools;
 import ngc._resources.models.LootList;
@@ -44,7 +45,7 @@ public class BonesToPeachesLootAction extends BaseAction<ClientContext> {
         GroundItem item = groundItems.nearest().poll();
         if( (!ctx.inventory.isFull() || item.stackable()) && item.valid() ) {
             // Pause for human nature
-            sleep(GaussianTools.getRandomGaussian(600, 200));
+            AntibanActions.sleepDelay(2);
 
             if( item.valid() ) {
                 item.interact("Take", item.name());
