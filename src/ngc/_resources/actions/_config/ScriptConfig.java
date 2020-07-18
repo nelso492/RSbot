@@ -46,6 +46,11 @@ public class ScriptConfig {
     }
 
     public void paint(Graphics g, Long runtime) {
+        g.setColor(GuiHelper.getBaseColor());
+        g.fillRoundRect(GuiHelper.getDialogX(), GuiHelper.getDialogY(), GuiHelper.getDialogWidth(), GuiHelper.getDialogHeight(), 4, 4);
+        g.setColor(GuiHelper.getTextColorWhite());
+        g.drawRoundRect(GuiHelper.getDialogX(), GuiHelper.getDialogY(), GuiHelper.getDialogWidth(), GuiHelper.getDialogHeight(), 4, 4);
+
         // Default Paint
         g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
         g.drawString("Status : " + (this.status), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(1));

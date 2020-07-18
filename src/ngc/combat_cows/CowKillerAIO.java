@@ -1,4 +1,4 @@
-package ngc.cmb_cows;
+package ngc.combat_cows;
 
 import ngc._resources.actions.CombatAction;
 import ngc._resources.actions.EquipArrows;
@@ -13,14 +13,14 @@ import ngc._resources.functions.GaussianTools;
 import ngc._resources.functions.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
+import ngc.combat_cows.phases.CombatPhase;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-@Script.Manifest(name = "CowKillerAIO", description = "Kills Cows.", properties = "client=4; topic=051515; author=Bowman")
+@Script.Manifest(name = "cmb_CowKillerAIO", description = "Kills Cows.", properties = "client=4; topic=051515; author=Bowman")
 public class CowKillerAIO extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Config
@@ -37,7 +37,7 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
 
     // PHASE
 
-    private CowKillerAIO_Combat combatPhase = new CowKillerAIO_Combat(ctx);
+    private CombatPhase combatPhase = new CombatPhase(ctx);
     ;
     //endregion
 
@@ -87,7 +87,7 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
 
         this.equipArrows = new EquipArrows(ctx, projectileId, 60);
 
-        this.combatPhase.setName("Combat");
+        this.combatPhase.setStatus("Combat");
         this.combatPhase.addAction(this.healAction);
         this.combatPhase.addAction(this.lootAction);
         this.combatPhase.addAction(this.equipArrows);
@@ -200,7 +200,7 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
     public void repaint(Graphics g) {
         this.scriptConfig.paint(g, getRuntime());
 
-        g.drawString("Phase:" + this.combatPhase.getName(), GuiHelper.getDialogMiddleX(), GuiHelper.getDialogStartY(3));
+        g.drawString("Phase:" + this.combatPhase.getStatus(), GuiHelper.getDialogMiddleX(), GuiHelper.getDialogStartY(3));
 
     }
     //endregion

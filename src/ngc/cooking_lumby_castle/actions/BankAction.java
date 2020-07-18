@@ -1,4 +1,4 @@
-package ngc.cooking_lumby_castle;
+package ngc.cooking_lumby_castle.actions;
 
 
 import ngc._resources.actions._template.BaseAction;

@@ -29,9 +29,9 @@ public class BankAction extends BaseAction<ClientContext> {
 
     @Override
     public void execute() {
-        if( ctx.bank.inViewport() ) {
+        if (ctx.bank.inViewport()) {
 
-            if( !ctx.bank.opened() ) {
+            if (!ctx.bank.opened()) {
                 // Open Bank
                 ctx.bank.open();
                 Condition.wait(new Callable<Boolean>() {
@@ -43,8 +43,8 @@ public class BankAction extends BaseAction<ClientContext> {
             }
 
             // Deposit if needed
-            if( config.getPrimaryDepositId() > -1 ) {
-                if( config.getPrimaryDepositId() == 0 ) {
+            if (config.getPrimaryDepositId() > -1) {
+                if (config.getPrimaryDepositId() == 0) {
                     ctx.bank.depositInventory();
                 } else {
                     ctx.bank.deposit(config.getPrimaryDepositId(), Bank.Amount.ALL);
@@ -65,10 +65,10 @@ public class BankAction extends BaseAction<ClientContext> {
             }
 
             // Withdraw
-            if( config.getPrimaryWithdrawId() > 0 ) {
+            if (config.getPrimaryWithdrawId() > 0) {
 
                 // Check Quantity
-                if( config.getPrimaryWithdrawQty() == 28 ) {
+                if (config.getPrimaryWithdrawQty() == 28) {
                     ctx.bank.withdraw(config.getPrimaryWithdrawId(), Bank.Amount.ALL);
                 } else {
                     ctx.bank.withdraw(config.getPrimaryWithdrawId(), Bank.Amount.X);//.select().id(config.getPrimaryWithdrawId()).poll().click(); // Uses X qty
@@ -81,7 +81,7 @@ public class BankAction extends BaseAction<ClientContext> {
                     }, 250, 50);
 
                     // Check secondary withdraw if primary quantity less than full inventory
-                    if( config.getSecondaryWithdrawId() > 0 ) {
+                    if (config.getSecondaryWithdrawId() > 0) {
                         ctx.bank.withdraw(config.getSecondaryDepositId(), Bank.Amount.X);//.select().id(config.getSecondaryWithdrawId()).poll().click(); // Uses X qty
 
                         Condition.wait(new Callable<Boolean>() {
@@ -95,9 +95,19 @@ public class BankAction extends BaseAction<ClientContext> {
             }
 
             // Close if needed
-            if( config.isCloseWhenDone() && ctx.bank.open() ) {
+            if (config.isCloseWhenDone() && ctx.bank.open()) {
                 ctx.bank.close();
                 sleep(Random.nextInt(400, 1200));
+            }
+        } else {
+            if (this.config.getBankArea() != null) {
+                ctx.movement.step(this.config.getBankArea().getRandomTile());
+                Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return ctx.bank.inViewport();
+                    }
+                }, 350, 10);
             }
         }
     }

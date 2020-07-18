@@ -1,5 +1,7 @@
 package ngc._resources.actions._config;
 
+import org.powerbot.script.Area;
+
 public class BankConfig {
     private int primaryDepositId;
     private int secondaryDepositId;
@@ -13,6 +15,8 @@ public class BankConfig {
     private boolean bankOnInventoryFull; // Bank on full inventory
     private boolean bankOnWithdrawsEmpty; // Bank when withdrawn items empty (i.e. smelting or crafting one item into another)
     private boolean closeWhenDone;
+
+    private Area bankArea;
 
     public BankConfig(int primaryDepositId, int secondaryDepositId, int primaryWithdrawId, int primaryWithdrawQty, int secondaryWithdrawId, int secondaryWithdrawQty, boolean bankOnInventoryFull, boolean bankOnWithdrawsEmpty, boolean closeWhenDone) {
         this.primaryDepositId = primaryDepositId;
@@ -70,5 +74,13 @@ public class BankConfig {
     public int[] getAllWithdrawIds() {
         int[] ids = {primaryWithdrawId, secondaryWithdrawId};
         return ids;
+    }
+
+    public Area getBankArea() {
+        return bankArea;
+    }
+
+    public void setBankArea(Area bankArea) {
+        this.bankArea = bankArea;
     }
 }

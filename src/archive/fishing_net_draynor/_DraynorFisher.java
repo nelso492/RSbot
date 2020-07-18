@@ -1,6 +1,9 @@
 package ngc.fishing_net_draynor;
 
 import ngc._resources.actions._template.BaseAction;
+import ngc.fishing_net_draynor.actions.BankingAction;
+import ngc.fishing_net_draynor.actions.FishingAction;
+import ngc.fishing_net_draynor.actions.WalkToBankAction;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 

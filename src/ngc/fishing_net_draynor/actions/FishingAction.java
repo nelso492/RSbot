@@ -1,4 +1,4 @@
-package ngc.fishing_net_draynor;
+package ngc.fishing_net_draynor.actions;
 
 
 import ngc._resources.actions._template.BaseAction;

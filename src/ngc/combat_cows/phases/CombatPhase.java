@@ -1,10 +1,10 @@
-package ngc.cmb_cows;
+package ngc.combat_cows.phases;
 
 import ngc._resources.actions._template.BasePhase;
 import org.powerbot.script.rt4.ClientContext;
 
-public class CowKillerAIO_Combat extends BasePhase<ClientContext> {
-    public CowKillerAIO_Combat(ClientContext ctx) {
+public class CombatPhase extends BasePhase<ClientContext> {
+    public CombatPhase(ClientContext ctx) {
         super(ctx);
     }
 
