@@ -7,6 +7,8 @@ import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
+import shared.tools.AntibanTools;
+import shared.tools.GaussianTools;
 
 import java.util.concurrent.Callable;
 
@@ -38,14 +40,22 @@ public class CookFood extends BaseAction<ClientContext> {
 
         if (cookingRange.inViewport()) {
             if (cookingRange.interact("Cook")) {
+                // Interact with Range prompt
                 Condition.wait(new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
                         return !ctx.players.local().inMotion() && ctx.widgets.component(270, 13).valid();
                     }
                 }, Random.nextInt(500, 800), 10);
-                //ctx.widgets.component(270, 13).click();
+
                 ctx.input.sendln(" ");
+
+                // Antiban actions
+                if (GaussianTools.takeActionLikely()) {
+                    AntibanTools.moveMouseOffScreen(ctx, (GaussianTools.takeActionNormal()));
+                }
+
+                // Wait for foodies to cook
                 Condition.wait(new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
@@ -61,7 +71,7 @@ public class CookFood extends BaseAction<ClientContext> {
                     }
                 }, Random.nextInt(500, 777), 4);
             }
-        }else {
+        } else {
             ctx.movement.step(cookingRange);
             Condition.wait(new Callable<Boolean>() {
                 @Override

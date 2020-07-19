@@ -13,7 +13,7 @@ import shared.tools.CommonActions;
 import java.util.concurrent.Callable;
 
 public class WalkLumbyBankToStairs extends BaseAction<ClientContext> {
-    public static final Tile[] path = {new Tile(3206, 3213, 2), new Tile(3208, 3217, 2), new Tile(3205, 3209, 2)};
+    public static final Tile[] path = {new Tile(3206, 3219, 2), new Tile(3208, 3216, 2), new Tile(3206, 3213, 2), new Tile(3205, 3209, 2)};
     private final int fishId;
 
     public WalkLumbyBankToStairs(ClientContext ctx, int fishId) {
@@ -33,7 +33,7 @@ public class WalkLumbyBankToStairs extends BaseAction<ClientContext> {
     public void execute() {
         GameObject staircase = ctx.objects.select().id(GameObjects.STAIRCASE_LUMBRIDGE_CASTLE_16673).nearest().poll();
 
-        if (staircase.inViewport()) {
+        if (staircase.inViewport() && staircase.tile().y() < 3220) {
             int floor = ctx.game.floor();
             staircase.interact("Climb-down");
             Condition.wait(new Callable<Boolean>() {

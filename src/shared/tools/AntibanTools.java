@@ -245,9 +245,8 @@ public class AntibanTools {
         int y = Random.nextInt(0, 550);
 
         ctx.input.move(new Point(x, y));
-        sleep();
+        sleepDelay(Random.nextInt(0,5));
         ctx.input.defocus();
-        sleepDelay(Random.nextInt(3, 10));
     }
 
     /**
