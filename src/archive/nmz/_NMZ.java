@@ -1,4 +1,4 @@
-package ngc.nmz;
+package scripts.nmz;
 
 import resources.constants.Items;
 import resources.actions.GuzzleRockCake;

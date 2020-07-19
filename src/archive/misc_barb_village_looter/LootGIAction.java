@@ -1,4 +1,4 @@
-package ngc.misc_barb_village_looter;
+package scripts.misc_barb_village_looter;
 
 import resources.models.BaseAction;
 import resources.tools.CommonAreas;

@@ -1,4 +1,4 @@
-package ngc.crafting_jewelry_furnace;
+package scripts.crafting_jewelry_furnace;
 
 
 import resources.action_config.CraftComponentConfig;

@@ -1,4 +1,4 @@
-package ngc.combat_lumby;
+package scripts.combat_lumby;
 
 import resources.models.BaseAction;
 import org.powerbot.script.*;

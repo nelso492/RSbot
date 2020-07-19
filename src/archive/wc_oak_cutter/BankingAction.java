@@ -1,4 +1,4 @@
-package ngc.wc_oak_cutter;
+package scripts.wc_oak_cutter;
 
 
 import resources.constants.Items;

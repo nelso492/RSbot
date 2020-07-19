@@ -1,4 +1,4 @@
-package ngc.combat_alkharid_warriors;
+package scripts.combat_alkharid_warriors;
 
 import resources.models.BaseAction;
 import org.powerbot.script.rt4.ClientContext;

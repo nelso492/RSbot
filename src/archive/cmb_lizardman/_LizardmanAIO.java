@@ -1,4 +1,4 @@
-package ngc.cmb_lizardman;
+package scripts.cmb_lizardman;
 
 import resources.constants.Items;
 import resources.actions.*;

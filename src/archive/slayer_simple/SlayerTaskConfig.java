@@ -1,4 +1,4 @@
-package ngc.slayer_simple;
+package scripts.slayer_simple;
 
 import resources.action_config.CombatConfig;
 import resources.models.BaseAction;

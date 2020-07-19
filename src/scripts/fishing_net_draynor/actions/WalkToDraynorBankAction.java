@@ -1,6 +1,7 @@
-package ngc.fishing_net_draynor.actions;
+package scripts.fishing_net_draynor.actions;
 
 import resources.models.BaseAction;
+import resources.tools.CommonActions;
 import resources.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
@@ -22,6 +23,6 @@ public class WalkToDraynorBankAction extends BaseAction<ClientContext> {
     @Override
     public void execute() {
         path[path.length - 1] = bank.getRandomTile();
-        ctx.movement.newTilePath(path).traverse();
+        CommonActions.traversePath(ctx, path);
     }
 }

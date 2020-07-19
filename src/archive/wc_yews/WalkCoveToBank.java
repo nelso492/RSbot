@@ -1,4 +1,4 @@
-package ngc.wc_yews;
+package scripts.wc_yews;
 
 import resources.models.BaseAction;
 import resources.tools.CommonAreas;

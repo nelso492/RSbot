@@ -1,4 +1,4 @@
-package ngc.runecrafter;
+package scripts.runecrafter;
 
 import resources.action_config.RunecraftConfig;
 import resources.models.BaseAction;

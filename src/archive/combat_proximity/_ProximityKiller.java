@@ -1,4 +1,4 @@
-package ngc.combat_proximity;
+package scripts.combat_proximity;
 
 import resources.actions.*;
 import resources.action_config.CombatConfig;

@@ -1,4 +1,4 @@
-package ngc.fishing_net_draynor.phases;
+package scripts.fishing_net_draynor.phases;
 
 import resources.models.BasePhase;
 import resources.tools.AntibanTools;

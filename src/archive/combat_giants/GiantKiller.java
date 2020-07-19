@@ -1,4 +1,4 @@
-package ngc.combat_giants;
+package scripts.combat_giants;
 
 import resources.constants.Items;
 import resources.actions.CombatAction;

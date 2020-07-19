@@ -1,4 +1,4 @@
-package ngc.wc_yews;
+package scripts.wc_yews;
 
 import resources.constants.GameObjects;
 import resources.models.BaseAction;

@@ -1,4 +1,4 @@
-package ngc.combat_zombies;
+package scripts.combat_zombies;
 
 import resources.actions.CombatAction;
 import resources.actions.HealAction;

@@ -1,4 +1,4 @@
-package ngc.fishing_cage_harpoon.corsair;
+package scripts.fishing_cage_harpoon.corsair;
 
 import resources.models.BaseAction;
 import org.powerbot.script.Tile;

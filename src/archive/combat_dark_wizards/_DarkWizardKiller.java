@@ -1,4 +1,4 @@
-package ngc.combat_dark_wizards;
+package scripts.combat_dark_wizards;
 
 import resources.actions.CombatAction;
 import resources.actions.HealAction;

@@ -1,4 +1,4 @@
-package ngc.mining_allminer;
+package scripts.mining_allminer;
 
 import resources.constants.GameObjects;
 import resources.constants.Items;

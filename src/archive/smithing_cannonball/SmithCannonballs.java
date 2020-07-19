@@ -1,4 +1,4 @@
-package ngc.smithing_cannonball;
+package scripts.smithing_cannonball;
 
 
 import resources.action_config.CraftComponentConfig;

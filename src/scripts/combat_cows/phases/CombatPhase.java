@@ -1,4 +1,4 @@
-package ngc.combat_cows.phases;
+package scripts.combat_cows.phases;
 
 import resources.models.BasePhase;
 import org.powerbot.script.rt4.ClientContext;

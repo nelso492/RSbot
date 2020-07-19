@@ -1,4 +1,4 @@
-package ngc.misc_warriors_guild_animator;
+package scripts.misc_warriors_guild_animator;
 
 import resources.models.BaseAction;
 import org.powerbot.script.Area;

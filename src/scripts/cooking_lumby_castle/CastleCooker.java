@@ -1,18 +1,14 @@
-package ngc.cooking_lumby_castle;
+package scripts.cooking_lumby_castle;
 
 
 import resources.actions.BankAction;
 import resources.actions.ToggleLevelUp;
-import resources.action_config.BankConfig;
 import resources.action_config.ScriptConfig;
 import resources.models.BasePhase;
-import resources.tools.AntibanTools;
-import resources.tools.CommonAreas;
-import resources.tools.GaussianTools;
-import resources.tools.GuiHelper;
-import ngc.cooking_lumby_castle.actions.*;
-import ngc.cooking_lumby_castle.phases.BankingPhase;
-import ngc.cooking_lumby_castle.phases.CookingPhase;
+import resources.tools.*;
+import scripts.cooking_lumby_castle.actions.*;
+import scripts.cooking_lumby_castle.phases.BankingPhase;
+import scripts.cooking_lumby_castle.phases.CookingPhase;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
@@ -89,12 +85,7 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
         }
 
         // Actions
-        BankConfig _bank = new BankConfig(0, -1, i.id(), 28, -1, -1, false, true, true);
-        _bank.setBankArea(CommonAreas.lumbridgeCastleBank());
-        //_bank.setToBankPath(new Tile[]{new Tile(3205, 3210, 2), new Tile(3206, 3215, 2)});
-
-
-        this.bankAction = new BankAction(ctx, "Banking", _bank);
+        this.bankAction = new BankAction(ctx, "Banking", 0,-1,i.id(),28,-1,-1,false,true,false, CommonAreas.lumbridgeCastleBank());
         this.walkBankToStairsAction = new WalkLumbyBankToStairs(ctx, i.id());
         this.walkKitchenToStairsAction = new WalkKitchenToStairs(ctx, i.id());
         this.walkStairsToBank = new WalkStairsToLumbyBank(ctx, i.id());

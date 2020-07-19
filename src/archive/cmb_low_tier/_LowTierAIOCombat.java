@@ -1,4 +1,4 @@
-package ngc.cmb_low_tier;
+package scripts.cmb_low_tier;
 
 import resources.constants.Items;
 import resources.actions.*;
@@ -9,7 +9,7 @@ import resources.tools.CommonActions;
 import resources.tools.GuiHelper;
 import resources.models.LootItem;
 import resources.models.LootList;
-import ngc.slayer_simple.SlayerTaskConfig;
+import scripts.slayer_simple.SlayerTaskConfig;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 

@@ -1,4 +1,4 @@
-package ngc.wc_willows;
+package scripts.wc_willows;
 
 
 import resources.constants.GameObjects;

@@ -1,4 +1,4 @@
-package ngc.magic_zammywine;
+package scripts.magic_zammywine;
 
 
 import resources.models.BaseAction;

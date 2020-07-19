@@ -1,4 +1,4 @@
-package ngc.thieving_aio;
+package scripts.thieving_aio;
 
 import resources.actions.ShiftDropInventory;
 import resources.actions.ToggleLevelUp;

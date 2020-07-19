@@ -1,4 +1,4 @@
-package ngc.misc_bucket_filler;
+package scripts.misc_bucket_filler;
 
 
 import resources.models.BaseAction;

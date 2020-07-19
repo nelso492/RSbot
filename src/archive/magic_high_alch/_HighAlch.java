@@ -1,4 +1,4 @@
-package ngc.magic_high_alch;
+package scripts.magic_high_alch;
 
 import resources.constants.Items;
 import resources.actions.HighAlch;

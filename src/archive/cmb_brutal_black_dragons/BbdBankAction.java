@@ -1,4 +1,4 @@
-package ngc.cmb_brutal_black_dragons;
+package scripts.cmb_brutal_black_dragons;
 
 import resources.constants.Items;
 import resources.models.BaseAction;

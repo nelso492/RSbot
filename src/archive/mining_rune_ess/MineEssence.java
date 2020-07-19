@@ -1,4 +1,4 @@
-package ngc.mining_rune_ess;
+package scripts.mining_rune_ess;
 
 
 import resources.models.BaseAction;

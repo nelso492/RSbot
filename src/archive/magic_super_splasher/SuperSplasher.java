@@ -1,4 +1,4 @@
-package ngc.magic_super_splasher;
+package scripts.magic_super_splasher;
 
 import resources.constants.Items;
 import resources.tools.CommonActions;

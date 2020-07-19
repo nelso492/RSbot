@@ -1,4 +1,4 @@
-package ngc.fishing_cage_harpoon;
+package scripts.fishing_cage_harpoon;
 
 import resources.constants.GameObjects;
 import resources.constants.Npcs;
@@ -7,9 +7,9 @@ import resources.models.BaseAction;
 import resources.tools.CommonAreas;
 import resources.tools.CommonActions;
 import resources.tools.GuiHelper;
-import ngc.fishing_cage_harpoon.corsair.WalkBankToFishing;
-import ngc.fishing_cage_harpoon.corsair.WalkFishingToBank;
-import ngc.fishing_cage_harpoon.karamja.*;
+import scripts.fishing_cage_harpoon.corsair.WalkBankToFishing;
+import scripts.fishing_cage_harpoon.corsair.WalkFishingToBank;
+import scripts.fishing_cage_harpoon.karamja.*;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
@@ -95,7 +95,7 @@ public class _CageHarpoonFisher extends PollingScript<ClientContext> implements 
 
             }
           //  taskList.add(new HoverFishingSpots(ctx));
-            taskList.add(new ngc.fishing_cage_harpoon.fishing_guild.GuildWalkFishingToBank(ctx));
+            taskList.add(new scripts.fishing_cage_harpoon.fishing_guild.GuildWalkFishingToBank(ctx));
         }
 
         taskList.add(new ToggleLevelUp(ctx));

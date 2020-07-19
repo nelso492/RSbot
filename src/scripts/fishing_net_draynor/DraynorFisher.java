@@ -1,53 +1,39 @@
-package ngc.fishing_net_draynor;
+package scripts.fishing_net_draynor;
 
 
 import resources.constants.Items;
 import resources.actions.BankAction;
 import resources.actions.ToggleRunAction;
-import resources.action_config.BankConfig;
-import resources.action_config.RunConfig;
 import resources.action_config.ScriptConfig;
 import resources.models.BasePhase;
 import resources.tools.*;
-import ngc.fishing_net_draynor.actions.FishingAction;
-import ngc.fishing_net_draynor.actions.WalkToDraynorBankAction;
-import ngc.fishing_net_draynor.phases.BankingPhase;
-import ngc.fishing_net_draynor.phases.FishingPhase;
+import scripts.fishing_net_draynor.actions.FishingAction;
+import scripts.fishing_net_draynor.actions.WalkToDraynorBankAction;
+import scripts.fishing_net_draynor.phases.BankingPhase;
+import scripts.fishing_net_draynor.phases.FishingPhase;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 
 import java.awt.*;
 
-@Script.Manifest(name = "DraynorFisher", description = "Kills Cows.", properties = "client=4; topic=051515; author=Bowman")
+@Script.Manifest(name = "fishing_DraynorFisher", description = "Net fishing at Draynor village w/ banking", properties = "client=4; topic=051515; author=NGC")
 public class DraynorFisher extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
-    // Config
+    //region Config
     private ScriptConfig scriptConfig = new ScriptConfig(ctx, null);
+    private BasePhase<ClientContext> currentPhase;
+
     private boolean antiBanInProgress;
     private int startExp;
     private int numToLevel;
     private int catchCount;
     private int avgCatchXp;
+    //endregion
 
     //region Antiban
     private long lastBreakTimestamp;
     private int nextBreakInMinutes;
-    //endregion
-
-    //region Phases
-
-    private BankingPhase bankingPhase = new BankingPhase(ctx);
-    private FishingPhase fishingPhase = new FishingPhase(ctx);
-    private BasePhase<ClientContext> currentPhase;
-
-    //endregion
-
-    //region Actions
-    private BankAction bankAction;
-    private FishingAction fishingAction;
-    private WalkToDraynorBankAction walkToBankAction;
-    private ToggleRunAction toggleRunAction;
     //endregion
 
     //region start
@@ -69,32 +55,32 @@ public class DraynorFisher extends PollingScript<ClientContext> implements Messa
         nextBreakInMinutes = Random.nextInt(3, 10);
 
         // Actions
-        BankConfig bankConfig = new BankConfig(Items.RAW_SHRIMPS_317, Items.RAW_ANCHOVIES_321, -1, -1, -1, -1, true, false, false);
-        this.bankAction = new BankAction(ctx, "", bankConfig);
-        this.bankAction.setStatus("Deposit Fish");
+        //region Actions
+        BankAction bankAction = new BankAction(ctx, "", Items.RAW_SHRIMPS_317, Items.RAW_ANCHOVIES_321, -1, -1, -1, -1, true, false, false, CommonAreas.getDraynorBank());
+        bankAction.setStatus("Deposit Fish");
 
-        this.walkToBankAction = new WalkToDraynorBankAction(ctx);
+        WalkToDraynorBankAction walkToBankAction = new WalkToDraynorBankAction(ctx);
 
-        this.fishingAction = new FishingAction(ctx);
-        this.fishingAction.setStatus("Net Fishing");
-        this.toggleRunAction = new ToggleRunAction(ctx, "", new RunConfig(50));
+        FishingAction fishingAction = new FishingAction(ctx);
+        fishingAction.setStatus("Net Fishing");
+        ToggleRunAction toggleRunAction = new ToggleRunAction(ctx, "", 50);
 
         // Phases
-        this.fishingPhase = new FishingPhase(ctx);
-        this.fishingPhase.addAction(this.fishingAction);
-        this.fishingPhase.setName("Fishing");
+        FishingPhase fishingPhase = new FishingPhase(ctx);
+        fishingPhase.addAction(fishingAction);
+        fishingPhase.setName("Fishing");
 
-        this.bankingPhase = new BankingPhase(ctx);
-        this.bankingPhase.setName("Banking");
-        this.bankingPhase.addAction(this.bankAction);
-        this.bankingPhase.addAction(this.walkToBankAction);
-        this.bankingPhase.addAction(this.toggleRunAction);
+        BankingPhase bankingPhase = new BankingPhase(ctx);
+        bankingPhase.setName("Banking");
+        bankingPhase.addAction(bankAction);
+        bankingPhase.addAction(walkToBankAction);
+        bankingPhase.addAction(toggleRunAction);
 
         // Phase Transitions
-        this.fishingPhase.setNextPhase(this.bankingPhase);
-        this.bankingPhase.setNextPhase(this.fishingPhase);
+        fishingPhase.setNextPhase(bankingPhase);
+        bankingPhase.setNextPhase(fishingPhase);
 
-        this.currentPhase = this.fishingPhase;
+        this.currentPhase = fishingPhase;
 
         this.scriptConfig.setStatus("Start");
     }

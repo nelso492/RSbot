@@ -1,4 +1,4 @@
-package ngc.fight_caves_jad;
+package scripts.fight_caves_jad;
 
 import resources.tools.GuiHelper;
 import org.powerbot.script.*;

@@ -1,4 +1,4 @@
-package ngc.cmb_nechryaels;
+package scripts.cmb_nechryaels;
 
 import resources.action_config.CombatConfig;
 import resources.models.BaseAction;

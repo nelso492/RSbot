@@ -1,4 +1,4 @@
-package ngc.smithing_smelter;
+package scripts.smithing_smelter;
 
 
 import resources.constants.Items;

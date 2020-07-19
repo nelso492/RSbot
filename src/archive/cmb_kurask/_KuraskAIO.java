@@ -1,4 +1,4 @@
-package ngc.cmb_kurask;
+package scripts.cmb_kurask;
 
 import resources.constants.Items;
 import resources.actions.*;
@@ -8,7 +8,7 @@ import resources.tools.CommonActions;
 import resources.tools.GuiHelper;
 import resources.models.LootItem;
 import resources.models.LootList;
-import ngc.slayer_simple.BonesToPeaches;
+import scripts.slayer_simple.BonesToPeaches;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

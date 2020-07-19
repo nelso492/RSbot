@@ -1,4 +1,4 @@
-package ngc.fishing_cage_harpoon.karamja;
+package scripts.fishing_cage_harpoon.karamja;
 
 import resources.models.BaseAction;
 import org.powerbot.script.Area;

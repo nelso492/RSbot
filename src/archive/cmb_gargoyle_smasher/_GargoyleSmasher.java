@@ -1,4 +1,4 @@
-package ngc.cmb_gargoyle_smasher;
+package scripts.cmb_gargoyle_smasher;
 
 import resources.constants.Items;
 import resources.actions.*;

@@ -1,4 +1,4 @@
-package ngc.magic_teleporter;
+package scripts.magic_teleporter;
 
 import resources.constants.Items;
 import resources.tools.CommonActions;

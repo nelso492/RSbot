@@ -1,4 +1,4 @@
-package ngc.fishing_cage_harpoon.fishing_guild;
+package scripts.fishing_cage_harpoon.fishing_guild;
 
 import resources.models.BaseAction;
 import resources.tools.CommonAreas;

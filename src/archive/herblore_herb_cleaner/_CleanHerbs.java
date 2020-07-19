@@ -1,4 +1,4 @@
-package ngc.herblore_herb_cleaner;
+package scripts.herblore_herb_cleaner;
 
 import resources.constants.Items;
 import resources.actions.BankAction;

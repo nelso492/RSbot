@@ -1,4 +1,4 @@
-package ngc.combat_minotaur;
+package scripts.combat_minotaur;
 
 import resources.actions.CombatAction;
 import resources.actions.HealAction;

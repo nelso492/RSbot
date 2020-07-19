@@ -1,4 +1,4 @@
-package ngc.combat_ogress;
+package scripts.combat_ogress;
 
 
 import resources.constants.Items;

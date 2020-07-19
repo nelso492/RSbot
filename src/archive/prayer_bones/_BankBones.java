@@ -1,4 +1,4 @@
-package ngc.prayer_bones;
+package scripts.prayer_bones;
 
 import resources.constants.Items;
 import resources.actions.BankAction;

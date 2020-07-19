@@ -1,4 +1,4 @@
-package ngc.slayer_simple;
+package scripts.slayer_simple;
 
 import resources.constants.Items;
 import resources.actions.*;

@@ -1,4 +1,4 @@
-package ngc.fight_caves_jad;
+package scripts.fight_caves_jad;
 
 import resources.models.BaseAction;
 import org.powerbot.script.rt4.ClientContext;

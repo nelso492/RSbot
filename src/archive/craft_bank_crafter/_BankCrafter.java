@@ -1,4 +1,4 @@
-package ngc.craft_bank_crafter;
+package scripts.craft_bank_crafter;
 
 import resources.constants.Items;
 import resources.actions.BankAction;

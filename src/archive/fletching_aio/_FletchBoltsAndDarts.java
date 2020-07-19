@@ -1,4 +1,4 @@
-package ngc.fletching_aio;
+package scripts.fletching_aio;
 
 import resources.constants.Items;
 import resources.tools.GaussianTools;

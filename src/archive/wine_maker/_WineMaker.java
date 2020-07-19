@@ -1,4 +1,4 @@
-package ngc.wine_maker;
+package scripts.wine_maker;
 
 import resources.constants.Items;
 import resources.actions.ToggleLevelUp;

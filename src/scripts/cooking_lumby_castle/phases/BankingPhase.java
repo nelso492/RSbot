@@ -1,4 +1,4 @@
-package ngc.cooking_lumby_castle.phases;
+package scripts.cooking_lumby_castle.phases;
 
 import resources.models.BasePhase;
 import org.powerbot.script.rt4.ClientContext;

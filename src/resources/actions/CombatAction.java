@@ -19,10 +19,9 @@ import java.util.concurrent.Callable;
 import static org.powerbot.script.Condition.sleep;
 
 /**
- * Combat interactions with a single NPC.
+ * Combat interactions with a single NPC by name
  */
 public class CombatAction extends BaseAction<ClientContext> {
-    private int[] targetNpcIds;
     private String npcName;
     private int npcDeathAnimation;
     private int minHealthPercent;
@@ -35,9 +34,8 @@ public class CombatAction extends BaseAction<ClientContext> {
         super(ctx, status);
     }
 
-    public CombatAction(ClientContext ctx, String status, int[] targetNpcIds, String npcName, int npcDeathAnimation, int minHealthPercent, LootList loot, boolean multiCombatArea, Tile safeTile, int minDistanceToTarget) {
+    public CombatAction(ClientContext ctx, String status, String npcName, int npcDeathAnimation, int minHealthPercent, LootList loot, boolean multiCombatArea, Tile safeTile, int minDistanceToTarget) {
         super(ctx, status);
-        this.targetNpcIds = targetNpcIds;
         this.npcName = npcName;
         this.npcDeathAnimation = npcDeathAnimation;
         this.minHealthPercent = minHealthPercent;
@@ -64,9 +62,6 @@ public class CombatAction extends BaseAction<ClientContext> {
                         return npc.name().equals(npcName) && validNpcForCombat(npc);
                     }
                 }).nearest().peek().valid();
-
-        // printConditions(noAlchables, hasMinHealth, !interacting, !lootNearby, validNpcNearby, (getSafeTile() == null || getSafeTile().distanceTo(ctx.players.local()) == 0));
-
 
         return hasMinHealth && !interacting && validNpcNearby && (this.safeTile == null || this.safeTile.distanceTo(ctx.players.local()) == 0);
     }
@@ -192,15 +187,6 @@ public class CombatAction extends BaseAction<ClientContext> {
                 return ctx.players.local().interacting().valid();
             }
         }, 200, 10);
-    }
-
-
-    public int[] getTargetNpcIds() {
-        return targetNpcIds;
-    }
-
-    public void setTargetNpcIds(int[] targetNpcIds) {
-        this.targetNpcIds = targetNpcIds;
     }
 
     public String getNpcName() {

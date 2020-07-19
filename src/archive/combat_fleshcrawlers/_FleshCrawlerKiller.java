@@ -1,4 +1,4 @@
-package ngc.combat_fleshcrawlers;
+package scripts.combat_fleshcrawlers;
 
 import resources.constants.Items;
 import resources.actions.CombatAction;

@@ -1,4 +1,4 @@
-package ngc.fishing_cage_harpoon;
+package scripts.fishing_cage_harpoon;
 
 
 import resources.constants.Items;
