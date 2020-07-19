@@ -4,7 +4,6 @@ package scripts.cooking_lumby_castle;
 import scripts.cooking_lumby_castle.phases.ClimbStairsPhase;
 import scripts.cooking_lumby_castle.phases.DescendStairsPhase;
 import shared.actions.BankAction;
-import shared.actions.ToggleLevelUp;
 import shared.action_config.ScriptConfig;
 import shared.models.BasePhase;
 import shared.tools.*;
@@ -20,7 +19,7 @@ import java.awt.*;
 
 import static org.powerbot.script.Condition.sleep;
 
-@Script.Manifest(name = "CastleCooker", description = "Kills Cows.", properties = "client=4; topic=051515; author=Bowman")
+@Script.Manifest(name = "cooking_LumbyCastleCooker", description = "Cooks at the range and banks on the roof.", properties = "client=4; topic=051515; author=Bowman")
 public class CastleCooker extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Config

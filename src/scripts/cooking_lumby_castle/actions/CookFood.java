@@ -48,20 +48,22 @@ public class CookFood extends BaseAction<ClientContext> {
                     }
                 }, Random.nextInt(500, 800), 10);
 
-                ctx.input.sendln(" ");
+                if (ctx.widgets.component(270, 13).valid()) {
+                    ctx.input.send(" ");
 
-                // Antiban actions
-                if (GaussianTools.takeActionLikely()) {
-                    AntibanTools.moveMouseOffScreen(ctx, (GaussianTools.takeActionNormal()));
-                }
-
-                // Wait for foodies to cook
-                Condition.wait(new Callable<Boolean>() {
-                    @Override
-                    public Boolean call() throws Exception {
-                        return ctx.inventory.select().id(rawFoodId).count() == 0;
+                    // Antiban actions
+                    if (GaussianTools.takeActionLikely()) {
+                        AntibanTools.moveMouseOffScreen(ctx, (GaussianTools.takeActionNormal()));
                     }
-                }, Random.nextInt(2000, 3000), 20);
+
+                    // Wait for foodies to cook
+                    Condition.wait(new Callable<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            return ctx.inventory.select().id(rawFoodId).count() == 0 || ctx.widgets.component(233, 3).valid();
+                        }
+                    }, Random.nextInt(2000, 3000), 20);
+                }
             } else {
                 ctx.movement.step(cookingRange);
                 Condition.wait(new Callable<Boolean>() {

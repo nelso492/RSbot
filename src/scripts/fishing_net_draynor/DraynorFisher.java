@@ -68,13 +68,13 @@ public class DraynorFisher extends PollingScript<ClientContext> implements Messa
         // Phases
         FishingPhase fishingPhase = new FishingPhase(ctx);
         fishingPhase.addAction(fishingAction);
+        fishingPhase.addAction(walkToBankAction);
         fishingPhase.setName("Fishing");
 
         BankingPhase bankingPhase = new BankingPhase(ctx);
         bankingPhase.setName("Banking");
-        bankingPhase.addAction(bankAction);
-        bankingPhase.addAction(walkToBankAction);
         bankingPhase.addAction(toggleRunAction);
+        bankingPhase.addAction(bankAction);
 
         // Phase Transitions
         fishingPhase.setNextPhase(bankingPhase);
