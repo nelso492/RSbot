@@ -1,7 +1,7 @@
 package ngc._resources.actions;
 
-import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.models.BaseAction;
+import ngc._resources.models.LootList;
 import ngc._resources.tools.AntibanTools;
 import ngc._resources.tools.CommonActions;
 import org.powerbot.script.Condition;
@@ -18,36 +18,57 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
+/**
+ * Combat interactions with a single NPC.
+ */
 public class CombatAction extends BaseAction<ClientContext> {
-    private CombatConfig config;
+    private int[] targetNpcIds;
+    private String npcName;
+    private int npcDeathAnimation;
+    private int minHealthPercent;
+    private LootList loot;
+    private boolean multiCombatArea;
+    private Tile safeTile;
+    private int minDistanceToTarget;
 
-    public CombatAction(ClientContext ctx, String status, CombatConfig _config) {
+    public CombatAction(ClientContext ctx, String status) {
         super(ctx, status);
-        config = _config;
+    }
+
+    public CombatAction(ClientContext ctx, String status, int[] targetNpcIds, String npcName, int npcDeathAnimation, int minHealthPercent, LootList loot, boolean multiCombatArea, Tile safeTile, int minDistanceToTarget) {
+        super(ctx, status);
+        this.targetNpcIds = targetNpcIds;
+        this.npcName = npcName;
+        this.npcDeathAnimation = npcDeathAnimation;
+        this.minHealthPercent = minHealthPercent;
+        this.loot = loot;
+        this.multiCombatArea = multiCombatArea;
+        this.safeTile = safeTile;
+        this.minDistanceToTarget = minDistanceToTarget;
     }
 
     @Override
     public boolean activate() {
-        boolean hasMinHealth = ctx.combat.healthPercent() >= config.getMinHealthPercent();
-        boolean interacting = (ctx.players.local().interacting().valid() && ctx.players.local().interacting().name().equals(config.getNpcName()))
+        boolean hasMinHealth = ctx.combat.healthPercent() >= this.minHealthPercent;
+        boolean interacting = (ctx.players.local().interacting().valid() && ctx.players.local().interacting().name().equals(this.npcName))
                 || ctx.npcs.select().select(new Filter<Npc>() {
             @Override
             public boolean accept(Npc npc) {
-                return npc.name().equals(config.getNpcName()) && npc.interacting().valid() && npc.interacting().name().equalsIgnoreCase(ctx.players.local().name());
+                return npc.name().equals(npcName) && npc.interacting().valid() && npc.interacting().name().equalsIgnoreCase(ctx.players.local().name());
             }
         }).poll().valid();
         boolean validNpcNearby =
                 ctx.npcs.select().select(new Filter<Npc>() {
                     @Override
                     public boolean accept(Npc npc) {
-                        return npc.name().equals(config.getNpcName()) && validNpcForCombat(npc);
+                        return npc.name().equals(npcName) && validNpcForCombat(npc);
                     }
                 }).nearest().peek().valid();
 
-        // printConditions(noAlchables, hasMinHealth, !interacting, !lootNearby, validNpcNearby, (config.getSafeTile() == null || config.getSafeTile().distanceTo(ctx.players.local()) == 0));
+        // printConditions(noAlchables, hasMinHealth, !interacting, !lootNearby, validNpcNearby, (getSafeTile() == null || getSafeTile().distanceTo(ctx.players.local()) == 0));
 
 
-        return hasMinHealth && !interacting && validNpcNearby && (config.getSafeTile() == null || config.getSafeTile().distanceTo(ctx.players.local()) == 0);
+        return hasMinHealth && !interacting && validNpcNearby && (this.safeTile == null || this.safeTile.distanceTo(ctx.players.local()) == 0);
     }
 
     @Override
@@ -59,7 +80,7 @@ public class CombatAction extends BaseAction<ClientContext> {
         Npc target = ctx.npcs.select().select(new Filter<Npc>() {
             @Override
             public boolean accept(Npc npc) {
-                return npc.interacting().valid() && npc.name().equals(config.getNpcName()) && npc.interacting().name().equalsIgnoreCase(ctx.players.local().name()) && npc.healthPercent() > 5;
+                return npc.interacting().valid() && npc.name().equals(npcName) && npc.interacting().name().equalsIgnoreCase(ctx.players.local().name()) && npc.healthPercent() > 5;
             }
         }).poll();
 
@@ -69,7 +90,7 @@ public class CombatAction extends BaseAction<ClientContext> {
             target = ctx.npcs.select().select(new Filter<Npc>() {
                 @Override
                 public boolean accept(Npc npc) {
-                    return (npc.name().equals(config.getNpcName()) && validNpcForCombat(npc));
+                    return (npc.name().equals(npcName) && validNpcForCombat(npc));
                 }
             }).nearest().poll();
         }
@@ -88,7 +109,7 @@ public class CombatAction extends BaseAction<ClientContext> {
 
                 // Triple check we've got a target
                 if (ctx.players.local().interacting().valid()) {
-                    if (config.getNpcDeathAnimation() > 0) {
+                    if (this.npcDeathAnimation > 0) {
                         // Wait for drop like a good human
                         Condition.wait(new Callable<Boolean>() {
                             @Override
@@ -100,7 +121,7 @@ public class CombatAction extends BaseAction<ClientContext> {
                 }
             }
         } else {
-            if (config.getSafeTile() == null) {
+            if (this.safeTile == null) {
                 ctx.camera.turnTo(npc);
 
                 Condition.wait(new Callable<Boolean>() {
@@ -116,10 +137,10 @@ public class CombatAction extends BaseAction<ClientContext> {
                     int secondaryOffset = Random.nextInt(-3, 3);
 
                     // Add new destination tiles
-                    destinationTiles.add(new Tile(npc.tile().x() + secondaryOffset, npc.tile().y() + config.getMinDistanceToTarget() + 1)); // N
-                    destinationTiles.add(new Tile(npc.tile().x() + secondaryOffset, npc.tile().y() - config.getMinDistanceToTarget())); // S
-                    destinationTiles.add(new Tile(npc.tile().x() - config.getMinDistanceToTarget(), npc.tile().y() + secondaryOffset + 1)); // E
-                    destinationTiles.add(new Tile(npc.tile().x() + config.getMinDistanceToTarget(), npc.tile().y() + secondaryOffset)); // W
+                    destinationTiles.add(new Tile(npc.tile().x() + secondaryOffset, npc.tile().y() + this.minDistanceToTarget + 1)); // N
+                    destinationTiles.add(new Tile(npc.tile().x() + secondaryOffset, npc.tile().y() - this.minDistanceToTarget)); // S
+                    destinationTiles.add(new Tile(npc.tile().x() - this.minDistanceToTarget, npc.tile().y() + secondaryOffset + 1)); // E
+                    destinationTiles.add(new Tile(npc.tile().x() + this.minDistanceToTarget, npc.tile().y() + secondaryOffset)); // W
 
                     // Closest to player
                     Collections.sort(destinationTiles, new Comparator<Tile>() {
@@ -143,7 +164,7 @@ public class CombatAction extends BaseAction<ClientContext> {
                                 }
                             }, 150, 30);
 
-                            if (ctx.players.local().tile().distanceTo(npc) >= config.getMinDistanceToTarget()) {
+                            if (ctx.players.local().tile().distanceTo(npc) >= this.minDistanceToTarget) {
                                 break;
                             }
                         }
@@ -159,9 +180,9 @@ public class CombatAction extends BaseAction<ClientContext> {
         boolean approved =
                 npc.healthPercent() > 0 &&
                         !npc.interacting().valid()
-                        && (config.getMinDistanceToTarget() <= 0 || npc.tile().distanceTo(ctx.players.local()) >= config.getMinDistanceToTarget());
+                        && (this.minDistanceToTarget <= 0 || npc.tile().distanceTo(ctx.players.local()) >= this.minDistanceToTarget);
         return approved;
-        //        return (config.isMultiCombatArea() ||  || (config.getSafeTile() != null && config.getSafeTile().distanceTo(ctx.players.local()) == 0))) && npc.healthPercent() > 1;
+        //        return (isMultiCombatArea() ||  || (getSafeTile() != null && getSafeTile().distanceTo(ctx.players.local()) == 0))) && npc.healthPercent() > 1;
     }
 
     private void waitForCombat() {
@@ -173,14 +194,68 @@ public class CombatAction extends BaseAction<ClientContext> {
         }, 200, 10);
     }
 
-    private void printConditions(boolean alchs, boolean minHealth, boolean noInteracting, boolean noLootNearby, boolean validNPC, boolean safetile) {
-        System.out.println(("---------Combat Checks-----------"));
-        System.out.println("Alch: " + alchs);
-        System.out.println("Health: " + minHealth);
-        System.out.println("Interacting: " + noInteracting);
-        System.out.println("Loot: " + noLootNearby);
-        System.out.println("Target: " + validNPC);
-        System.out.println("Safetile: " + safetile);
+
+    public int[] getTargetNpcIds() {
+        return targetNpcIds;
     }
 
+    public void setTargetNpcIds(int[] targetNpcIds) {
+        this.targetNpcIds = targetNpcIds;
+    }
+
+    public String getNpcName() {
+        return npcName;
+    }
+
+    public void setNpcName(String npcName) {
+        this.npcName = npcName;
+    }
+
+    public int getNpcDeathAnimation() {
+        return npcDeathAnimation;
+    }
+
+    public void setNpcDeathAnimation(int npcDeathAnimation) {
+        this.npcDeathAnimation = npcDeathAnimation;
+    }
+
+    public int getMinHealthPercent() {
+        return minHealthPercent;
+    }
+
+    public void setMinHealthPercent(int minHealthPercent) {
+        this.minHealthPercent = minHealthPercent;
+    }
+
+    public LootList getLoot() {
+        return loot;
+    }
+
+    public void setLoot(LootList loot) {
+        this.loot = loot;
+    }
+
+    public boolean isMultiCombatArea() {
+        return multiCombatArea;
+    }
+
+    public void setMultiCombatArea(boolean multiCombatArea) {
+        this.multiCombatArea = multiCombatArea;
+    }
+
+    public Tile getSafeTile() {
+        return safeTile;
+    }
+
+    public void setSafeTile(Tile safeTile) {
+        this.safeTile = safeTile;
+    }
+
+    public int getMinDistanceToTarget() {
+        return minDistanceToTarget;
+    }
+
+    public void setMinDistanceToTarget(int minDistanceToTarget) {
+        this.minDistanceToTarget = minDistanceToTarget;
+    }
 }

@@ -9,8 +9,10 @@ import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
+/**
+ * Dwarven rock cake guzzle action for NMZ
+ */
 public class GuzzleRockCake extends BaseAction<ClientContext> {
-
 
     public GuzzleRockCake(ClientContext ctx, String status) {
         super(ctx, status);

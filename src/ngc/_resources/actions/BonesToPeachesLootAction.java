@@ -16,14 +16,21 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
+/**
+ * Special looting logic for bones when using B2P
+ */
 public class BonesToPeachesLootAction extends BaseAction<ClientContext> {
-    private LootList lootList;
     private BasicQuery<GroundItem> groundItems;
     private int[] boneIds;
 
     public BonesToPeachesLootAction(ClientContext ctx, String status) {
         super(ctx, status);
-        this.boneIds = new int[] {Items.BONES_526, Items.BIG_BONES_532};
+        this.boneIds = new int[]{Items.BONES_526, Items.BIG_BONES_532};
+    }
+
+    public BonesToPeachesLootAction(ClientContext ctx, String status, int[] boneIds) {
+        super(ctx, status);
+        this.boneIds = boneIds;
     }
 
     @Override
@@ -41,11 +48,11 @@ public class BonesToPeachesLootAction extends BaseAction<ClientContext> {
     @Override
     public void execute() {
         GroundItem item = groundItems.nearest().poll();
-        if( (!ctx.inventory.isFull() || item.stackable()) && item.valid() ) {
+        if ((!ctx.inventory.isFull() || item.stackable()) && item.valid()) {
             // Pause for human nature
             AntibanTools.sleepDelay(2);
 
-            if( item.valid() ) {
+            if (item.valid()) {
                 item.interact("Take", item.name());
 
                 Condition.wait(new Callable<Boolean>() {
@@ -56,5 +63,21 @@ public class BonesToPeachesLootAction extends BaseAction<ClientContext> {
                 }, Random.nextInt(150, 250), 20);
             }
         }
+    }
+
+    public BasicQuery<GroundItem> getGroundItems() {
+        return groundItems;
+    }
+
+    public void setGroundItems(BasicQuery<GroundItem> groundItems) {
+        this.groundItems = groundItems;
+    }
+
+    public int[] getBoneIds() {
+        return boneIds;
+    }
+
+    public void setBoneIds(int[] boneIds) {
+        this.boneIds = boneIds;
     }
 }

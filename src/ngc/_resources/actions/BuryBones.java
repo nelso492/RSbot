@@ -10,6 +10,9 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
+/**
+ * Bury bones for Prayer leveling. Will toggle quick prayers if enabled.
+ */
 public class BuryBones extends BaseAction<ClientContext> {
 
     private int boneId;
@@ -19,6 +22,12 @@ public class BuryBones extends BaseAction<ClientContext> {
         super(ctx, status);
         this.boneId = boneId;
         this.togglePrayers = togglePrayers;
+    }
+
+    public BuryBones(ClientContext ctx, String status) {
+        super(ctx, status);
+        this.boneId = -1;
+        this.togglePrayers = false;
     }
 
     @Override
@@ -51,5 +60,21 @@ public class BuryBones extends BaseAction<ClientContext> {
             // shut off prayers
             ctx.prayer.quickPrayer(true);
         }
+    }
+
+    public int getBoneId() {
+        return boneId;
+    }
+
+    public void setBoneId(int boneId) {
+        this.boneId = boneId;
+    }
+
+    public boolean isTogglePrayers() {
+        return togglePrayers;
+    }
+
+    public void setTogglePrayers(boolean togglePrayers) {
+        this.togglePrayers = togglePrayers;
     }
 }

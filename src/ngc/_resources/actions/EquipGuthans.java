@@ -12,6 +12,9 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
+/**
+ * Guthans armor swap on min health percent
+ */
 public class EquipGuthans extends BaseAction<ClientContext> {
 
     private int minHealth;
@@ -19,6 +22,11 @@ public class EquipGuthans extends BaseAction<ClientContext> {
     public EquipGuthans(ClientContext ctx, int minHealth) {
         super(ctx, "Equip Guthans Set");
         this.minHealth = minHealth;
+    }
+
+    public EquipGuthans(ClientContext ctx, String status) {
+        super(ctx, status);
+        this.minHealth = 50;
     }
 
     @Override
@@ -53,5 +61,13 @@ public class EquipGuthans extends BaseAction<ClientContext> {
                 }).count() == 0;
             }
         }, 250, 10);
+    }
+
+    public int getMinHealth() {
+        return minHealth;
+    }
+
+    public void setMinHealth(int minHealth) {
+        this.minHealth = minHealth;
     }
 }

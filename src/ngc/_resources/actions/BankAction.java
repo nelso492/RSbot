@@ -1,7 +1,7 @@
 package ngc._resources.actions;
 
-import ngc._resources.actions._config.BankConfig;
 import ngc._resources.models.BaseAction;
+import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.Bank;
@@ -15,18 +15,54 @@ import static org.powerbot.script.Condition.sleep;
  * Withdrawal and Deposit actions within bank window context.
  */
 public class BankAction extends BaseAction<ClientContext> {
-    private BankConfig config;
+    private int primaryDepositId;
+    private int secondaryDepositId;
 
-    public BankAction(ClientContext ctx, String status, BankConfig _config) {
+    private int primaryWithdrawId;
+    private int primaryWithdrawQty;
+
+    private int secondaryWithdrawId;
+    private int secondaryWithdrawQty;
+
+    private boolean bankOnInventoryFull; // Bank on full inventory
+    private boolean bankOnWithdrawsEmpty; // Bank when withdrawn items empty (i.e. smelting or crafting one item into another)
+    private boolean closeWhenDone;
+
+    private Area bankArea;
+
+    public BankAction(ClientContext ctx, String status) {
         super(ctx, status);
-        config = _config;
+
+        this.primaryDepositId = 0;
+        this.secondaryDepositId = 0;
+        this.primaryWithdrawId = 0;
+        this.primaryWithdrawQty = 0;
+        this.secondaryWithdrawId = 0;
+        this.secondaryWithdrawQty = 0;
+        this.bankOnInventoryFull = false;
+        this.bankOnWithdrawsEmpty = false;
+        this.closeWhenDone = false;
+    }
+
+    public BankAction(ClientContext ctx, String status, int primaryDepositId, int secondaryDepositId, int primaryWithdrawId, int primaryWithdrawQty, int secondaryWithdrawId, int secondaryWithdrawQty, boolean bankOnInventoryFull, boolean bankOnWithdrawsEmpty, boolean closeWhenDone, Area bankArea) {
+        super(ctx, status);
+        this.primaryDepositId = primaryDepositId;
+        this.secondaryDepositId = secondaryDepositId;
+        this.primaryWithdrawId = primaryWithdrawId;
+        this.primaryWithdrawQty = primaryWithdrawQty;
+        this.secondaryWithdrawId = secondaryWithdrawId;
+        this.secondaryWithdrawQty = secondaryWithdrawQty;
+        this.bankOnInventoryFull = bankOnInventoryFull;
+        this.bankOnWithdrawsEmpty = bankOnWithdrawsEmpty;
+        this.closeWhenDone = closeWhenDone;
+        this.bankArea = bankArea;
     }
 
     @Override
     public boolean activate() {
-        boolean invFull = (config.isBankOnInventoryFull() && ctx.inventory.isFull());
-        boolean resourcesEmpty = (config.isBankOnWithdrawsEmpty() && ctx.inventory.select().id(config.getAllWithdrawIds()).count() == 0);
-        return (invFull || resourcesEmpty) && (config.getBankArea() != null || ctx.bank.inViewport());
+        boolean invFull = (isBankOnInventoryFull() && ctx.inventory.isFull());
+        boolean resourcesEmpty = (isBankOnWithdrawsEmpty() && ctx.inventory.select().id(getAllWithdrawIds()).count() == 0);
+        return (invFull || resourcesEmpty) && (getBankArea() != null || ctx.bank.inViewport());
     }
 
 
@@ -45,51 +81,51 @@ public class BankAction extends BaseAction<ClientContext> {
             }
 
             // Deposit if needed
-            if (config.getPrimaryDepositId() > -1) {
-                if (config.getPrimaryDepositId() == 0) {
+            if (getPrimaryDepositId() > -1) {
+                if (getPrimaryDepositId() == 0) {
                     ctx.bank.depositInventory();
                 } else {
-                    ctx.bank.deposit(config.getPrimaryDepositId(), Bank.Amount.ALL);
+                    ctx.bank.deposit(getPrimaryDepositId(), Bank.Amount.ALL);
                     Condition.wait(new Callable<Boolean>() {
                         @Override
                         public Boolean call() throws Exception {
-                            return ctx.inventory.select().id(config.getPrimaryDepositId()).count() == 0;
+                            return ctx.inventory.select().id(getPrimaryDepositId()).count() == 0;
                         }
                     }, 150, 100);
-                    ctx.bank.deposit(config.getSecondaryDepositId(), Bank.Amount.ALL);
+                    ctx.bank.deposit(getSecondaryDepositId(), Bank.Amount.ALL);
                     Condition.wait(new Callable<Boolean>() {
                         @Override
                         public Boolean call() throws Exception {
-                            return ctx.inventory.select().id(config.getSecondaryDepositId()).count() == 0;
+                            return ctx.inventory.select().id(getSecondaryDepositId()).count() == 0;
                         }
                     }, 150, 100);
                 }
             }
 
             // Withdraw
-            if (config.getPrimaryWithdrawId() > 0) {
+            if (getPrimaryWithdrawId() > 0) {
 
                 // Check Quantity
-                if (config.getPrimaryWithdrawQty() == 28) {
-                    ctx.bank.withdraw(config.getPrimaryWithdrawId(), Bank.Amount.ALL);
+                if (getPrimaryWithdrawQty() == 28) {
+                    ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.ALL);
                 } else {
-                    ctx.bank.withdraw(config.getPrimaryWithdrawId(), Bank.Amount.X);//.select().id(config.getPrimaryWithdrawId()).poll().click(); // Uses X qty
+                    ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.X);//.select().id(getPrimaryWithdrawId()).poll().click(); // Uses X qty
 
                     Condition.wait(new Callable<Boolean>() {
                         @Override
                         public Boolean call() throws Exception {
-                            return ctx.inventory.select().id(config.getPrimaryWithdrawId()).count() > 0;
+                            return ctx.inventory.select().id(getPrimaryWithdrawId()).count() > 0;
                         }
                     }, 250, 50);
 
                     // Check secondary withdraw if primary quantity less than full inventory
-                    if (config.getSecondaryWithdrawId() > 0) {
-                        ctx.bank.withdraw(config.getSecondaryDepositId(), Bank.Amount.X);//.select().id(config.getSecondaryWithdrawId()).poll().click(); // Uses X qty
+                    if (getSecondaryWithdrawId() > 0) {
+                        ctx.bank.withdraw(getSecondaryDepositId(), Bank.Amount.X);//.select().id(getSecondaryWithdrawId()).poll().click(); // Uses X qty
 
                         Condition.wait(new Callable<Boolean>() {
                             @Override
                             public Boolean call() throws Exception {
-                                return ctx.inventory.select().id(config.getSecondaryWithdrawId()).count() > 0;
+                                return ctx.inventory.select().id(getSecondaryWithdrawId()).count() > 0;
                             }
                         }, 150, 20);
                     }
@@ -97,13 +133,13 @@ public class BankAction extends BaseAction<ClientContext> {
             }
 
             // Close if needed
-            if (config.isCloseWhenDone() && ctx.bank.open()) {
+            if (isCloseWhenDone() && ctx.bank.open()) {
                 ctx.bank.close();
                 sleep(Random.nextInt(400, 1200));
             }
         } else {
-            if (this.config.getBankArea() != null) {
-                ctx.movement.step(this.config.getBankArea().getRandomTile());
+            if (this.getBankArea() != null) {
+                ctx.movement.step(this.getBankArea().getRandomTile());
                 Condition.wait(new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
@@ -112,5 +148,99 @@ public class BankAction extends BaseAction<ClientContext> {
                 }, 350, 10);
             }
         }
+    }
+
+    // G&S
+
+    public int getPrimaryDepositId() {
+        return primaryDepositId;
+    }
+
+    public void setPrimaryDepositId(int primaryDepositId) {
+        this.primaryDepositId = primaryDepositId;
+    }
+
+    public int getSecondaryDepositId() {
+        return secondaryDepositId;
+    }
+
+    public void setSecondaryDepositId(int secondaryDepositId) {
+        this.secondaryDepositId = secondaryDepositId;
+    }
+
+    public int getPrimaryWithdrawId() {
+        return primaryWithdrawId;
+    }
+
+    public void setPrimaryWithdrawId(int primaryWithdrawId) {
+        this.primaryWithdrawId = primaryWithdrawId;
+    }
+
+    public int getPrimaryWithdrawQty() {
+        return primaryWithdrawQty;
+    }
+
+    public void setPrimaryWithdrawQty(int primaryWithdrawQty) {
+        this.primaryWithdrawQty = primaryWithdrawQty;
+    }
+
+    public int getSecondaryWithdrawId() {
+        return secondaryWithdrawId;
+    }
+
+    public void setSecondaryWithdrawId(int secondaryWithdrawId) {
+        this.secondaryWithdrawId = secondaryWithdrawId;
+    }
+
+    public int getSecondaryWithdrawQty() {
+        return secondaryWithdrawQty;
+    }
+
+    public void setSecondaryWithdrawQty(int secondaryWithdrawQty) {
+        this.secondaryWithdrawQty = secondaryWithdrawQty;
+    }
+
+    public boolean isBankOnInventoryFull() {
+        return bankOnInventoryFull;
+    }
+
+    public void setBankOnInventoryFull(boolean bankOnInventoryFull) {
+        this.bankOnInventoryFull = bankOnInventoryFull;
+    }
+
+    public boolean isBankOnWithdrawsEmpty() {
+        return bankOnWithdrawsEmpty;
+    }
+
+    public void setBankOnWithdrawsEmpty(boolean bankOnWithdrawsEmpty) {
+        this.bankOnWithdrawsEmpty = bankOnWithdrawsEmpty;
+    }
+
+    public boolean isCloseWhenDone() {
+        return closeWhenDone;
+    }
+
+    public void setCloseWhenDone(boolean closeWhenDone) {
+        this.closeWhenDone = closeWhenDone;
+    }
+
+
+    public int[] getAllDepositIds() {
+        int[] ids = {primaryDepositId, secondaryDepositId};
+        return ids;
+    }
+
+    public int[] getAllWithdrawIds() {
+        int[] ids = {primaryWithdrawId, secondaryWithdrawId};
+        return ids;
+    }
+
+
+    public Area getBankArea() {
+        return bankArea;
+    }
+
+    public void setBankArea(Area bankArea) {
+        this.bankArea = bankArea;
     }
 }

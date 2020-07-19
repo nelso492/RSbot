@@ -1,8 +1,6 @@
 package ngc._resources.actions;
 
 import ngc._resources.models.BaseAction;
-import ngc._resources.tools.CommonActions;
-import ngc._resources.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;
@@ -11,11 +9,14 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
+/**
+ * Use one inventory item on another. Useful for potions, crafting, fletching, etc
+ */
 public class CombineInventoryItems extends BaseAction<ClientContext> {
-    private final int primaryItemId;
-    private final int secondaryItemId;
-    private final boolean hasPrompt;
-    private final int secondsTimeout;
+    private int primaryItemId;
+    private int secondaryItemId;
+    private boolean hasPrompt;
+    private int secondsTimeout;
 
     public CombineInventoryItems(ClientContext ctx, int primaryItemId, int secondaryItemId, boolean hasPrompt, int secondsTimeout) {
         super(ctx, "Working");
@@ -23,6 +24,15 @@ public class CombineInventoryItems extends BaseAction<ClientContext> {
         this.secondaryItemId = secondaryItemId;
         this.hasPrompt = hasPrompt;
         this.secondsTimeout = secondsTimeout;
+    }
+
+    public CombineInventoryItems(ClientContext ctx, String status) {
+        super(ctx, status);
+
+        this.primaryItemId = -1;
+        this.secondaryItemId = -1;
+        this.hasPrompt = false;
+        this.secondsTimeout = -1;
     }
 
     @Override
@@ -66,4 +76,35 @@ public class CombineInventoryItems extends BaseAction<ClientContext> {
 
     }
 
+    public int getPrimaryItemId() {
+        return primaryItemId;
+    }
+
+    public int getSecondaryItemId() {
+        return secondaryItemId;
+    }
+
+    public boolean isHasPrompt() {
+        return hasPrompt;
+    }
+
+    public int getSecondsTimeout() {
+        return secondsTimeout;
+    }
+
+    public void setPrimaryItemId(int primaryItemId) {
+        this.primaryItemId = primaryItemId;
+    }
+
+    public void setSecondaryItemId(int secondaryItemId) {
+        this.secondaryItemId = secondaryItemId;
+    }
+
+    public void setHasPrompt(boolean hasPrompt) {
+        this.hasPrompt = hasPrompt;
+    }
+
+    public void setSecondsTimeout(int secondsTimeout) {
+        this.secondsTimeout = secondsTimeout;
+    }
 }
