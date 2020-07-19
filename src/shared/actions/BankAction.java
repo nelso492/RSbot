@@ -108,6 +108,13 @@ public class BankAction extends BaseAction<ClientContext> {
                 // Check Quantity
                 if (getPrimaryWithdrawQty() == 28) {
                     ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.ALL);
+
+                    Condition.wait(new Callable<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            return ctx.inventory.select().id(getPrimaryWithdrawId()).count() > 0;
+                        }
+                    }, 250, 50);
                 } else {
                     ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.X);//.select().id(getPrimaryWithdrawId()).poll().click(); // Uses X qty
 
@@ -130,22 +137,16 @@ public class BankAction extends BaseAction<ClientContext> {
                         }, 150, 20);
                     }
                 }
+
+                if (ctx.inventory.select().id(this.primaryWithdrawId).count() == 0 && this.primaryWithdrawQty > 0) {
+                    ctx.controller.stop();
+                }
             }
 
             // Close if needed
             if (isCloseWhenDone() && ctx.bank.open()) {
                 ctx.bank.close();
                 sleep(Random.nextInt(400, 1200));
-            }
-        } else {
-            if (this.getBankArea() != null) {
-                ctx.movement.step(this.getBankArea().getRandomTile());
-                Condition.wait(new Callable<Boolean>() {
-                    @Override
-                    public Boolean call() throws Exception {
-                        return ctx.bank.inViewport();
-                    }
-                }, 350, 10);
             }
         }
     }

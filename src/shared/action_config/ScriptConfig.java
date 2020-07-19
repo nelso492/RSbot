@@ -63,12 +63,16 @@ public class ScriptConfig {
         g.drawString("Runtime: " + GuiHelper.getReadableRuntime(runtime), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(2));
         g.drawString("Lvls Gained: " + (this.levelsGained), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(3));
 
-        g.setColor(GuiHelper.getTextColorInformation());
+        g.setColor(GuiHelper.getTextColorImportant());
         if(this.trackedSkillIds != null) {
             for (int i = 0; i < this.trackedSkillIds.length; i++) {
                 g.drawString(CommonActions.getSkillName(this.trackedSkillIds[i]) + ": " + ctx.skills.level(this.trackedSkillIds[i]), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(i + 4));
             }
         }
+
+        g.setColor(GuiHelper.getTextColorInformation());
+
+
     }
 
     // Check any non-phase STATE
