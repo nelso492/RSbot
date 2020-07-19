@@ -1,12 +1,14 @@
 package scripts.cooking_lumby_castle.actions;
 
 
+import org.powerbot.script.Random;
 import shared.constants.GameObjects;
 import shared.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
+import shared.tools.CommonActions;
 
 import java.util.concurrent.Callable;
 
@@ -21,13 +23,15 @@ public class WalkLumbyBankToStairs extends BaseAction<ClientContext> {
 
     @Override
     public boolean activate() {
-        boolean noRawFish = ctx.inventory.select().id(fishId).count() == 0;
-        return noRawFish && ctx.game.floor() == 2;
+        GameObject staircase = ctx.objects.select().id(GameObjects.STAIRCASE_LUMBRIDGE_CASTLE_16673).poll();
+
+        boolean hasRawFish = ctx.inventory.select().id(fishId).count() != 0;
+        return hasRawFish && ctx.game.floor() == 2 && (!staircase.valid() || !staircase.inViewport());
     }
 
     @Override
     public void execute() {
-        GameObject staircase = ctx.objects.select().id(GameObjects.STAIRCASE_LUMBRIDGE_CASTLE_16671).nearest().poll();
+        GameObject staircase = ctx.objects.select().id(GameObjects.STAIRCASE_LUMBRIDGE_CASTLE_16673).nearest().poll();
 
         if (staircase.inViewport()) {
             int floor = ctx.game.floor();
@@ -39,13 +43,13 @@ public class WalkLumbyBankToStairs extends BaseAction<ClientContext> {
                 }
             }, 450, 8);
         } else {
-            ctx.movement.step(staircase);
+            CommonActions.traversePath(ctx, path);
             Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return staircase.inViewport();
+                    return !ctx.players.local().inMotion() || staircase.inViewport();
                 }
-            }, 150, 4);
+            }, Random.nextInt(100, 500), 10);
         }
     }
 }

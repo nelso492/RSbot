@@ -25,7 +25,10 @@ public class NavigateStairs extends BaseAction<ClientContext> {
     public boolean activate() {
         GameObject stairs = ctx.objects.select().id(allStairs).nearest().poll();
         int rawFishCount = ctx.inventory.select().id(rawId).count();
-        return stairs.inViewport() && stairs.tile().distanceTo(ctx.players.local()) < 4 && (rawFishCount == 0 || rawFishCount > 0) && !ctx.players.local().interacting().valid() && ctx.players.local().animation() == -1;
+        return stairs.inViewport() &&
+                stairs.tile().distanceTo(ctx.players.local()) < 4  &&
+                !ctx.players.local().interacting().valid() &&
+                ctx.players.local().animation() == -1;
     }
 
     @Override

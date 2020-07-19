@@ -1,12 +1,15 @@
 package scripts.cooking_lumby_castle.actions;
 
 
+import org.powerbot.script.Random;
 import shared.constants.GameObjects;
 import shared.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
+import shared.tools.CommonActions;
+import shared.tools.CommonAreas;
 
 import java.util.concurrent.Callable;
 
@@ -15,37 +18,26 @@ public class WalkStairsToLumbyBank extends BaseAction<ClientContext> {
     private final int fishId;
 
     public WalkStairsToLumbyBank(ClientContext ctx, int fishId) {
-        super(ctx, "To Stairs");
+        super(ctx, "To Bank");
         this.fishId = fishId;
     }
 
     @Override
     public boolean activate() {
         boolean noRawFish = ctx.inventory.select().id(fishId).count() == 0;
-        return noRawFish && ctx.game.floor() == 2;
+        return noRawFish && ctx.game.floor() == 2 && !ctx.bank.inViewport();
     }
 
     @Override
     public void execute() {
-        GameObject staircase = ctx.objects.select().id(GameObjects.STAIRCASE_LUMBRIDGE_CASTLE_16671).nearest().poll();
+        path[path.length - 1] = CommonAreas.lumbridgeCastleBank().getRandomTile();
+        CommonActions.traversePath(ctx, path);
+        Condition.wait(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return !ctx.players.local().inMotion() || ctx.bank.inViewport();
+            }
+        }, Random.nextInt(100, 500), 10);
 
-        if( staircase.inViewport() ) {
-            int floor = ctx.game.floor();
-            staircase.interact("Climb-down");
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return ctx.game.floor() != floor;
-                }
-            }, 450, 8);
-        } else {
-            ctx.movement.step(staircase);
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return staircase.inViewport();
-                }
-            }, 150, 4);
-        }
     }
 }

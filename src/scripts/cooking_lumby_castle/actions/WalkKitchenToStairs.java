@@ -46,7 +46,7 @@ public class WalkKitchenToStairs extends BaseAction<ClientContext> {
                 public Boolean call() throws Exception {
                     return staircase.inViewport();
                 }
-            }, 150, 4);
+            }, 550, 20);
         }
     }
 }

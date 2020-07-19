@@ -12,8 +12,8 @@ import java.util.concurrent.Callable;
 
 public class CookFood extends BaseAction<ClientContext> {
 
-    private int rangeId;
-    private int rawFoodId;
+    private final int rangeId;
+    private final int rawFoodId;
 
 
     public CookFood(ClientContext ctx, int _rawFoodId) {
@@ -28,7 +28,7 @@ public class CookFood extends BaseAction<ClientContext> {
         boolean playerNotInteracting = !ctx.players.local().interacting().valid();
         boolean hasRawFood = ctx.inventory.select().id(rawFoodId).count() > 0;
 
-        return hasRawFood && playerNotAnimated && playerNotInteracting && ctx.game.floor() == 0;// && netInInventory;
+        return hasRawFood && playerNotAnimated && playerNotInteracting && ctx.game.floor() == 0;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CookFood extends BaseAction<ClientContext> {
                     public Boolean call() throws Exception {
                         return ctx.inventory.select().id(rawFoodId).count() == 0;
                     }
-                }, Random.nextInt(1000, 2000), 4);
+                }, Random.nextInt(2000, 3000), 20);
             } else {
                 ctx.movement.step(cookingRange);
                 Condition.wait(new Callable<Boolean>() {

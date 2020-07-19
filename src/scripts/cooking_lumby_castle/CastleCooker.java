@@ -1,6 +1,8 @@
 package scripts.cooking_lumby_castle;
 
 
+import scripts.cooking_lumby_castle.phases.ClimbStairsPhase;
+import scripts.cooking_lumby_castle.phases.DescendStairsPhase;
 import shared.actions.BankAction;
 import shared.actions.ToggleLevelUp;
 import shared.action_config.ScriptConfig;
@@ -40,19 +42,11 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
 
     //region Phases
 
-    private CookingPhase cookingPhase = new CookingPhase(ctx, 0);
-    private BankingPhase bankingPhase = new BankingPhase(ctx, 0);
+    private final CookingPhase cookingPhase = new CookingPhase(ctx, 0);
+    private final BankingPhase bankingPhase = new BankingPhase(ctx, 0);
+    private final ClimbStairsPhase ascendStairsPhase = new ClimbStairsPhase(ctx, 0);
+    private final DescendStairsPhase descendStairsPhase = new DescendStairsPhase(ctx, 0);
     private BasePhase<ClientContext> currentPhase;
-    //endregion
-
-    //region Actions
-    private BankAction bankAction;
-    private CookFood cookFoodAction;
-    private NavigateStairs navigateStairsAction;
-    private WalkLumbyBankToStairs walkBankToStairsAction;
-    private WalkKitchenToStairs walkKitchenToStairsAction;
-    private ToggleLevelUp toggleLevelUpAction;
-    private WalkStairsToLumbyBank walkStairsToBank;
     //endregion
 
     //region start
@@ -85,34 +79,44 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
         }
 
         // Actions
-        this.bankAction = new BankAction(ctx, "Banking", 0,-1,i.id(),28,-1,-1,false,true,false, CommonAreas.lumbridgeCastleBank());
-        this.walkBankToStairsAction = new WalkLumbyBankToStairs(ctx, i.id());
-        this.walkKitchenToStairsAction = new WalkKitchenToStairs(ctx, i.id());
-        this.walkStairsToBank = new WalkStairsToLumbyBank(ctx, i.id());
-        this.navigateStairsAction = new NavigateStairs(ctx, i.id());
-        this.cookFoodAction = new CookFood(ctx, i.id());
-        this.toggleLevelUpAction = new ToggleLevelUp(ctx);
+        //region Actions
+        BankAction bankAction = new BankAction(ctx, "Banking", 0, -1, i.id(), 28, -1, -1, false, true, false, CommonAreas.lumbridgeCastleBank());
+        WalkLumbyBankToStairs walkBankToStairsAction = new WalkLumbyBankToStairs(ctx, i.id());
+        WalkKitchenToStairs walkKitchenToStairsAction = new WalkKitchenToStairs(ctx, i.id());
+        WalkStairsToLumbyBank walkStairsToBank = new WalkStairsToLumbyBank(ctx, i.id());
+        NavigateStairs navigateStairsAction = new NavigateStairs(ctx, i.id());
+        CookFood cookFoodAction = new CookFood(ctx, i.id());
 
         // Phases
         this.cookingPhase.setName("Cooking");
         this.cookingPhase.setRawId(i.id());
-        this.cookingPhase.addAction(this.cookFoodAction);
-        this.cookingPhase.addAction(this.toggleLevelUpAction);
+        this.cookingPhase.addAction(cookFoodAction);
+
+        this.ascendStairsPhase.setName("Ascending Stairs");
+        this.ascendStairsPhase.setRawId(i.id());
+        this.ascendStairsPhase.addAction(walkKitchenToStairsAction);
+        this.ascendStairsPhase.addAction(navigateStairsAction);
 
         this.bankingPhase.setName("Banking");
         this.bankingPhase.setRawId(i.id());
-        this.bankingPhase.addAction(this.walkKitchenToStairsAction);
-        this.bankingPhase.addAction(this.navigateStairsAction);
-        this.bankingPhase.addAction(this.walkStairsToBank);
-        this.bankingPhase.addAction(this.bankAction);
-        this.bankingPhase.addAction(this.walkBankToStairsAction);
+        this.bankingPhase.addAction(walkStairsToBank);
+        this.bankingPhase.addAction(bankAction);
+        this.bankingPhase.addAction(walkBankToStairsAction);
+
+
+        this.descendStairsPhase.setName("Descending Stairs");
+        this.descendStairsPhase.setRawId(i.id());
+        this.descendStairsPhase.addAction(navigateStairsAction);
+
 
         // Phase Transitions
-        this.cookingPhase.setNextPhase(this.bankingPhase);
-        this.bankingPhase.setNextPhase(this.cookingPhase);
+        this.cookingPhase.setNextPhase(this.ascendStairsPhase);
+        this.ascendStairsPhase.setNextPhase(this.bankingPhase);
+        this.bankingPhase.setNextPhase(this.descendStairsPhase);
+        this.descendStairsPhase.setNextPhase(this.cookingPhase);
 
         // Starting Location
-        if (this.cookFoodAction.activate()) {
+        if (cookFoodAction.activate()) {
             this.currentPhase = this.cookingPhase;
         } else {
             this.currentPhase = this.bankingPhase;

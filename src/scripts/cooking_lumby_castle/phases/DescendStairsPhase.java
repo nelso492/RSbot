@@ -1,11 +1,11 @@
 package scripts.cooking_lumby_castle.phases;
 
-import shared.models.BasePhase;
 import org.powerbot.script.rt4.ClientContext;
+import shared.models.BasePhase;
 
-public class CookingPhase extends BasePhase<ClientContext> {
-    public CookingPhase(ClientContext ctx, int rawId) {
-        super(ctx, "Cooking");
+public class DescendStairsPhase extends BasePhase<ClientContext> {
+    public DescendStairsPhase(ClientContext ctx, int rawId) {
+        super(ctx, "Stairs");
         this.rawId = rawId;
     }
 
@@ -13,7 +13,7 @@ public class CookingPhase extends BasePhase<ClientContext> {
 
     @Override
     public boolean moveToNextPhase() {
-        return ctx.inventory.select().id(rawId).count() == 0 && ctx.game.floor() == 0;
+        return ctx.inventory.select().id(this.rawId).count() > 0 && ctx.game.floor() == 0;
     }
 
     public void setRawId(int rawId) {
