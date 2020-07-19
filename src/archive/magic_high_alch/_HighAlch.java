@@ -1,9 +1,9 @@
 package scripts.magic_high_alch;
 
-import resources.constants.Items;
-import resources.actions.HighAlch;
-import resources.models.BaseAction;
-import resources.tools.GuiHelper;
+import shared.constants.Items;
+import shared.actions.HighAlch;
+import shared.models.BaseAction;
+import shared.tools.GuiHelper;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;

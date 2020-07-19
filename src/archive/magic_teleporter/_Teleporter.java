@@ -1,9 +1,9 @@
 package scripts.magic_teleporter;
 
-import resources.constants.Items;
-import resources.tools.CommonActions;
-import resources.tools.GaussianTools;
-import resources.tools.GuiHelper;
+import shared.constants.Items;
+import shared.tools.CommonActions;
+import shared.tools.GaussianTools;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

@@ -1,8 +1,8 @@
 package scripts.smithing_smelter;
 
-import resources.models.BaseAction;
-import resources.tools.GuiHelper;
-import resources.actions.ToggleLevelUp;
+import shared.models.BaseAction;
+import shared.tools.GuiHelper;
+import shared.actions.ToggleLevelUp;
 import scripts.misc_barb_village_looter.ToggleRunAction;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;

@@ -1,19 +1,19 @@
 package scripts.combat_ogress;
 
-import resources.constants.GameObjects;
-import resources.constants.Items;
-import resources.constants.NpcAnimations;
-import resources.constants.Npcs;
-import resources.actions.HealAction;
-import resources.actions.HighAlch;
-import resources.actions.LootAction;
-import resources.actions.ToggleLevelUp;
-import resources.action_config.CombatConfig;
-import resources.action_config.HealConfig;
-import resources.models.BaseAction;
-import resources.tools.GuiHelper;
-import resources.models.LootItem;
-import resources.models.LootList;
+import shared.constants.GameObjects;
+import shared.constants.Items;
+import shared.constants.NpcAnimations;
+import shared.constants.Npcs;
+import shared.actions.HealAction;
+import shared.actions.HighAlch;
+import shared.actions.LootAction;
+import shared.actions.ToggleLevelUp;
+import shared.action_config.CombatConfig;
+import shared.action_config.HealConfig;
+import shared.models.BaseAction;
+import shared.tools.GuiHelper;
+import shared.models.LootItem;
+import shared.models.LootList;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 

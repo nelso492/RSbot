@@ -1,11 +1,11 @@
 package scripts.smithing_cannonball;
 
-import resources.constants.GameObjects;
-import resources.constants.Items;
-import resources.actions.ToggleLevelUp;
-import resources.action_config.CraftComponentConfig;
-import resources.tools.CommonAreas;
-import resources.tools.GuiHelper;
+import shared.constants.GameObjects;
+import shared.constants.Items;
+import shared.actions.ToggleLevelUp;
+import shared.action_config.CraftComponentConfig;
+import shared.tools.CommonAreas;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 

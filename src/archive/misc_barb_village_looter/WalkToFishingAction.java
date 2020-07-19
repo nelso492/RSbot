@@ -1,8 +1,8 @@
 package scripts.misc_barb_village_looter;
 
 
-import resources.models.BaseAction;
-import resources.tools.CommonAreas;
+import shared.models.BaseAction;
+import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;

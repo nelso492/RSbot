@@ -1,9 +1,9 @@
 package scripts.crafting_jewelry_furnace;
 
 
-import resources.action_config.CraftComponentConfig;
-import resources.models.BaseAction;
-import resources.tools.GaussianTools;
+import shared.action_config.CraftComponentConfig;
+import shared.models.BaseAction;
+import shared.tools.GaussianTools;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;

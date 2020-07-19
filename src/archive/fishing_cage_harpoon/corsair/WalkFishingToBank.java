@@ -1,7 +1,7 @@
 package scripts.fishing_cage_harpoon.corsair;
 
-import resources.constants.GameObjects;
-import resources.models.BaseAction;
+import shared.constants.GameObjects;
+import shared.models.BaseAction;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 

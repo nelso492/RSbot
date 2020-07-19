@@ -1,9 +1,9 @@
 package archive.CannonManager;
 
-import resources.actions.ToggleLevelUp;
-import resources.tools.CommonActions;
-import resources.tools.GaussianTools;
-import resources.tools.GuiHelper;
+import shared.actions.ToggleLevelUp;
+import shared.tools.CommonActions;
+import shared.tools.GaussianTools;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

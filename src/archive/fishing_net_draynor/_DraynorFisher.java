@@ -1,6 +1,6 @@
 package scripts.fishing_net_draynor;
 
-import resources.models.BaseAction;
+import shared.models.BaseAction;
 import scripts.fishing_net_draynor.actions.BankingAction;
 import scripts.fishing_net_draynor.actions.FishingAction;
 import scripts.fishing_net_draynor.actions.WalkToBankAction;

@@ -1,6 +1,6 @@
 package scripts.cooking_lumby_castle.phases;
 
-import resources.models.BasePhase;
+import shared.models.BasePhase;
 import org.powerbot.script.rt4.ClientContext;
 
 public class BankingPhase extends BasePhase<ClientContext> {

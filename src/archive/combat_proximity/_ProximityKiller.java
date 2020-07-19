@@ -1,12 +1,12 @@
 package scripts.combat_proximity;
 
-import resources.actions.*;
-import resources.action_config.CombatConfig;
-import resources.action_config.HealConfig;
-import resources.action_config.LootConfig;
-import resources.action_config.RunConfig;
-import resources.models.BaseAction;
-import resources.tools.GuiHelper;
+import shared.actions.*;
+import shared.action_config.CombatConfig;
+import shared.action_config.HealConfig;
+import shared.action_config.LootConfig;
+import shared.action_config.RunConfig;
+import shared.models.BaseAction;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.*;

@@ -1,9 +1,9 @@
 package scripts.combat_ogress;
 
-import resources.constants.Npcs;
-import resources.action_config.CombatConfig;
-import resources.models.BaseAction;
-import resources.models.LootItem;
+import shared.constants.Npcs;
+import shared.action_config.CombatConfig;
+import shared.models.BaseAction;
+import shared.models.LootItem;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;

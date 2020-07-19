@@ -1,12 +1,12 @@
 package scripts.cmb_lizardman;
 
-import resources.constants.Items;
-import resources.actions.*;
-import resources.action_config.HealConfig;
-import resources.tools.CommonActions;
-import resources.tools.GuiHelper;
-import resources.models.LootItem;
-import resources.models.LootList;
+import shared.constants.Items;
+import shared.actions.*;
+import shared.action_config.HealConfig;
+import shared.tools.CommonActions;
+import shared.tools.GuiHelper;
+import shared.models.LootItem;
+import shared.models.LootList;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

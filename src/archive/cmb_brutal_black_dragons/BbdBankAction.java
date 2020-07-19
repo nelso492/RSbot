@@ -1,8 +1,8 @@
 package scripts.cmb_brutal_black_dragons;
 
-import resources.constants.Items;
-import resources.models.BaseAction;
-import resources.tools.GaussianTools;
+import shared.constants.Items;
+import shared.models.BaseAction;
+import shared.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.Bank;

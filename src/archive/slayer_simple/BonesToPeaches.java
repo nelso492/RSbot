@@ -1,8 +1,8 @@
 package scripts.slayer_simple;
 
-import resources.constants.Items;
-import resources.models.BaseAction;
-import resources.tools.CommonActions;
+import shared.constants.Items;
+import shared.models.BaseAction;
+import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;

@@ -1,10 +1,10 @@
 package scripts.smithing_smelter;
 
 
-import resources.constants.GameObjects;
-import resources.constants.Items;
-import resources.models.BaseAction;
-import resources.tools.CommonAreas;
+import shared.constants.GameObjects;
+import shared.constants.Items;
+import shared.models.BaseAction;
+import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;

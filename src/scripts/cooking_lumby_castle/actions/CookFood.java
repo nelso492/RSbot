@@ -1,8 +1,8 @@
 package scripts.cooking_lumby_castle.actions;
 
 
-import resources.constants.GameObjects;
-import resources.models.BaseAction;
+import shared.constants.GameObjects;
+import shared.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;

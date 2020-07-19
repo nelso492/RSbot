@@ -1,6 +1,6 @@
 package scripts.fight_caves_jad;
 
-import resources.tools.GuiHelper;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.*;

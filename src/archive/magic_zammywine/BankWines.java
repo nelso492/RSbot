@@ -1,10 +1,10 @@
 package scripts.magic_zammywine;
 
 
-import resources.models.BaseAction;
-import resources.enums.ITEM_IDS;
-import resources.tools.CommonAreas;
-import resources.tools.RsLookup;
+import shared.models.BaseAction;
+import shared.enums.ITEM_IDS;
+import shared.tools.CommonAreas;
+import shared.tools.RsLookup;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.Bank;
 import org.powerbot.script.rt4.ClientContext;

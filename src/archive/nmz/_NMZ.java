@@ -1,10 +1,10 @@
 package scripts.nmz;
 
-import resources.constants.Items;
-import resources.actions.GuzzleRockCake;
-import resources.actions.InteractWithGameObject;
-import resources.actions.UsePotion;
-import resources.tools.GuiHelper;
+import shared.constants.Items;
+import shared.actions.GuzzleRockCake;
+import shared.actions.InteractWithGameObject;
+import shared.actions.UsePotion;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

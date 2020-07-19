@@ -1,8 +1,8 @@
 package scripts.fletching_aio;
 
-import resources.constants.Items;
-import resources.tools.GaussianTools;
-import resources.tools.GuiHelper;
+import shared.constants.Items;
+import shared.tools.GaussianTools;
+import shared.tools.GuiHelper;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Random;

@@ -1,8 +1,8 @@
 package scripts.fishing_cage_harpoon;
 
 
-import resources.constants.Items;
-import resources.models.BaseAction;
+import shared.constants.Items;
+import shared.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;

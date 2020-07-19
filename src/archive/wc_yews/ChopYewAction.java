@@ -1,8 +1,8 @@
 package scripts.wc_yews;
 
 
-import resources.constants.GameObjects;
-import resources.models.BaseAction;
+import shared.constants.GameObjects;
+import shared.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;

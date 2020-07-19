@@ -1,10 +1,10 @@
 package scripts.wine_maker;
 
-import resources.constants.Items;
-import resources.actions.ToggleLevelUp;
-import resources.tools.CommonActions;
-import resources.tools.GaussianTools;
-import resources.tools.GuiHelper;
+import shared.constants.Items;
+import shared.actions.ToggleLevelUp;
+import shared.tools.CommonActions;
+import shared.tools.GaussianTools;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.Bank;
 import org.powerbot.script.rt4.ClientContext;

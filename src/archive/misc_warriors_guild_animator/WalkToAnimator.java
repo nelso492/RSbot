@@ -1,6 +1,6 @@
 package scripts.misc_warriors_guild_animator;
 
-import resources.models.BaseAction;
+import shared.models.BaseAction;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;

@@ -1,9 +1,9 @@
 package scripts.wc_oak_cutter;
 
 
-import resources.constants.Items;
-import resources.models.BaseAction;
-import resources.tools.CommonAreas;
+import shared.constants.Items;
+import shared.models.BaseAction;
+import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.Bank;

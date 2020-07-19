@@ -1,9 +1,9 @@
 package scripts.thieving_aio;
 
-import resources.actions.ShiftDropInventory;
-import resources.actions.ToggleLevelUp;
-import resources.tools.CommonActions;
-import resources.tools.GuiHelper;
+import shared.actions.ShiftDropInventory;
+import shared.actions.ToggleLevelUp;
+import shared.tools.CommonActions;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

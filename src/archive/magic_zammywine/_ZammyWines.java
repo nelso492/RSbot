@@ -1,10 +1,10 @@
 package scripts.magic_zammywine;
 
-import resources.models.BaseAction;
-import resources.enums.ITEM_IDS;
-import resources.tools.GaussianProbability;
-import resources.tools.GuiHelper;
-import resources.tools.RsLookup;
+import shared.models.BaseAction;
+import shared.enums.ITEM_IDS;
+import shared.tools.GaussianProbability;
+import shared.tools.GuiHelper;
+import shared.tools.RsLookup;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;

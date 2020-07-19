@@ -1,10 +1,10 @@
 package scripts.magic_zammywine;
 
 
-import resources.models.BaseAction;
-import resources.enums.ITEM_IDS;
-import resources.enums.OBJECT_IDS;
-import resources.tools.RsLookup;
+import shared.models.BaseAction;
+import shared.enums.ITEM_IDS;
+import shared.enums.OBJECT_IDS;
+import shared.tools.RsLookup;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;

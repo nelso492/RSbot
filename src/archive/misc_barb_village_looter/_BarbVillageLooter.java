@@ -1,7 +1,7 @@
 package scripts.misc_barb_village_looter;
 
-import resources.models.BaseAction;
-import resources.tools.GuiHelper;
+import shared.models.BaseAction;
+import shared.tools.GuiHelper;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.rt4.ClientContext;

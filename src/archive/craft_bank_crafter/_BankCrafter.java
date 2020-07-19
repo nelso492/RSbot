@@ -1,12 +1,12 @@
 package scripts.craft_bank_crafter;
 
-import resources.constants.Items;
-import resources.actions.BankAction;
-import resources.actions.CombineInventoryItems;
-import resources.actions.ToggleLevelUp;
-import resources.action_config.BankConfig;
-import resources.tools.CommonActions;
-import resources.tools.GuiHelper;
+import shared.constants.Items;
+import shared.actions.BankAction;
+import shared.actions.CombineInventoryItems;
+import shared.actions.ToggleLevelUp;
+import shared.action_config.BankConfig;
+import shared.tools.CommonActions;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

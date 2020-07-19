@@ -1,10 +1,10 @@
 package scripts.mining_rune_ess;
 
 
-import resources.models.BaseAction;
-import resources.enums.OBJECT_IDS;
-import resources.tools.GaussianProbability;
-import resources.tools.RsLookup;
+import shared.models.BaseAction;
+import shared.enums.OBJECT_IDS;
+import shared.tools.GaussianProbability;
+import shared.tools.RsLookup;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;

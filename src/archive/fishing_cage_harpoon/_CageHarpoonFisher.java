@@ -1,12 +1,12 @@
 package scripts.fishing_cage_harpoon;
 
-import resources.constants.GameObjects;
-import resources.constants.Npcs;
-import resources.actions.ToggleLevelUp;
-import resources.models.BaseAction;
-import resources.tools.CommonAreas;
-import resources.tools.CommonActions;
-import resources.tools.GuiHelper;
+import shared.constants.GameObjects;
+import shared.constants.Npcs;
+import shared.actions.ToggleLevelUp;
+import shared.models.BaseAction;
+import shared.tools.CommonAreas;
+import shared.tools.CommonActions;
+import shared.tools.GuiHelper;
 import scripts.fishing_cage_harpoon.corsair.WalkBankToFishing;
 import scripts.fishing_cage_harpoon.corsair.WalkFishingToBank;
 import scripts.fishing_cage_harpoon.karamja.*;

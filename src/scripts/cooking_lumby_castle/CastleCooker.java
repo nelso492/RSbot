@@ -1,11 +1,11 @@
 package scripts.cooking_lumby_castle;
 
 
-import resources.actions.BankAction;
-import resources.actions.ToggleLevelUp;
-import resources.action_config.ScriptConfig;
-import resources.models.BasePhase;
-import resources.tools.*;
+import shared.actions.BankAction;
+import shared.actions.ToggleLevelUp;
+import shared.action_config.ScriptConfig;
+import shared.models.BasePhase;
+import shared.tools.*;
 import scripts.cooking_lumby_castle.actions.*;
 import scripts.cooking_lumby_castle.phases.BankingPhase;
 import scripts.cooking_lumby_castle.phases.CookingPhase;

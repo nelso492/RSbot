@@ -1,9 +1,9 @@
 package scripts.combat_ogress;
 
-import resources.models.BaseAction;
-import resources.tools.CommonAreas;
-import resources.tools.GaussianTools;
-import resources.models.LootList;
+import shared.models.BaseAction;
+import shared.tools.CommonAreas;
+import shared.tools.GaussianTools;
+import shared.models.LootList;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;

@@ -1,7 +1,7 @@
 package scripts.fishing_net_draynor.phases;
 
-import resources.models.BasePhase;
-import resources.tools.AntibanTools;
+import shared.models.BasePhase;
+import shared.tools.AntibanTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 

@@ -1,7 +1,7 @@
 package scripts.combat_alkharid_warriors;
 
-import resources.models.BaseAction;
-import resources.tools.GuiHelper;
+import shared.models.BaseAction;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

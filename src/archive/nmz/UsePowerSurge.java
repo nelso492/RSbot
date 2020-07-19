@@ -1,7 +1,7 @@
 package scripts.nmz;
 
 
-import resources.models.BaseAction;
+import shared.models.BaseAction;
 import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;

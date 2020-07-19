@@ -1,8 +1,8 @@
 package scripts.combat_ogress;
 
 
-import resources.constants.Items;
-import resources.models.BaseAction;
+import shared.constants.Items;
+import shared.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 

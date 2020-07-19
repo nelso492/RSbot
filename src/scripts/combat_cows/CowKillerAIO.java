@@ -1,16 +1,16 @@
 package scripts.combat_cows;
 
-import resources.actions.CombatAction;
-import resources.actions.EquipArrows;
-import resources.actions.HealAction;
-import resources.actions.LootAction;
-import resources.action_config.ScriptConfig;
-import resources.tools.AntibanTools;
-import resources.tools.CommonActions;
-import resources.tools.GaussianTools;
-import resources.tools.GuiHelper;
-import resources.models.LootItem;
-import resources.models.LootList;
+import shared.actions.CombatAction;
+import shared.actions.EquipArrows;
+import shared.actions.HealAction;
+import shared.actions.LootAction;
+import shared.action_config.ScriptConfig;
+import shared.tools.AntibanTools;
+import shared.tools.CommonActions;
+import shared.tools.GaussianTools;
+import shared.tools.GuiHelper;
+import shared.models.LootItem;
+import shared.models.LootList;
 import scripts.combat_cows.phases.CombatPhase;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;

@@ -1,12 +1,12 @@
 package scripts.fishing_net_draynor;
 
 
-import resources.constants.Items;
-import resources.actions.BankAction;
-import resources.actions.ToggleRunAction;
-import resources.action_config.ScriptConfig;
-import resources.models.BasePhase;
-import resources.tools.*;
+import shared.constants.Items;
+import shared.actions.BankAction;
+import shared.actions.ToggleRunAction;
+import shared.action_config.ScriptConfig;
+import shared.models.BasePhase;
+import shared.tools.*;
 import scripts.fishing_net_draynor.actions.FishingAction;
 import scripts.fishing_net_draynor.actions.WalkToDraynorBankAction;
 import scripts.fishing_net_draynor.phases.BankingPhase;

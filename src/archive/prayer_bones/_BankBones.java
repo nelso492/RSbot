@@ -1,12 +1,12 @@
 package scripts.prayer_bones;
 
-import resources.constants.Items;
-import resources.actions.BankAction;
-import resources.actions.InteractWithAllInventory;
-import resources.action_config.BankConfig;
-import resources.models.BaseAction;
-import resources.tools.CommonActions;
-import resources.tools.GuiHelper;
+import shared.constants.Items;
+import shared.actions.BankAction;
+import shared.actions.InteractWithAllInventory;
+import shared.action_config.BankConfig;
+import shared.models.BaseAction;
+import shared.tools.CommonActions;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

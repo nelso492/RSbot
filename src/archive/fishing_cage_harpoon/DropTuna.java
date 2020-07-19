@@ -1,7 +1,7 @@
 package scripts.fishing_cage_harpoon;
 
 
-import resources.models.BaseAction;
+import shared.models.BaseAction;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;

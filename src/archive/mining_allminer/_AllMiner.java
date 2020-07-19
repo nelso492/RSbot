@@ -1,9 +1,9 @@
 package scripts.mining_allminer;
 
-import resources.constants.GameObjects;
-import resources.constants.Items;
-import resources.models.BaseAction;
-import resources.tools.CommonActions;
+import shared.constants.GameObjects;
+import shared.constants.Items;
+import shared.models.BaseAction;
+import shared.tools.CommonActions;
 import org.powerbot.script.MessageEvent;
 import org.powerbot.script.MessageListener;
 import org.powerbot.script.PaintListener;

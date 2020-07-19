@@ -1,8 +1,8 @@
 package scripts.cmb_nechryaels;
 
-import resources.action_config.CombatConfig;
-import resources.models.BaseAction;
-import resources.tools.GaussianTools;
+import shared.action_config.CombatConfig;
+import shared.models.BaseAction;
+import shared.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;

@@ -1,7 +1,7 @@
 package scripts.misc_barb_village_looter;
 
 
-import resources.models.BaseAction;
+import shared.models.BaseAction;
 import org.powerbot.script.rt4.ClientContext;
 
 public class ToggleRunAction extends BaseAction<ClientContext> {

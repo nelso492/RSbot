@@ -1,7 +1,7 @@
 package scripts.wc_willows;
 
 
-import resources.models.BaseAction;
+import shared.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;

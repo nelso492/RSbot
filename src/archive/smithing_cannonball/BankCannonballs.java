@@ -1,8 +1,8 @@
 package scripts.smithing_cannonball;
 
 
-import resources.models.BaseAction;
-import resources.tools.CommonAreas;
+import shared.models.BaseAction;
+import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;

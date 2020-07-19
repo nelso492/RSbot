@@ -1,14 +1,14 @@
 package scripts.crafting_jewelry_furnace;
 
-import resources.constants.GameObjects;
-import resources.constants.Items;
-import resources.actions.BankAction;
-import resources.actions.ToggleLevelUp;
-import resources.action_config.BankConfig;
-import resources.action_config.CraftComponentConfig;
-import resources.models.BaseAction;
-import resources.tools.CommonAreas;
-import resources.tools.GuiHelper;
+import shared.constants.GameObjects;
+import shared.constants.Items;
+import shared.actions.BankAction;
+import shared.actions.ToggleLevelUp;
+import shared.action_config.BankConfig;
+import shared.action_config.CraftComponentConfig;
+import shared.models.BaseAction;
+import shared.tools.CommonAreas;
+import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

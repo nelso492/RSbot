@@ -1,8 +1,8 @@
 package scripts.fishing_net_draynor.actions;
 
-import resources.models.BaseAction;
-import resources.tools.CommonActions;
-import resources.tools.CommonAreas;
+import shared.models.BaseAction;
+import shared.tools.CommonActions;
+import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
