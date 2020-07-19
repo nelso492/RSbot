@@ -1,9 +1,9 @@
 package ngc.mining_allminer;
 
-import ngc._resources.GameObjects;
-import ngc._resources.Items;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
+import ngc._resources.constants.GameObjects;
+import ngc._resources.constants.Items;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
 import org.powerbot.script.MessageEvent;
 import org.powerbot.script.MessageListener;
 import org.powerbot.script.PaintListener;
@@ -79,7 +79,7 @@ public class _AllMiner extends PollingScript<ClientContext> implements PaintList
     }
 
     public void loadLocationConfig() {
-        String location = CommonFunctions.promptForSelection("Location", "Location?", "Barbarian Village", "Mining Guild");
+        String location = CommonActions.promptForSelection("Location", "Location?", "Barbarian Village", "Mining Guild");
 
         if( location.equalsIgnoreCase("barbarian village") ) {
             barbVillageConfig(new String[] {"Tin", "Coal"});
@@ -104,7 +104,7 @@ public class _AllMiner extends PollingScript<ClientContext> implements PaintList
     }
 
     public void orePrompt(String[] oreNames) {
-        String oreName = CommonFunctions.promptForSelection("Ore Selection", "Ore Selection", oreNames);
+        String oreName = CommonActions.promptForSelection("Ore Selection", "Ore Selection", oreNames);
 
         switch( oreName ) {
             case "Tin":

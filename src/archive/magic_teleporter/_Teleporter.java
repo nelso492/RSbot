@@ -1,9 +1,9 @@
 package ngc.magic_teleporter;
 
-import ngc._resources.Items;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GaussianTools;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.constants.Items;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GaussianTools;
+import ngc._resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
@@ -74,7 +74,7 @@ public class _Teleporter extends PollingScript<ClientContext> implements PaintLi
                     break;
                 case 2:
                     sleep(Random.nextInt(10, 40));
-                    CommonFunctions.moveMouseOffscreen(ctx, false);
+                    CommonActions.moveMouseOffscreen(ctx, false);
                     break;
                 case 3:
                     ctx.game.tab(Game.Tab.STATS);

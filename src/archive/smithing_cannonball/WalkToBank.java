@@ -1,11 +1,10 @@
 package ngc.smithing_cannonball;
 
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonAreas;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
-import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;

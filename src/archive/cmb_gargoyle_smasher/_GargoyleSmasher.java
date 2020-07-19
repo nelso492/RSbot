@@ -1,12 +1,12 @@
 package ngc.cmb_gargoyle_smasher;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.*;
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.HealConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import org.powerbot.script.*;
@@ -54,7 +54,7 @@ public class _GargoyleSmasher extends PollingScript<ClientContext> implements Me
         startConfigs();
 
         // Heal Config
-        HealConfig healConfig = new HealConfig(CommonFunctions.allFoodIds(), minHealthPercent);
+        HealConfig healConfig = new HealConfig(CommonActions.allFoodIds(), minHealthPercent);
         healAction = new HealAction(ctx, "Healing", healConfig);
 
         // Slayer Config
@@ -76,7 +76,7 @@ public class _GargoyleSmasher extends PollingScript<ClientContext> implements Me
 
 
         // Prompt for kill quota
-        killQuota = CommonFunctions.promptForQuantity("Set Kill Quota");
+        killQuota = CommonActions.promptForQuantity("Set Kill Quota");
 
         equipGuthans = new EquipGuthans(ctx, 70);
         equipGear = new EquipGear(ctx, ctx.equipment.itemAt(Equipment.Slot.HEAD).id(), ctx.equipment.itemAt(Equipment.Slot.TORSO).id(), ctx.equipment.itemAt(Equipment.Slot.LEGS).id(), ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id(), ctx.equipment.itemAt(Equipment.Slot.OFF_HAND).id(), ctx.equipment.itemAt(Equipment.Slot.RING).id());

@@ -1,7 +1,7 @@
 package ngc._resources.actions;
 
 import ngc._resources.actions._config.BankConfig;
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.Bank;
@@ -11,6 +11,9 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
+/**
+ * Withdrawal and Deposit actions within bank window context.
+ */
 public class BankAction extends BaseAction<ClientContext> {
     private BankConfig config;
 
@@ -23,14 +26,13 @@ public class BankAction extends BaseAction<ClientContext> {
     public boolean activate() {
         boolean invFull = (config.isBankOnInventoryFull() && ctx.inventory.isFull());
         boolean resourcesEmpty = (config.isBankOnWithdrawsEmpty() && ctx.inventory.select().id(config.getAllWithdrawIds()).count() == 0);
-        return (invFull || resourcesEmpty) && ctx.bank.inViewport();
+        return (invFull || resourcesEmpty) && (config.getBankArea() != null || ctx.bank.inViewport());
     }
 
 
     @Override
     public void execute() {
         if (ctx.bank.inViewport()) {
-
             if (!ctx.bank.opened()) {
                 // Open Bank
                 ctx.bank.open();
@@ -111,5 +113,4 @@ public class BankAction extends BaseAction<ClientContext> {
             }
         }
     }
-
 }

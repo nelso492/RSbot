@@ -1,7 +1,7 @@
 package ngc._resources.actions;
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import org.powerbot.script.Condition;
@@ -36,9 +36,9 @@ public class LootAction extends BaseAction<ClientContext> {
             @Override
             public boolean accept(GroundItem groundItem) {
                 LootItem i = lootList.getLootItemById(groundItem.id());
-                if( i != null ) {
+                if (i != null) {
                     // Item can be picked up, stack is above min size, item in viewport
-                    return CommonFunctions.isValidLoot(ctx, groundItem, i, maxDistanceToLoot, ignoreB2P);
+                    return CommonActions.isValidLoot(ctx, groundItem, i, maxDistanceToLoot);
                 } else {
                     // Ground Item not in our loot list
                     return false;
@@ -51,8 +51,8 @@ public class LootAction extends BaseAction<ClientContext> {
 
     @Override
     public void execute() {
-        for( GroundItem item : ctx.groundItems ) {
-            if( !ctx.inventory.isFull() || (item.stackable() && ctx.inventory.select().id(item.id()).count() == 1) ) {
+        for (GroundItem item : ctx.groundItems) {
+            if (!ctx.inventory.isFull() || (item.stackable() && ctx.inventory.select().id(item.id()).count() == 1)) {
                 // Pause for human nature
                 item.interact("Take", item.name());
                 Condition.wait(new Callable<Boolean>() {
@@ -62,7 +62,7 @@ public class LootAction extends BaseAction<ClientContext> {
                     }
                 }, Random.nextInt(50, 150), 20);
 
-                if( item.valid() && item.tile().distanceTo(ctx.players.local()) > 1){
+                if (item.valid() && item.tile().distanceTo(ctx.players.local()) > 1) {
                     sleep(400);
                 }
             }

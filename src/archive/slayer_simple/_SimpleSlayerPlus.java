@@ -1,12 +1,12 @@
 package ngc.slayer_simple;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.*;
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.HealConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import org.powerbot.script.*;
@@ -177,7 +177,7 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         init();
 
         // Get Target
-        npcName = CommonFunctions.promptForSelection("Target NPC Name", "Target", targetNames);
+        npcName = CommonActions.promptForSelection("Target NPC Name", "Target", targetNames);
 
         // Slayer Config
         slayerConfig();
@@ -208,7 +208,7 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
 
 
         // Heal Config
-        HealConfig healConfig = new HealConfig(CommonFunctions.allFoodIds(), taskConfig.getEatFoodMinHealthPercentage());
+        HealConfig healConfig = new HealConfig(CommonActions.allFoodIds(), taskConfig.getEatFoodMinHealthPercentage());
         healAction = new HealAction(ctx, "Healing", healConfig);
 
 
@@ -367,7 +367,7 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         String msg = e.text();
 
         if( msg.toLowerCase().contains("return to a slayer master") ) {
-            CommonFunctions.slayerRingTeleport(ctx, 1);
+            CommonActions.slayerRingTeleport(ctx, 1);
             ctx.controller.stop();
         }
         if( msg.contains("monsters to complete your current slayer assignment") ) {

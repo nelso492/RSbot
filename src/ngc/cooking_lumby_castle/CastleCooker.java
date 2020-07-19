@@ -5,15 +5,13 @@ import ngc._resources.actions.BankAction;
 import ngc._resources.actions.ToggleLevelUp;
 import ngc._resources.actions._config.BankConfig;
 import ngc._resources.actions._config.ScriptConfig;
-import ngc._resources.actions._template.BasePhase;
-import ngc._resources.functions.AntibanActions;
-import ngc._resources.functions.CommonAreas;
-import ngc._resources.functions.GaussianTools;
-import ngc._resources.functions.GuiHelper;
-import ngc.cooking_lumby_castle.actions.CookFood;
-import ngc.cooking_lumby_castle.actions.NavigateStairs;
-import ngc.cooking_lumby_castle.actions.WalkBankToStairs;
-import ngc.cooking_lumby_castle.actions.WalkKitchenToStairs;
+import ngc._resources.actions._config.WalkConfig;
+import ngc._resources.models.BasePhase;
+import ngc._resources.tools.AntibanTools;
+import ngc._resources.tools.CommonAreas;
+import ngc._resources.tools.GaussianTools;
+import ngc._resources.tools.GuiHelper;
+import ngc.cooking_lumby_castle.actions.*;
 import ngc.cooking_lumby_castle.phases.BankingPhase;
 import ngc.cooking_lumby_castle.phases.CookingPhase;
 import org.powerbot.script.*;
@@ -56,9 +54,10 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
     private BankAction bankAction;
     private CookFood cookFoodAction;
     private NavigateStairs navigateStairsAction;
-    private WalkBankToStairs walkBankToStairsAction;
+    private WalkLumbyBankToStairs walkBankToStairsAction;
     private WalkKitchenToStairs walkKitchenToStairsAction;
     private ToggleLevelUp toggleLevelUpAction;
+    private WalkStairsToLumbyBank walkStairsToBank;
     //endregion
 
     //region start
@@ -93,21 +92,28 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
         // Actions
         BankConfig _bank = new BankConfig(0, -1, i.id(), 28, -1, -1, false, true, true);
         _bank.setBankArea(CommonAreas.lumbridgeCastleBank());
+        //_bank.setToBankPath(new Tile[]{new Tile(3205, 3210, 2), new Tile(3206, 3215, 2)});
+
+
         this.bankAction = new BankAction(ctx, "Banking", _bank);
-        this.walkBankToStairsAction = new WalkBankToStairs(ctx, i.id());
+        this.walkBankToStairsAction = new WalkLumbyBankToStairs(ctx, i.id());
         this.walkKitchenToStairsAction = new WalkKitchenToStairs(ctx, i.id());
+        this.walkStairsToBank = new WalkStairsToLumbyBank(ctx, i.id());
         this.navigateStairsAction = new NavigateStairs(ctx, i.id());
         this.cookFoodAction = new CookFood(ctx, i.id());
         this.toggleLevelUpAction = new ToggleLevelUp(ctx);
 
         // Phases
-        this.cookingPhase.setStatus("Cooking");
+        this.cookingPhase.setName("Cooking");
+        this.cookingPhase.setRawId(i.id());
         this.cookingPhase.addAction(this.cookFoodAction);
         this.cookingPhase.addAction(this.toggleLevelUpAction);
 
-        this.bankingPhase.setStatus("Banking");
+        this.bankingPhase.setName("Banking");
+        this.bankingPhase.setRawId(i.id());
         this.bankingPhase.addAction(this.walkKitchenToStairsAction);
         this.bankingPhase.addAction(this.navigateStairsAction);
+        this.bankingPhase.addAction(this.walkStairsToBank);
         this.bankingPhase.addAction(this.bankAction);
         this.bankingPhase.addAction(this.walkBankToStairsAction);
 
@@ -133,7 +139,7 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
         // Pre State Check Action
         this.scriptConfig.prePollAction();
 
-        cooksToLvl = 1 +  (int) ((ctx.skills.experienceAt(ctx.skills.level(Constants.SKILLS_COOKING) + 1) - (ctx.skills.experience(Constants.SKILLS_COOKING))) / avgExpPerCook);
+        cooksToLvl = 1 + (int) ((ctx.skills.experienceAt(ctx.skills.level(Constants.SKILLS_COOKING) + 1) - (ctx.skills.experience(Constants.SKILLS_COOKING))) / avgExpPerCook);
 
         // Antiban Check
         if (getRuntime() - lastBreakTimestamp > (1000 * 60 * nextBreakInMinutes)) {
@@ -147,15 +153,15 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
 
                 switch (Random.nextInt(0, 2)) {
                     case 0:
-                        AntibanActions.hoverRandomNPC(ctx);
+                        AntibanTools.hoverRandomNPC(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 1:
-                        AntibanActions.hoverRandomObject(ctx);
+                        AntibanTools.hoverRandomObject(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 2:
-                        AntibanActions.toggleXPDrops(ctx);
+                        AntibanTools.toggleXPDrops(ctx);
                         this.antiBanInProgress = false;
                         break;
                 }
@@ -166,19 +172,19 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
 
                 switch (Random.nextInt(0, 3)) {
                     case 0:
-                        AntibanActions.moveMouseOffScreen(ctx, true);
+                        AntibanTools.moveMouseOffScreen(ctx, true);
                         this.antiBanInProgress = false;
                         break;
                     case 1:
-                        AntibanActions.checkStat(ctx, Constants.SKILLS_COOKING);
+                        AntibanTools.checkStat(ctx, Constants.SKILLS_COOKING);
                         this.antiBanInProgress = false;
                         break;
                     case 2:
-                        AntibanActions.jiggleMouse(ctx);
+                        AntibanTools.jiggleMouse(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 3:
-                        AntibanActions.doNothing();
+                        AntibanTools.doNothing();
                         this.antiBanInProgress = false;
                         break;
                 }
@@ -188,23 +194,23 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
                 this.antiBanInProgress = true;
                 switch (Random.nextInt(0, 4)) {
                     case 0:
-                        AntibanActions.setRandomCameraAngle(ctx);
+                        AntibanTools.setRandomCameraAngle(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 1:
-                        AntibanActions.setRandomCameraPitch(ctx);
+                        AntibanTools.setRandomCameraPitch(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 2:
-                        AntibanActions.checkCombatLevel(ctx);
+                        AntibanTools.checkCombatLevel(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 3:
-                        AntibanActions.resetCamera(ctx);
+                        AntibanTools.resetCamera(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 4:
-                        AntibanActions.toggleRun(ctx);
+                        AntibanTools.toggleRun(ctx);
                         this.antiBanInProgress = false;
                         break;
                 }
@@ -217,6 +223,7 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
 
             if (this.currentPhase.moveToNextPhase()) {
                 this.currentPhase = this.currentPhase.getNextPhase();
+                this.scriptConfig.setStatus(this.currentPhase.getStatus());
             }
         }
     }
@@ -228,8 +235,8 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
         String msg = e.text();
         if (msg.contains("cook") || msg.contains("roast")) {
             cookCount++;
-            this.scriptConfig.setStatus("Cooking");
         }
+
         if (msg.contains("advanced your cooking level.")) {
             lvlsGained++;
         }
@@ -248,10 +255,10 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
     @Override
     public void repaint(Graphics g) {
         this.scriptConfig.paint(g, getRuntime());
-        g.drawString("Item : " + rawItemName, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(4));
-        g.drawString("Level: " + ctx.skills.level(Constants.SKILLS_COOKING) + " [" + lvlsGained + " ]", GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(5));
-        g.drawString("CTL  : " + cooksToLvl, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(6));
-        g.drawString("Count: " + cookCount, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(7));
+        g.drawString("Item : " + rawItemName, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(1));
+        g.drawString("Level: " + ctx.skills.level(Constants.SKILLS_COOKING) + " [" + lvlsGained + " ]", GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(2));
+        g.drawString("CTL  : " + cooksToLvl, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(3));
+        g.drawString("Count: " + cookCount, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(4));
 
     }
     //endregion

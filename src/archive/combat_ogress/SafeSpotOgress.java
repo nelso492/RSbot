@@ -1,8 +1,8 @@
 package ngc.combat_ogress;
 
-import ngc._resources.Npcs;
+import ngc._resources.constants.Npcs;
 import ngc._resources.actions._config.CombatConfig;
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.models.BaseAction;
 import ngc._resources.models.LootItem;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;

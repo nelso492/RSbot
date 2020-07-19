@@ -1,7 +1,7 @@
 package ngc.slayer_simple;
 
 import ngc._resources.actions._config.CombatConfig;
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.models.BaseAction;
 
 public class SlayerTaskConfig {
 

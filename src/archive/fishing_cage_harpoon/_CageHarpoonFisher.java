@@ -1,12 +1,12 @@
 package ngc.fishing_cage_harpoon;
 
-import ngc._resources.GameObjects;
-import ngc._resources.Npcs;
+import ngc._resources.constants.GameObjects;
+import ngc._resources.constants.Npcs;
 import ngc._resources.actions.ToggleLevelUp;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonAreas;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonAreas;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc.fishing_cage_harpoon.corsair.WalkBankToFishing;
 import ngc.fishing_cage_harpoon.corsair.WalkFishingToBank;
 import ngc.fishing_cage_harpoon.karamja.*;
@@ -49,11 +49,11 @@ public class _CageHarpoonFisher extends PollingScript<ClientContext> implements 
         ctx.properties.setProperty("randomevents.disable", "false"); //Ignore random events
 
         // Prompt for fishing type todo: reconfigure fishing rules based on location/catch combo. Configure for barb tail harpoon.
-        catchName = CommonFunctions.promptForSelection("Fishing Style", "Desired Catch", new String[] {"Lobster", "Swordfish/Tuna", "Shark"});
+        catchName = CommonActions.promptForSelection("Fishing Style", "Desired Catch", new String[] {"Lobster", "Swordfish/Tuna", "Shark"});
 
         if( !catchName.equalsIgnoreCase("lobster") ) {
             // prompt for barb tail harpoon
-            String dragonHarpoonResponse = CommonFunctions.promptForSelection("Harpoon Type", "Using Dragon Harpoon?", "Yes", "No");
+            String dragonHarpoonResponse = CommonActions.promptForSelection("Harpoon Type", "Using Dragon Harpoon?", "Yes", "No");
             if( dragonHarpoonResponse.equals("Yes") ) {
                 taskList.add(new HarpoonSpecial(ctx));
             }
@@ -61,7 +61,7 @@ public class _CageHarpoonFisher extends PollingScript<ClientContext> implements 
         }
 
         // Prompt for Location
-        String location = CommonFunctions.promptForSelection("Location", "Where are you fishing?", new String[] {"Corsair Cove", "Fishing Guild", "Karamja"});
+        String location = CommonActions.promptForSelection("Location", "Where are you fishing?", new String[] {"Corsair Cove", "Fishing Guild", "Karamja"});
         status = location;
         if( location.equals("Karamja") ) {
             status = "Task Config";

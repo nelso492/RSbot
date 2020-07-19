@@ -1,8 +1,8 @@
 package ngc.cooking_lumby_castle.actions;
 
 
-import ngc._resources.GameObjects;
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.constants.GameObjects;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
@@ -17,7 +17,7 @@ public class CookFood extends BaseAction<ClientContext> {
 
 
     public CookFood(ClientContext ctx, int _rawFoodId) {
-        super(ctx, "Cooking");
+        super(ctx, "Food");
         rawFoodId = _rawFoodId;
         this.rangeId = GameObjects.COOKING_RANGE_LUMBRIDGE;
     }
@@ -61,6 +61,14 @@ public class CookFood extends BaseAction<ClientContext> {
                     }
                 }, Random.nextInt(500, 777), 4);
             }
+        }else {
+            ctx.movement.step(cookingRange);
+            Condition.wait(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return !ctx.players.local().inMotion();
+                }
+            }, Random.nextInt(500, 777), 4);
         }
     }
 }

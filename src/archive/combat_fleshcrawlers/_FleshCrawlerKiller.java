@@ -1,15 +1,15 @@
 package ngc.combat_fleshcrawlers;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.CombatAction;
 import ngc._resources.actions.EquipArrows;
 import ngc._resources.actions.HealAction;
 import ngc._resources.actions.LootAction;
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.HealConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import org.powerbot.script.*;
@@ -51,10 +51,10 @@ public class _FleshCrawlerKiller extends PollingScript<ClientContext> implements
         LootList lootList = new LootList();
 
         // Combat Config
-        combatSkill = CommonFunctions.promptForCombatStyle(ctx);
+        combatSkill = CommonActions.promptForCombatStyle(ctx);
         if( combatSkill == Constants.SKILLS_RANGE ) {
             // Ranged
-            int arrowId = CommonFunctions.promptForArrowType();
+            int arrowId = CommonActions.promptForArrowType();
 
             if( arrowId > 0 ) {
                 // Add arrows to loot

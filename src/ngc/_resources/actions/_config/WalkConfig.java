@@ -7,13 +7,9 @@ public class WalkConfig {
     private Tile[] path;
     private Area targetArea;
 
-    // Used for accumulating or using all of a resource
-    private boolean activateOnInvCount;
-    private int activationInvCount;
-
-    public WalkConfig() {
-        this.activateOnInvCount = false;
-        this.activationInvCount = -1;
+    public WalkConfig(Area area, Tile[] path) {
+        this.targetArea = area;
+        this.path = path;
     }
 
     public Tile[] getPath() {
@@ -28,23 +24,4 @@ public class WalkConfig {
         return targetArea;
     }
 
-    public void setTargetArea(Area targetArea) {
-        this.targetArea = targetArea;
-    }
-
-    public boolean isActivateOnInvCount() {
-        return activateOnInvCount;
-    }
-
-    public void setActivateOnInvCount(boolean activateOnInvCount) {
-        this.activateOnInvCount = activateOnInvCount;
-    }
-
-    public int getActivationInvCount() {
-        return activationInvCount;
-    }
-
-    public void setActivationInvCount(int activationInvCount) {
-        this.activationInvCount = activationInvCount;
-    }
 }

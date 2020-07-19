@@ -1,8 +1,7 @@
 package ngc._resources.actions;
 
-import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.MergeConfig;
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.rt4.ClientContext;
 
 public class MergeAction extends BaseAction<ClientContext> {

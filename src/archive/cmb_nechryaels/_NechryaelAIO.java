@@ -1,12 +1,12 @@
 package ngc.cmb_nechryaels;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.*;
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.HealConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import org.powerbot.script.*;
@@ -54,7 +54,7 @@ public class _NechryaelAIO extends PollingScript<ClientContext> implements Messa
         startConfigs();
 
         // Heal Config
-        HealConfig healConfig = new HealConfig(CommonFunctions.allFoodIds(), minHealthPercent);
+        HealConfig healConfig = new HealConfig(CommonActions.allFoodIds(), minHealthPercent);
         healAction = new HealAction(ctx, "Healing", healConfig);
 
         // Slayer Config
@@ -124,7 +124,7 @@ public class _NechryaelAIO extends PollingScript<ClientContext> implements Messa
                 waitForLoot.execute();
                 break;
             case Stop:
-                CommonFunctions.slayerRingTeleport(ctx, 1);
+                CommonActions.slayerRingTeleport(ctx, 1);
                 ctx.controller.suspend();
             default: // waiting
                 status = "Waiting";
@@ -280,7 +280,7 @@ public class _NechryaelAIO extends PollingScript<ClientContext> implements Messa
             return State.LevelUp;
         }
 
-        if( ctx.inventory.select().id(CommonFunctions.allFoodIds()).count() == 0 && ctx.combat.healthPercent() < minHealthPercent ) {
+        if( ctx.inventory.select().id(CommonActions.allFoodIds()).count() == 0 && ctx.combat.healthPercent() < minHealthPercent ) {
             status = "Teleport";
             return State.Stop;
         }

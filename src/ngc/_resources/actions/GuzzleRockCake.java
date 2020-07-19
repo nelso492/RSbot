@@ -1,9 +1,9 @@
 package ngc._resources.actions;
 
 
-import ngc._resources.Items;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.GaussianTools;
+import ngc._resources.constants.Items;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.GaussianTools;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 

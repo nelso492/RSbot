@@ -1,11 +1,11 @@
 package ngc.combat_cows.phases;
 
-import ngc._resources.actions._template.BasePhase;
+import ngc._resources.models.BasePhase;
 import org.powerbot.script.rt4.ClientContext;
 
 public class CombatPhase extends BasePhase<ClientContext> {
     public CombatPhase(ClientContext ctx) {
-        super(ctx);
+        super(ctx, "Combat");
     }
 
     @Override

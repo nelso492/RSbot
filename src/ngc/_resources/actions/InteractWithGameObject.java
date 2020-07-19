@@ -1,7 +1,6 @@
 package ngc._resources.actions;
 
-import ngc._resources.Items;
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;

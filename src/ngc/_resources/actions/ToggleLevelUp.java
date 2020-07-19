@@ -1,8 +1,8 @@
 package ngc._resources.actions;
 
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.AntibanActions;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.AntibanTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
@@ -25,7 +25,7 @@ public class ToggleLevelUp extends BaseAction<ClientContext> {
         if( ctx.widgets.component(233, 3).valid() ) {
            // ctx.widgets.component(233, 3).click();
             if(!ctx.input.isFocused()){
-                AntibanActions.sleepDelay(Random.nextInt(1,6));
+                AntibanTools.sleepDelay(Random.nextInt(1,6));
                 ctx.input.focus();
             }
             ctx.input.send(" "); //Spacebar more human-like to dismiss the level up
@@ -36,6 +36,8 @@ public class ToggleLevelUp extends BaseAction<ClientContext> {
                     return !ctx.widgets.component(233, 3).valid();
                 }
             }, 440, 4);
+
+            ctx.input.send(" ");
         }
     }
 }

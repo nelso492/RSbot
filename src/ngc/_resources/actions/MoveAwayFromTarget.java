@@ -1,7 +1,7 @@
 package ngc._resources.actions;
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
@@ -69,7 +69,7 @@ public class MoveAwayFromTarget extends BaseAction<ClientContext> {
 
             // move to "safe" tile
             if( t.matrix(ctx).reachable() ) {
-                CommonFunctions.walkToSafespot(ctx, t);
+                CommonActions.walkToSafespot(ctx, t);
                 sleep();
 
                 Condition.wait(new Callable<Boolean>() {

@@ -1,11 +1,11 @@
 package ngc.herblore_herb_cleaner;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.BankAction;
 import ngc._resources.actions._config.BankConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.actions.InteractWithAllInventory;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
@@ -40,7 +40,7 @@ public class _CleanHerbs extends PollingScript<ClientContext> implements Message
         status = "Herb Selection";
 
         // Prompt for bone type
-        String boneType = CommonFunctions.promptForSelection("Herb Type", "What type of herb?", new String[] {"Tarromin", "Harralander", "Ranarr", "Toadflax", "Irit leaf", "Avantoe", "Kwuarm", "Snapdragon", "Cadantine", "Lantadyme", "Dwarf weed", "Torstol"});
+        String boneType = CommonActions.promptForSelection("Herb Type", "What type of herb?", new String[] {"Tarromin", "Harralander", "Ranarr", "Toadflax", "Irit leaf", "Avantoe", "Kwuarm", "Snapdragon", "Cadantine", "Lantadyme", "Dwarf weed", "Torstol"});
 
         switch( boneType ) {
             case "Tarromin":
@@ -63,7 +63,7 @@ public class _CleanHerbs extends PollingScript<ClientContext> implements Message
         }
 
         // Prompt for amount to bury
-        cleanQuota = CommonFunctions.promptForQuantity("How many to clean before shutting down?");
+        cleanQuota = CommonActions.promptForQuantity("How many to clean before shutting down?");
 
         status = "Loading";
 

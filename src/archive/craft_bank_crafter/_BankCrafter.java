@@ -1,15 +1,12 @@
 package ngc.craft_bank_crafter;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.BankAction;
 import ngc._resources.actions.CombineInventoryItems;
 import ngc._resources.actions.ToggleLevelUp;
 import ngc._resources.actions._config.BankConfig;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
-import ngc.crafting_jewelry_furnace.MakeJewelry;
-import ngc.crafting_jewelry_furnace.WalkToBank;
-import ngc.crafting_jewelry_furnace.WalkToFurnace;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
@@ -77,7 +74,7 @@ public class _BankCrafter extends PollingScript<ClientContext> implements Messag
         BankConfig bankConfig = new BankConfig(craftedItemId, Items.CRUSHED_GEM_1633, componentId, 28, -1, -1, false, true, true);
         bankAction = new BankAction(ctx, "Banking", bankConfig);
 
-        craftQuota = CommonFunctions.promptForNumber("Craft amount? ");
+        craftQuota = CommonActions.promptForNumber("Craft amount? ");
         craftCount = 0;
 
         // Start

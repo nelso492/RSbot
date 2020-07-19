@@ -1,8 +1,8 @@
 package ngc._resources.actions;
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GaussianTools;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;
@@ -12,10 +12,10 @@ import java.util.concurrent.Callable;
 import static org.powerbot.script.Condition.sleep;
 
 public class CombineInventoryItems extends BaseAction<ClientContext> {
-    private int primaryItemId;
-    private int secondaryItemId;
-    private boolean hasPrompt;
-    private int secondsTimeout;
+    private final int primaryItemId;
+    private final int secondaryItemId;
+    private final boolean hasPrompt;
+    private final int secondsTimeout;
 
     public CombineInventoryItems(ClientContext ctx, int primaryItemId, int secondaryItemId, boolean hasPrompt, int secondsTimeout) {
         super(ctx, "Working");
@@ -33,7 +33,7 @@ public class CombineInventoryItems extends BaseAction<ClientContext> {
 
     @Override
     public void execute() {
-        if( !ctx.inventory.selectedItem().valid() ) {
+        if (!ctx.inventory.selectedItem().valid()) {
             Item primaryItem = ctx.inventory.select().id(primaryItemId).shuffle().poll();
 
             primaryItem.interact("Use");
@@ -42,21 +42,18 @@ public class CombineInventoryItems extends BaseAction<ClientContext> {
         sleep();
 
         ctx.inventory.select().id(secondaryItemId).shuffle().poll().click(); // select random
-        if( hasPrompt ) {
+        if (hasPrompt) {
             Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return ctx.widgets.component(270, 14).valid() ;
+                    return ctx.widgets.component(270, 14).valid();
                 }
             }, 100, 50);
 
             // click on prompt component (should be same for all potions)
-            if( ctx.widgets.component(270, 14).valid() ) {
+            if (ctx.widgets.component(270, 14).valid()) {
                 ctx.widgets.component(270, 14).click();
             }
-        }
-        if( GaussianTools.takeActionUnlikely() ) {
-            CommonFunctions.moveMouseOffscreen(ctx, false);
         }
 
         Condition.wait(new Callable<Boolean>() {

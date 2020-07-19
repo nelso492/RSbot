@@ -1,9 +1,7 @@
 package ngc.wc_oak_cutter;
 
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonAreas;
-import org.powerbot.script.Area;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;

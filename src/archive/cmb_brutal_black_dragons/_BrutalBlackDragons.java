@@ -1,11 +1,11 @@
 package ngc.cmb_brutal_black_dragons;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.*;
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.HealConfig;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import ngc.slayer_simple.Teletab;
@@ -136,7 +136,7 @@ public class _BrutalBlackDragons extends PollingScript<ClientContext> implements
 
         // -- Combat Phase --
         // Heal Config
-        HealConfig healConfig = new HealConfig(CommonFunctions.allFoodIds(), 80);
+        HealConfig healConfig = new HealConfig(CommonActions.allFoodIds(), 80);
         eatFood = new HealAction(ctx, "Healing", healConfig);
 
         // Loot Task
@@ -198,7 +198,7 @@ public class _BrutalBlackDragons extends PollingScript<ClientContext> implements
         } else {
             // Check for finishing blow and move
             if( currentTarget.healthPercent() == 0 && !ctx.players.local().inMotion() ) {
-                CommonFunctions.walkToSafespot(ctx, new Tile(currentTarget.tile().x() + Random.nextInt(0, -4), currentTarget.tile().y() + Random.nextInt(0, -4)));
+                CommonActions.walkToSafespot(ctx, new Tile(currentTarget.tile().x() + Random.nextInt(0, -4), currentTarget.tile().y() + Random.nextInt(0, -4)));
                 Condition.wait(new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
@@ -772,7 +772,7 @@ public class _BrutalBlackDragons extends PollingScript<ClientContext> implements
                         if( ctx.combat.healthPercent() < 100 ) {
                             i.interact("Drink", i.name());
                         } else {
-                            CommonFunctions.dropItem(ctx, i.id());
+                            CommonActions.dropItem(ctx, i.id());
                         }
                     }
                     break;
@@ -780,7 +780,7 @@ public class _BrutalBlackDragons extends PollingScript<ClientContext> implements
                     if( ctx.combat.healthPercent() < 100 ) {
                         i.interact("Eat", i.name());
                     } else {
-                        CommonFunctions.dropItem(ctx, i.id());
+                        CommonActions.dropItem(ctx, i.id());
                     }
                     break;
                 case Items.AMETHYST_BROAD_BOLTS_21316:
@@ -800,7 +800,7 @@ public class _BrutalBlackDragons extends PollingScript<ClientContext> implements
 
                     if( onLoot ) {
                         // Move off
-                        CommonFunctions.walkToSafespot(ctx, getClosestReachableTile());
+                        CommonActions.walkToSafespot(ctx, getClosestReachableTile());
 
                         Condition.wait(new Callable<Boolean>() {
                             @Override
@@ -811,7 +811,7 @@ public class _BrutalBlackDragons extends PollingScript<ClientContext> implements
                     }
 
                     // Drop Item
-                    CommonFunctions.dropItem(ctx, i.id());
+                    CommonActions.dropItem(ctx, i.id());
 
 
             }

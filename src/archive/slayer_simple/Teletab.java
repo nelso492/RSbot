@@ -1,6 +1,6 @@
 package ngc.slayer_simple;
 
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;

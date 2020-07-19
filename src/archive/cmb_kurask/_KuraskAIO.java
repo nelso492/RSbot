@@ -1,11 +1,11 @@
 package ngc.cmb_kurask;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.*;
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.HealConfig;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import ngc.slayer_simple.BonesToPeaches;
@@ -50,7 +50,7 @@ public class _KuraskAIO extends PollingScript<ClientContext> implements MessageL
         startConfigs();
 
         // Heal Config
-        HealConfig healConfig = new HealConfig(CommonFunctions.allFoodIds(), minHealthPercent);
+        HealConfig healConfig = new HealConfig(CommonActions.allFoodIds(), minHealthPercent);
         healAction = new HealAction(ctx, "Healing", healConfig);
 
         bonesToPeachesLootAction = new BonesToPeachesLootAction(ctx, "b2p loot");
@@ -118,7 +118,7 @@ public class _KuraskAIO extends PollingScript<ClientContext> implements MessageL
                 waitForLoot.execute();
                 break;
             case Stop:
-                CommonFunctions.slayerRingTeleport(ctx, 1);
+                CommonActions.slayerRingTeleport(ctx, 1);
                 ctx.controller.suspend();
             default:
                 status = "Waiting";
@@ -258,7 +258,7 @@ public class _KuraskAIO extends PollingScript<ClientContext> implements MessageL
             return State.LevelUp;
         }
 
-        if( ctx.inventory.select().id(CommonFunctions.allFoodIds()).count() == 0 && ctx.combat.healthPercent() < minHealthPercent ) {
+        if( ctx.inventory.select().id(CommonActions.allFoodIds()).count() == 0 && ctx.combat.healthPercent() < minHealthPercent ) {
             status = "Teleport";
             return State.Stop;
         }

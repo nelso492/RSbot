@@ -1,4 +1,4 @@
-package ngc._resources;
+package ngc._resources.constants;
 
 public class NpcAnimations {
     public final static int OGRESSWARRIOR_DEATH = 361;

@@ -1,7 +1,7 @@
 package ngc._resources.actions;
 
-import ngc._resources.Items;
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.constants.Items;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;
 

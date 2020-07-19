@@ -2,6 +2,9 @@ package ngc._resources.models;
 
 import java.util.ArrayList;
 
+/**
+ * List actions for loot items
+ */
 public class LootList {
     private ArrayList<LootItem> lootItems;
 

@@ -1,7 +1,7 @@
 package ngc.magic_zammywine;
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.RsLookup;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.RsLookup;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 

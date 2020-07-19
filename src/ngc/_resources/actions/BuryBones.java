@@ -1,6 +1,6 @@
 package ngc._resources.actions;
 
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Game;

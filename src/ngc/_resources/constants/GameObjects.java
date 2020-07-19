@@ -1,4 +1,4 @@
-package ngc._resources;
+package ngc._resources.constants;
 
 public class GameObjects {
 

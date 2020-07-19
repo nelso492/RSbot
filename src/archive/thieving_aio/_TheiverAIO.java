@@ -2,8 +2,8 @@ package ngc.thieving_aio;
 
 import ngc._resources.actions.ShiftDropInventory;
 import ngc._resources.actions.ToggleLevelUp;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
@@ -61,7 +61,7 @@ public class _TheiverAIO extends PollingScript<ClientContext> implements PaintLi
                 levelUp.execute();
                 break;
             case PAUSE:
-                CommonFunctions.moveMouseOffscreen(ctx, false);
+                CommonActions.moveMouseOffscreen(ctx, false);
                 sleep(pauseDuration);
                 setNextPause();
                 break;

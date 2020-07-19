@@ -1,8 +1,7 @@
 package ngc.fishing_net_draynor.phases;
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.actions._template.BasePhase;
-import ngc._resources.functions.AntibanActions;
+import ngc._resources.models.BasePhase;
+import ngc._resources.tools.AntibanTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 
@@ -12,7 +11,7 @@ import static org.powerbot.script.Condition.sleep;
 
 public class FishingPhase extends BasePhase<ClientContext> {
     public FishingPhase(ClientContext ctx) {
-        super(ctx);
+        super(ctx, "Fishing");
     }
 
     @Override
@@ -34,7 +33,7 @@ public class FishingPhase extends BasePhase<ClientContext> {
                 }, 440, 4);
 
                 if(ctx.players.local().interacting().valid()){
-                    AntibanActions.moveMouseOffScreen(ctx, true);
+                    AntibanTools.moveMouseOffScreen(ctx, true);
                     ctx.input.defocus();
                 }
             }

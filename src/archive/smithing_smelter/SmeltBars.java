@@ -1,11 +1,11 @@
 package ngc.smithing_smelter;
 
 
-import ngc._resources.GameObjects;
-import ngc._resources.Items;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonAreas;
-import ngc._resources.functions.GaussianProbability;
+import ngc._resources.constants.GameObjects;
+import ngc._resources.constants.Items;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonAreas;
+import ngc._resources.tools.GaussianProbability;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;

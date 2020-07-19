@@ -7,10 +7,10 @@ import ngc._resources.actions.LootAction;
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.HealConfig;
 import ngc._resources.actions._config.ScriptConfig;
-import ngc._resources.functions.AntibanActions;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GaussianTools;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.tools.AntibanTools;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GaussianTools;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import ngc.combat_cows.phases.CombatPhase;
@@ -37,8 +37,7 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
 
     // PHASE
 
-    private CombatPhase combatPhase = new CombatPhase(ctx);
-    ;
+    private final CombatPhase combatPhase = new CombatPhase(ctx);
     //endregion
 
     //region Actions
@@ -54,7 +53,7 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
     public void start() {
         // Tracked Skills
         int[] skills = new int[1];
-        skills[0] = CommonFunctions.promptForCombatStyle(ctx);
+        skills[0] = CommonActions.promptForCombatStyle(ctx);
 
         this.scriptConfig = new ScriptConfig(ctx, skills);
         this.scriptConfig.setStatus("Config");
@@ -69,7 +68,7 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
         // Loot
         int projectileId = 0;
         if (skills[0] == Constants.SKILLS_RANGE) {
-            projectileId = CommonFunctions.promptForArrowType();
+            projectileId = CommonActions.promptForArrowType();
             this.lootList = new LootList();
             this.lootList.addLootItem(new LootItem(projectileId, 3));
             this.lootAction = new LootAction(ctx, "Loot", lootList, 10, false, true);
@@ -82,7 +81,7 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
         CombatConfig combatCalfConfig = new CombatConfig("Cow calf", -1, 20, lootList, ctx.combat.inMultiCombat(), null);
         this.combatCalfAction = new CombatAction(ctx, "Attack Calf", combatCalfConfig);
 
-        HealConfig healConfig = new HealConfig(CommonFunctions.allFoodIds(), 50);
+        HealConfig healConfig = new HealConfig(CommonActions.allFoodIds(), 50);
         this.healAction = new HealAction(ctx, "Healing", healConfig);
 
         this.equipArrows = new EquipArrows(ctx, projectileId, 60);
@@ -113,15 +112,15 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
 
                 switch (Random.nextInt(0, 2)) {
                     case 0:
-                        AntibanActions.hoverRandomNPC(ctx);
+                        AntibanTools.hoverRandomNPC(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 1:
-                        AntibanActions.hoverRandomObject(ctx);
+                        AntibanTools.hoverRandomObject(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 2:
-                        AntibanActions.toggleXPDrops(ctx);
+                        AntibanTools.toggleXPDrops(ctx);
                         this.antiBanInProgress = false;
                         break;
                 }
@@ -132,19 +131,19 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
 
                 switch (Random.nextInt(0, 3)) {
                     case 0:
-                        AntibanActions.moveMouseOffScreen(ctx, true);
+                        AntibanTools.moveMouseOffScreen(ctx, true);
                         this.antiBanInProgress = false;
                         break;
                     case 1:
-                        AntibanActions.checkStat(ctx);
+                        AntibanTools.checkStat(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 2:
-                        AntibanActions.jiggleMouse(ctx);
+                        AntibanTools.jiggleMouse(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 3:
-                        AntibanActions.doNothing();
+                        AntibanTools.doNothing();
                         this.antiBanInProgress = false;
                         break;
                 }
@@ -154,23 +153,23 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
                 this.antiBanInProgress = true;
                 switch (Random.nextInt(0, 4)) {
                     case 0:
-                        AntibanActions.setRandomCameraAngle(ctx);
+                        AntibanTools.setRandomCameraAngle(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 1:
-                        AntibanActions.setRandomCameraPitch(ctx);
+                        AntibanTools.setRandomCameraPitch(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 2:
-                        AntibanActions.checkCombatLevel(ctx);
+                        AntibanTools.checkCombatLevel(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 3:
-                        AntibanActions.resetCamera(ctx);
+                        AntibanTools.resetCamera(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 4:
-                        AntibanActions.toggleRun(ctx);
+                        AntibanTools.toggleRun(ctx);
                         this.antiBanInProgress = false;
                         break;
                 }

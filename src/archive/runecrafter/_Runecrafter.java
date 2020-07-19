@@ -1,9 +1,9 @@
 package ngc.runecrafter;
 
 import ngc._resources.actions._config.RunecraftConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonAreas;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonAreas;
+import ngc._resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.*;

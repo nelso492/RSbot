@@ -1,10 +1,9 @@
 package ngc.misc_barb_village_looter;
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.GuiHelper;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
-import org.powerbot.script.Script;
 import org.powerbot.script.rt4.ClientContext;
 
 import java.awt.*;

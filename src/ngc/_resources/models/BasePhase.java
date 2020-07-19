@@ -1,4 +1,4 @@
-package ngc._resources.actions._template;
+package ngc._resources.models;
 
 
 import org.powerbot.script.ClientAccessor;
@@ -7,10 +7,16 @@ import org.powerbot.script.ClientContext;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @param <C> ClientContext from RsBot Runtime
+ */
 public abstract class BasePhase<C extends ClientContext> extends ClientAccessor<C> {
-    public BasePhase(C ctx) {
+    public BasePhase(C ctx, String name) {
         super(ctx);
         this.actions = new ArrayList<>();
+        this.name = name;
+        this.status = "None";
     }
 
     private String name;
@@ -24,7 +30,7 @@ public abstract class BasePhase<C extends ClientContext> extends ClientAccessor<
         for (BaseAction action : actions) {
             if (action.activate()) {
                 action.execute();
-                setStatus(name + ":" + action.getStatus());
+                setStatus(action.getStatus());
                 break;
             }
         }
@@ -40,7 +46,7 @@ public abstract class BasePhase<C extends ClientContext> extends ClientAccessor<
     //region G&S
 
     public String getStatus() {
-        return this.name + ":" + status;
+        return name + ":" + status;
     }
 
     public void setStatus(String status) {

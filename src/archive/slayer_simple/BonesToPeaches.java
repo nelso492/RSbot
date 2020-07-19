@@ -1,8 +1,8 @@
 package ngc.slayer_simple;
 
-import ngc._resources.Items;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
+import ngc._resources.constants.Items;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;
@@ -23,7 +23,7 @@ public class BonesToPeaches extends BaseAction<ClientContext> {
     @Override
     public boolean activate() {
         int boneCount = ctx.inventory.select().id(boneId).count();
-        int foodCount = ctx.inventory.select().id(CommonFunctions.allFoodIds()).count();
+        int foodCount = ctx.inventory.select().id(CommonActions.allFoodIds()).count();
 
         return boneCount >= minBoneCount && foodCount == 0;
     }

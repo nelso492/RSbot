@@ -1,9 +1,9 @@
 package ngc._resources.actions;
 
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GaussianTools;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
@@ -79,7 +79,7 @@ public class UsePotion extends BaseAction<ClientContext> {
         if(drinkPotion) {
             ctx.game.tab(Game.Tab.INVENTORY);
             sleep(Random.nextInt(500, 1200));
-            CommonFunctions.usePotion(ctx, potionIds);
+            CommonActions.usePotion(ctx, potionIds);
 
             Condition.wait(new Callable<Boolean>() {
                 @Override

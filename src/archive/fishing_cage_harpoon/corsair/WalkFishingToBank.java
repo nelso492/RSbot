@@ -1,7 +1,7 @@
 package ngc.fishing_cage_harpoon.corsair;
 
-import ngc._resources.GameObjects;
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.constants.GameObjects;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 

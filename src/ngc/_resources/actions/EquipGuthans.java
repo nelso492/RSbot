@@ -1,7 +1,7 @@
 package ngc._resources.actions;
 
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;
@@ -23,7 +23,7 @@ public class EquipGuthans extends BaseAction<ClientContext> {
 
     @Override
     public boolean activate() {
-        return ctx.inventory.select().id(CommonFunctions.guthansEquipment()).count() > 0 && ctx.combat.healthPercent() < minHealth;
+        return ctx.inventory.select().id(CommonActions.guthansEquipment()).count() > 0 && ctx.combat.healthPercent() < minHealth;
     }
 
     @Override

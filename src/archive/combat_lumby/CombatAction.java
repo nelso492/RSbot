@@ -1,7 +1,7 @@
 package ngc.combat_lumby;
 
 
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources.models.BaseAction;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;

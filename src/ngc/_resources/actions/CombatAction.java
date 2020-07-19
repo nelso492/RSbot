@@ -1,10 +1,9 @@
 package ngc._resources.actions;
 
 import ngc._resources.actions._config.CombatConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.AntibanActions;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GaussianTools;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.AntibanTools;
+import ngc._resources.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;
@@ -54,7 +53,7 @@ public class CombatAction extends BaseAction<ClientContext> {
     @Override
     public void execute() {
         // Add a touch of AFK
-        AntibanActions.sleepDelay(Random.nextInt(0, 3));
+        AntibanTools.sleepDelay(Random.nextInt(0, 3));
 
         // Check for npc interacting with player
         Npc target = ctx.npcs.select().select(new Filter<Npc>() {
@@ -134,7 +133,7 @@ public class CombatAction extends BaseAction<ClientContext> {
 
                         // move to "safe" tile
                         if (t.matrix(ctx).reachable()) {
-                            CommonFunctions.walkToSafespot(ctx, t);
+                            CommonActions.walkToSafespot(ctx, t);
                             sleep();
 
                             Condition.wait(new Callable<Boolean>() {

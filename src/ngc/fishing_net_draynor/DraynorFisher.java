@@ -1,17 +1,16 @@
 package ngc.fishing_net_draynor;
 
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.BankAction;
 import ngc._resources.actions.ToggleRunAction;
-import ngc._resources.actions.WalkToAreaAction;
 import ngc._resources.actions._config.BankConfig;
 import ngc._resources.actions._config.RunConfig;
 import ngc._resources.actions._config.ScriptConfig;
-import ngc._resources.actions._config.WalkConfig;
-import ngc._resources.actions._template.BasePhase;
-import ngc._resources.functions.*;
+import ngc._resources.models.BasePhase;
+import ngc._resources.tools.*;
 import ngc.fishing_net_draynor.actions.FishingAction;
+import ngc.fishing_net_draynor.actions.WalkToDraynorBankAction;
 import ngc.fishing_net_draynor.phases.BankingPhase;
 import ngc.fishing_net_draynor.phases.FishingPhase;
 import org.powerbot.script.*;
@@ -19,7 +18,6 @@ import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 @Script.Manifest(name = "DraynorFisher", description = "Kills Cows.", properties = "client=4; topic=051515; author=Bowman")
 public class DraynorFisher extends PollingScript<ClientContext> implements MessageListener, PaintListener {
@@ -48,7 +46,7 @@ public class DraynorFisher extends PollingScript<ClientContext> implements Messa
     //region Actions
     private BankAction bankAction;
     private FishingAction fishingAction;
-    private WalkToAreaAction walkToBankAction;
+    private WalkToDraynorBankAction walkToBankAction;
     private ToggleRunAction toggleRunAction;
     //endregion
 
@@ -75,13 +73,7 @@ public class DraynorFisher extends PollingScript<ClientContext> implements Messa
         this.bankAction = new BankAction(ctx, "", bankConfig);
         this.bankAction.setStatus("Deposit Fish");
 
-        WalkConfig walkConfig = new WalkConfig();
-        walkConfig.setActivateOnInvCount(true);
-        walkConfig.setActivationInvCount(28);
-        walkConfig.setTargetArea(CommonAreas.getDraynorBank());
-        walkConfig.setPath(new Tile[]{new Tile(3088, 3226, 0), new Tile(3090, 3230, 0), new Tile(3090, 3234, 0), new Tile(3089, 3238, 0), new Tile(3087, 3242, 0), new Tile(3087, 3246, 0), new Tile(3091, 3247, 0), new Tile(3092, 3243, 0)});
-        this.walkToBankAction = new WalkToAreaAction(ctx, walkConfig);
-        this.walkToBankAction.setStatus("Walking");
+        this.walkToBankAction = new WalkToDraynorBankAction(ctx);
 
         this.fishingAction = new FishingAction(ctx);
         this.fishingAction.setStatus("Net Fishing");
@@ -114,7 +106,7 @@ public class DraynorFisher extends PollingScript<ClientContext> implements Messa
         // Pre State Check Action
         this.scriptConfig.prePollAction();
 
-        numToLevel = 1 +  ((ctx.skills.experienceAt(ctx.skills.level(Constants.SKILLS_FISHING) + 1) - (ctx.skills.experience(Constants.SKILLS_FISHING))) / avgCatchXp);
+        numToLevel = 1 + ((ctx.skills.experienceAt(ctx.skills.level(Constants.SKILLS_FISHING) + 1) - (ctx.skills.experience(Constants.SKILLS_FISHING))) / avgCatchXp);
 
 
         // Antiban Check
@@ -128,15 +120,15 @@ public class DraynorFisher extends PollingScript<ClientContext> implements Messa
                 this.antiBanInProgress = true;
                 switch (Random.nextInt(0, 4)) {
                     case 0:
-                        AntibanActions.setRandomCameraAngle(ctx);
+                        AntibanTools.setRandomCameraAngle(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 1:
-                        AntibanActions.setRandomCameraPitch(ctx);
+                        AntibanTools.setRandomCameraPitch(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 3:
-                        AntibanActions.resetCamera(ctx);
+                        AntibanTools.resetCamera(ctx);
                         this.antiBanInProgress = false;
                         break;
                 }

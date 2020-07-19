@@ -2,7 +2,7 @@
 package archive.mining_rune_ess;
 
 import ngc._resources.actions.ToggleLevelUp;
-import ngc._resources.actions._template.BaseAction;
+import ngc._resources._template.BaseAction;
 import ngc._resources.functions.GuiHelper;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;

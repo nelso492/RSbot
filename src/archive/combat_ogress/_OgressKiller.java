@@ -1,17 +1,17 @@
 package ngc.combat_ogress;
 
-import ngc._resources.GameObjects;
-import ngc._resources.Items;
-import ngc._resources.NpcAnimations;
-import ngc._resources.Npcs;
+import ngc._resources.constants.GameObjects;
+import ngc._resources.constants.Items;
+import ngc._resources.constants.NpcAnimations;
+import ngc._resources.constants.Npcs;
 import ngc._resources.actions.HealAction;
 import ngc._resources.actions.HighAlch;
 import ngc._resources.actions.LootAction;
 import ngc._resources.actions.ToggleLevelUp;
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.HealConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import org.powerbot.script.*;

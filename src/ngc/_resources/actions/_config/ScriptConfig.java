@@ -1,8 +1,8 @@
 package ngc._resources.actions._config;
 
 import ngc._resources.actions.ToggleLevelUp;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import org.powerbot.script.rt4.ClientContext;
 
 import java.awt.*;
@@ -57,10 +57,10 @@ public class ScriptConfig {
         g.drawString("Runtime: " + GuiHelper.getReadableRuntime(runtime), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(2));
         g.drawString("Lvls Gained: " + (this.levelsGained), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(3));
 
-        g.setColor(GuiHelper.getTextColorImportant());
+        g.setColor(GuiHelper.getTextColorInformation());
         if(this.trackedSkillIds != null) {
             for (int i = 0; i < this.trackedSkillIds.length; i++) {
-                g.drawString(CommonFunctions.getCombatStyleName(this.trackedSkillIds[i]) + ": " + ctx.skills.level(this.trackedSkillIds[i]), GuiHelper.getDialogMiddleX(), GuiHelper.getDialogStartY(i + 1));
+                g.drawString(CommonActions.getSkillName(this.trackedSkillIds[i]) + ": " + ctx.skills.level(this.trackedSkillIds[i]), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(i + 4));
             }
         }
     }

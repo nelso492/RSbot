@@ -1,38 +1,46 @@
-package ngc._resources.functions;
+package ngc._resources.tools;
 
-import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.Game;
 
 import java.awt.*;
-import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class AntibanActions {
+/**
+ * Antiban tools involving various human actions to
+ * create breaks in bot patterns.
+ */
+public class AntibanTools {
 
-
+    /**
+     * Common action replica of open tab behavior
+     *
+     * @param ctx Context
+     * @param tab Game Tab
+     */
     private static void openTab(ClientContext ctx, Game.Tab tab) {
-        if (ctx.game.tab() != tab) {
-            ctx.game.tab(tab);
-
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return ctx.game.tab() == tab;
-                }
-            }, 250, 10);
-        }
+        CommonActions.openTab(ctx, tab);
     }
 
+    /**
+     * Sleep delay of various length
+     *
+     * @param length number of iterations for ~300ms delays
+     */
     public static void sleepDelay(int length) {
         for (int i = 0; i <= length; i++) {
             sleep();
         }
     }
 
+    /**
+     * Hover over random stat
+     *
+     * @param ctx Context
+     */
     public static void checkStat(ClientContext ctx) {
 
         openTab(ctx, Game.Tab.STATS);
@@ -44,6 +52,12 @@ public class AntibanActions {
         sleepDelay(Random.nextInt(1, 3));
     }
 
+    /**
+     * Hover over specific stat
+     *
+     * @param ctx     Context
+     * @param skillId Skill ID
+     */
     public static void checkStat(ClientContext ctx, int skillId) {
         openTab(ctx, Game.Tab.STATS);
 
@@ -161,20 +175,40 @@ public class AntibanActions {
         sleepDelay(Random.nextInt(1, 3));
     }
 
+    /**
+     * Open attack tab and hover skill id
+     *
+     * @param ctx Context
+     */
     public static void checkCombatLevel(ClientContext ctx) {
         openTab(ctx, Game.Tab.ATTACK);
 
         sleepDelay(Random.nextInt(1, 6));
     }
 
+    /**
+     * Adjust the camera angle X value
+     *
+     * @param ctx Context
+     */
     public static void setRandomCameraAngle(ClientContext ctx) {
         ctx.camera.angle(Random.nextInt(0, 359));
     }
 
+    /**
+     * Adjust the camera Y value
+     *
+     * @param ctx Context
+     */
     public static void setRandomCameraPitch(ClientContext ctx) {
         ctx.camera.pitch(Random.nextInt(0, 99));
     }
 
+    /**
+     * Randomly move the mouse
+     *
+     * @param ctx Context
+     */
     public static void jiggleMouse(ClientContext ctx) {
         int x = ctx.input.getLocation().x;
         int y = ctx.input.getLocation().y;
@@ -186,10 +220,19 @@ public class AntibanActions {
         }
     }
 
+    /**
+     * Sleep for a random period of time
+     */
     public static void doNothing() {
         sleepDelay(Random.nextInt(0, 10));
     }
 
+    /**
+     * Move mouse offscreen
+     *
+     * @param ctx      Context
+     * @param leftSide Move to left, false for right
+     */
     public static void moveMouseOffScreen(ClientContext ctx, boolean leftSide) {
         int x;
         if (leftSide) {
@@ -207,6 +250,11 @@ public class AntibanActions {
         sleepDelay(Random.nextInt(3, 10));
     }
 
+    /**
+     * Hover any object within the viewport
+     *
+     * @param ctx Context
+     */
     public static void hoverRandomObject(ClientContext ctx) {
         var objects = ctx.objects.get(5);
 
@@ -215,6 +263,11 @@ public class AntibanActions {
         sleepDelay(2);
     }
 
+    /**
+     * Hover any NPC in the viewport
+     *
+     * @param ctx Context
+     */
     public static void hoverRandomNPC(ClientContext ctx) {
         var npcs = ctx.npcs.get();
 
@@ -223,17 +276,32 @@ public class AntibanActions {
         sleepDelay(2);
     }
 
+    /**
+     * Toggle the Run icon
+     *
+     * @param ctx Context
+     */
     public static void toggleRun(ClientContext ctx) {
         if (ctx.movement.energyLevel() > 20 && !ctx.movement.running()) {
             ctx.movement.running(true);
         }
     }
 
+    /**
+     * Reset the camera by clicking the compass
+     *
+     * @param ctx Context
+     */
     public static void resetCamera(ClientContext ctx) {
         ctx.widgets.widget(548).component(7).click();
         sleepDelay(1);
     }
 
+    /**
+     * Toggle the xp drops by clicking the widget
+     *
+     * @param ctx Context
+     */
     public static void toggleXPDrops(ClientContext ctx) {
         ctx.widgets.widget(160).component(1).click();
     }

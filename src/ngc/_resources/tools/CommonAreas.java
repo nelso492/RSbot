@@ -1,8 +1,11 @@
-package ngc._resources.functions;
+package ngc._resources.tools;
 
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 
+/**
+ * Area values for common places
+ */
 public class CommonAreas {
     public static Area getBarbFishingArea() {
         return new Area(new Tile(3102, 3436), new Tile(3112, 3418));

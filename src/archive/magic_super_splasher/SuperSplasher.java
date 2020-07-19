@@ -1,9 +1,9 @@
 package ngc.magic_super_splasher;
 
-import ngc._resources.Items;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GaussianTools;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.constants.Items;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GaussianTools;
+import ngc._resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
@@ -55,7 +55,7 @@ public class SuperSplasher extends PollingScript<ClientContext> implements Paint
                     sleep();
                     ctx.input.move(Random.nextInt(560, 600), Random.nextInt(370, 390));
                     sleep();
-                    CommonFunctions.moveMouseOffscreen(ctx, false);
+                    CommonActions.moveMouseOffscreen(ctx, false);
                     break;
                 case 2:
                     // Check Combat Level

@@ -1,4 +1,4 @@
-package ngc._resources.functions;
+package ngc._resources.tools;
 
 import org.powerbot.script.Random;
 
@@ -10,7 +10,8 @@ public class GaussianTools {
 
     /**
      * 68% chance of execution
-     * @return
+     *
+     * @return is action taken
      */
     public static boolean takeActionNormal() {
         double base = baseGaussian();
@@ -19,15 +20,17 @@ public class GaussianTools {
 
     /**
      * 15% Chance
-     * @return
+     *
+     * @return is action taken
      */
     public static boolean takeActionUnlikely() {
-        return baseGaussian() < 25 ; // 15%
+        return baseGaussian() < 25; // 15%
     }
 
     /**
      * 10% chance
-     * @return
+     *
+     * @return is action taken
      */
     public static boolean takeActionRarely() {
         return baseGaussian() > 20; // 10%
@@ -35,12 +38,18 @@ public class GaussianTools {
 
     /**
      * 2.2% chance of execution
-     * @return
+     *
+     * @return is action taken
      */
     public static boolean takeActionNever() {
         return baseGaussian() < 20; // 2.2%
     }
 
+    /**
+     * Base Gaussian to compare against
+     *
+     * @return 0 - 100
+     */
     private static double baseGaussian() {
         return Random.nextGaussian(0, 100, 50, 15);
     }

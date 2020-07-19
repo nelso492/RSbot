@@ -1,12 +1,12 @@
 package ngc.cmb_low_tier;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.*;
 import ngc._resources.actions._config.CombatConfig;
 import ngc._resources.actions._config.HealConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import ngc.slayer_simple.SlayerTaskConfig;
@@ -106,7 +106,7 @@ public class _LowTierAIOCombat extends PollingScript<ClientContext> implements M
         init();
 
         // Get Target
-        npcName = CommonFunctions.promptForSelection("Target NPC Name", "Target", targetNames);
+        npcName = CommonActions.promptForSelection("Target NPC Name", "Target", targetNames);
 
         // Slayer Config
         slayerConfig();

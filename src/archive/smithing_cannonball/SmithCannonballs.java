@@ -2,8 +2,8 @@ package ngc.smithing_cannonball;
 
 
 import ngc._resources.actions._config.CraftComponentConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.GaussianTools;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.GaussianTools;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;

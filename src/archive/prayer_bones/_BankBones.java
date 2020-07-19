@@ -1,12 +1,12 @@
 package ngc.prayer_bones;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.BankAction;
 import ngc._resources.actions.InteractWithAllInventory;
 import ngc._resources.actions._config.BankConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
@@ -41,7 +41,7 @@ public class _BankBones extends PollingScript<ClientContext> implements MessageL
         status = "Bones Selection";
 
         // Prompt for bone type
-        String boneType = CommonFunctions.promptForSelection("Bones Type", "What type of bones?", new String[] {"Bones", "Big Bones", "Monkey Bones"});
+        String boneType = CommonActions.promptForSelection("Bones Type", "What type of bones?", new String[] {"Bones", "Big Bones", "Monkey Bones"});
 
         switch( boneType ) {
             case "Bones":
@@ -60,7 +60,7 @@ public class _BankBones extends PollingScript<ClientContext> implements MessageL
         }
 
         // Prompt for amount to bury
-        buryQuota = CommonFunctions.promptForQuantity("How many to bury before shutting down?");
+        buryQuota = CommonActions.promptForQuantity("How many to bury before shutting down?");
 
         status = "Loading";
 

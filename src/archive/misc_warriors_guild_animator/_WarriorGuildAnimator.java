@@ -1,6 +1,6 @@
 package ngc.misc_warriors_guild_animator;
 
-import ngc._resources.Items;
+import ngc._resources.constants.Items;
 import ngc._resources.actions.BankAction;
 import ngc._resources.actions.HealAction;
 import ngc._resources.actions.ToggleLevelUp;
@@ -8,9 +8,9 @@ import ngc._resources.actions.ToggleRunAction;
 import ngc._resources.actions._config.BankConfig;
 import ngc._resources.actions._config.HealConfig;
 import ngc._resources.actions._config.RunConfig;
-import ngc._resources.actions._template.BaseAction;
-import ngc._resources.functions.CommonFunctions;
-import ngc._resources.functions.GuiHelper;
+import ngc._resources.models.BaseAction;
+import ngc._resources.tools.CommonActions;
+import ngc._resources.tools.GuiHelper;
 import ngc._resources.models.LootItem;
 import ngc._resources.models.LootList;
 import org.powerbot.script.*;
@@ -126,7 +126,7 @@ public class _WarriorGuildAnimator extends PollingScript<ClientContext> implemen
         status = "Configuring";
         ctx.properties.setProperty("randomevents.disable", "true"); //Ignore random events
 
-        String armorType = CommonFunctions.promptForSelection("Armor Type", "Choose Armor Type", new String[] {"Mithril", "Adamant", "Rune"});
+        String armorType = CommonActions.promptForSelection("Armor Type", "Choose Armor Type", new String[] {"Mithril", "Adamant", "Rune"});
 
         switch( armorType ) {
             case "Mithril":
