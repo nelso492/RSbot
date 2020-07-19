@@ -8,15 +8,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/src/archive" />
 <<<<<<< HEAD
-      <excludeFolder url="file://$MODULE_DIR$/src/disabled/combat_goblins" />
-      <excludeFolder url="file://$MODULE_DIR$/src/scripts/combat_minotaur" />
-      <excludeFolder url="file://$MODULE_DIR$/src/scripts/fishing_harpoon_catherby" />
-=======
       <excludeFolder url="file://$MODULE_DIR$/src/disabled" />
->>>>>>> 948560f... combat bots and updates to random generation
+=======
+>>>>>>> 9ce0d8e... Reformatting for local copy.
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="RSBot" level="project" />
+    <orderEntry type="library" name="RSBot" level="project" />
   </component>
 </module>
