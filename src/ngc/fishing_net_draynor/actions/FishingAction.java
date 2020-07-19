@@ -1,7 +1,7 @@
 package ngc.fishing_net_draynor.actions;
 
 
-import ngc._resources.models.BaseAction;
+import resources.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;

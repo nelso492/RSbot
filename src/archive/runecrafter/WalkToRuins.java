@@ -1,7 +1,7 @@
 package ngc.runecrafter;
 
 
-import ngc._resources.models.BaseAction;
+import resources.models.BaseAction;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;

@@ -1,6 +1,6 @@
 package ngc.fishing_net_draynor.phases;
 
-import ngc._resources.models.BasePhase;
+import resources.models.BasePhase;
 import org.powerbot.script.rt4.ClientContext;
 
 public class BankingPhase extends BasePhase<ClientContext> {

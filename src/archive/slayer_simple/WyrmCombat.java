@@ -1,9 +1,9 @@
 package ngc.slayer_simple;
 
-import ngc._resources.constants.Items;
-import ngc._resources.actions._config.CombatConfig;
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.GaussianTools;
+import resources.constants.Items;
+import resources.action_config.CombatConfig;
+import resources.models.BaseAction;
+import resources.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;

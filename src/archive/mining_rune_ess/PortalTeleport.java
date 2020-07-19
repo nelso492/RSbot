@@ -1,9 +1,9 @@
 package ngc.mining_rune_ess;
 
 
-import ngc._resources.models.BaseAction;
-import ngc._resources.enums.NPC_IDS;
-import ngc._resources.tools.RsLookup;
+import resources.models.BaseAction;
+import resources.enums.NPC_IDS;
+import resources.tools.RsLookup;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;

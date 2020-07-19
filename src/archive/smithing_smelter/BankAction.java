@@ -1,9 +1,9 @@
 package ngc.smithing_smelter;
 
 
-import ngc._resources.constants.Items;
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.CommonAreas;
+import resources.constants.Items;
+import resources.models.BaseAction;
+import resources.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;

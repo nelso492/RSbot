@@ -1,7 +1,7 @@
 package ngc.runecrafter;
 
 
-import ngc._resources.models.BaseAction;
+import resources.models.BaseAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.Bank;
 import org.powerbot.script.rt4.ClientContext;

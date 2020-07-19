@@ -1,16 +1,15 @@
 package ngc.cooking_lumby_castle;
 
 
-import ngc._resources.actions.BankAction;
-import ngc._resources.actions.ToggleLevelUp;
-import ngc._resources.actions._config.BankConfig;
-import ngc._resources.actions._config.ScriptConfig;
-import ngc._resources.actions._config.WalkConfig;
-import ngc._resources.models.BasePhase;
-import ngc._resources.tools.AntibanTools;
-import ngc._resources.tools.CommonAreas;
-import ngc._resources.tools.GaussianTools;
-import ngc._resources.tools.GuiHelper;
+import resources.actions.BankAction;
+import resources.actions.ToggleLevelUp;
+import resources.action_config.BankConfig;
+import resources.action_config.ScriptConfig;
+import resources.models.BasePhase;
+import resources.tools.AntibanTools;
+import resources.tools.CommonAreas;
+import resources.tools.GaussianTools;
+import resources.tools.GuiHelper;
 import ngc.cooking_lumby_castle.actions.*;
 import ngc.cooking_lumby_castle.phases.BankingPhase;
 import ngc.cooking_lumby_castle.phases.CookingPhase;

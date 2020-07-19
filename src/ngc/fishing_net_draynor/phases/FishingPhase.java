@@ -1,7 +1,7 @@
 package ngc.fishing_net_draynor.phases;
 
-import ngc._resources.models.BasePhase;
-import ngc._resources.tools.AntibanTools;
+import resources.models.BasePhase;
+import resources.tools.AntibanTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 

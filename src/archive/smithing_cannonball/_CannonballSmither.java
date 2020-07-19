@@ -1,11 +1,11 @@
 package ngc.smithing_cannonball;
 
-import ngc._resources.constants.GameObjects;
-import ngc._resources.constants.Items;
-import ngc._resources.actions.ToggleLevelUp;
-import ngc._resources.actions._config.CraftComponentConfig;
-import ngc._resources.tools.CommonAreas;
-import ngc._resources.tools.GuiHelper;
+import resources.constants.GameObjects;
+import resources.constants.Items;
+import resources.actions.ToggleLevelUp;
+import resources.action_config.CraftComponentConfig;
+import resources.tools.CommonAreas;
+import resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 

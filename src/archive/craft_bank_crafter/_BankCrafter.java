@@ -1,12 +1,12 @@
 package ngc.craft_bank_crafter;
 
-import ngc._resources.constants.Items;
-import ngc._resources.actions.BankAction;
-import ngc._resources.actions.CombineInventoryItems;
-import ngc._resources.actions.ToggleLevelUp;
-import ngc._resources.actions._config.BankConfig;
-import ngc._resources.tools.CommonActions;
-import ngc._resources.tools.GuiHelper;
+import resources.constants.Items;
+import resources.actions.BankAction;
+import resources.actions.CombineInventoryItems;
+import resources.actions.ToggleLevelUp;
+import resources.action_config.BankConfig;
+import resources.tools.CommonActions;
+import resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

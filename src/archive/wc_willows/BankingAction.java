@@ -1,9 +1,9 @@
 package ngc.wc_willows;
 
 
-import ngc._resources.constants.GameObjects;
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.CommonAreas;
+import resources.constants.GameObjects;
+import resources.models.BaseAction;
+import resources.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;

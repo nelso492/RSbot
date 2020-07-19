@@ -1,9 +1,9 @@
 package ngc.magic_high_alch;
 
-import ngc._resources.constants.Items;
-import ngc._resources.actions.HighAlch;
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.GuiHelper;
+import resources.constants.Items;
+import resources.actions.HighAlch;
+import resources.models.BaseAction;
+import resources.tools.GuiHelper;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;

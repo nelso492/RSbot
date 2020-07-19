@@ -1,8 +1,8 @@
 package ngc.fletching_aio;
 
-import ngc._resources.constants.Items;
-import ngc._resources.tools.GaussianTools;
-import ngc._resources.tools.GuiHelper;
+import resources.constants.Items;
+import resources.tools.GaussianTools;
+import resources.tools.GuiHelper;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Random;

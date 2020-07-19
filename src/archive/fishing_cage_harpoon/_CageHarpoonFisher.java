@@ -1,12 +1,12 @@
 package ngc.fishing_cage_harpoon;
 
-import ngc._resources.constants.GameObjects;
-import ngc._resources.constants.Npcs;
-import ngc._resources.actions.ToggleLevelUp;
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.CommonAreas;
-import ngc._resources.tools.CommonActions;
-import ngc._resources.tools.GuiHelper;
+import resources.constants.GameObjects;
+import resources.constants.Npcs;
+import resources.actions.ToggleLevelUp;
+import resources.models.BaseAction;
+import resources.tools.CommonAreas;
+import resources.tools.CommonActions;
+import resources.tools.GuiHelper;
 import ngc.fishing_cage_harpoon.corsair.WalkBankToFishing;
 import ngc.fishing_cage_harpoon.corsair.WalkFishingToBank;
 import ngc.fishing_cage_harpoon.karamja.*;

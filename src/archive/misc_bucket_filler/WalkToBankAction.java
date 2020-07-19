@@ -1,10 +1,10 @@
 package ngc.misc_bucket_filler;
 
 
-import ngc._resources.models.BaseAction;
-import ngc._resources.enums.ITEM_IDS;
-import ngc._resources.tools.CommonAreas;
-import ngc._resources.tools.RsLookup;
+import resources.models.BaseAction;
+import resources.enums.ITEM_IDS;
+import resources.tools.CommonAreas;
+import resources.tools.RsLookup;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;

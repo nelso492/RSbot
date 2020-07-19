@@ -1,12 +1,12 @@
 package ngc.herblore_herb_cleaner;
 
-import ngc._resources.constants.Items;
-import ngc._resources.actions.BankAction;
-import ngc._resources.actions._config.BankConfig;
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.CommonActions;
-import ngc._resources.tools.GuiHelper;
-import ngc._resources.actions.InteractWithAllInventory;
+import resources.constants.Items;
+import resources.actions.BankAction;
+import resources.action_config.BankConfig;
+import resources.models.BaseAction;
+import resources.tools.CommonActions;
+import resources.tools.GuiHelper;
+import resources.actions.InteractWithAllInventory;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

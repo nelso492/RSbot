@@ -1,7 +1,7 @@
 package ngc.nmz;
 
 
-import ngc._resources.models.BaseAction;
+import resources.models.BaseAction;
 import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;

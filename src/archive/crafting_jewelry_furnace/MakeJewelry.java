@@ -1,9 +1,9 @@
 package ngc.crafting_jewelry_furnace;
 
 
-import ngc._resources.actions._config.CraftComponentConfig;
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.GaussianTools;
+import resources.action_config.CraftComponentConfig;
+import resources.models.BaseAction;
+import resources.tools.GaussianTools;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;

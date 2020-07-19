@@ -1,7 +1,7 @@
 package ngc.cmb_brutal_black_dragons;
 
-import ngc._resources.models.BaseAction;
-import ngc._resources.models.LootList;
+import resources.models.BaseAction;
+import resources.models.LootList;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;

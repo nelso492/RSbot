@@ -1,8 +1,8 @@
 package ngc.fishing_cage_harpoon;
 
 
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.GaussianTools;
+import resources.models.BaseAction;
+import resources.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;

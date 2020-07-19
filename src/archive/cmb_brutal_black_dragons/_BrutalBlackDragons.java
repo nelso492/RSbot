@@ -1,13 +1,13 @@
 package ngc.cmb_brutal_black_dragons;
 
-import ngc._resources.constants.Items;
-import ngc._resources.actions.*;
-import ngc._resources.actions._config.CombatConfig;
-import ngc._resources.actions._config.HealConfig;
-import ngc._resources.tools.CommonActions;
-import ngc._resources.tools.GuiHelper;
-import ngc._resources.models.LootItem;
-import ngc._resources.models.LootList;
+import resources.constants.Items;
+import resources.actions.*;
+import resources.action_config.CombatConfig;
+import resources.action_config.HealConfig;
+import resources.tools.CommonActions;
+import resources.tools.GuiHelper;
+import resources.models.LootItem;
+import resources.models.LootList;
 import ngc.slayer_simple.Teletab;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;

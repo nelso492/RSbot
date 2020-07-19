@@ -1,6 +1,6 @@
 package ngc.combat_cows.phases;
 
-import ngc._resources.models.BasePhase;
+import resources.models.BasePhase;
 import org.powerbot.script.rt4.ClientContext;
 
 public class CombatPhase extends BasePhase<ClientContext> {

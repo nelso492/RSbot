@@ -1,10 +1,10 @@
 package ngc.magic_zammywine;
 
 
-import ngc._resources.models.BaseAction;
-import ngc._resources.enums.ITEM_IDS;
-import ngc._resources.tools.GaussianProbability;
-import ngc._resources.tools.RsLookup;
+import resources.models.BaseAction;
+import resources.enums.ITEM_IDS;
+import resources.tools.GaussianProbability;
+import resources.tools.RsLookup;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;

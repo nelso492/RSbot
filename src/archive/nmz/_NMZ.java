@@ -1,10 +1,10 @@
 package ngc.nmz;
 
-import ngc._resources.constants.Items;
-import ngc._resources.actions.GuzzleRockCake;
-import ngc._resources.actions.InteractWithGameObject;
-import ngc._resources.actions.UsePotion;
-import ngc._resources.tools.GuiHelper;
+import resources.constants.Items;
+import resources.actions.GuzzleRockCake;
+import resources.actions.InteractWithGameObject;
+import resources.actions.UsePotion;
+import resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

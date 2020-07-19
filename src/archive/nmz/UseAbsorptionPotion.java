@@ -1,9 +1,9 @@
 package ngc.nmz;
 
 
-import ngc._resources.constants.Items;
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.CommonActions;
+import resources.constants.Items;
+import resources.models.BaseAction;
+import resources.tools.CommonActions;
 import org.powerbot.script.rt4.ClientContext;
 
 import static java.lang.Integer.parseInt;

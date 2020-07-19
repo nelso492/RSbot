@@ -1,14 +1,14 @@
 package ngc.fishing_net_draynor;
 
 
-import ngc._resources.constants.Items;
-import ngc._resources.actions.BankAction;
-import ngc._resources.actions.ToggleRunAction;
-import ngc._resources.actions._config.BankConfig;
-import ngc._resources.actions._config.RunConfig;
-import ngc._resources.actions._config.ScriptConfig;
-import ngc._resources.models.BasePhase;
-import ngc._resources.tools.*;
+import resources.constants.Items;
+import resources.actions.BankAction;
+import resources.actions.ToggleRunAction;
+import resources.action_config.BankConfig;
+import resources.action_config.RunConfig;
+import resources.action_config.ScriptConfig;
+import resources.models.BasePhase;
+import resources.tools.*;
 import ngc.fishing_net_draynor.actions.FishingAction;
 import ngc.fishing_net_draynor.actions.WalkToDraynorBankAction;
 import ngc.fishing_net_draynor.phases.BankingPhase;

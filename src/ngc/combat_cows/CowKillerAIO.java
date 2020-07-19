@@ -1,18 +1,18 @@
 package ngc.combat_cows;
 
-import ngc._resources.actions.CombatAction;
-import ngc._resources.actions.EquipArrows;
-import ngc._resources.actions.HealAction;
-import ngc._resources.actions.LootAction;
-import ngc._resources.actions._config.CombatConfig;
-import ngc._resources.actions._config.HealConfig;
-import ngc._resources.actions._config.ScriptConfig;
-import ngc._resources.tools.AntibanTools;
-import ngc._resources.tools.CommonActions;
-import ngc._resources.tools.GaussianTools;
-import ngc._resources.tools.GuiHelper;
-import ngc._resources.models.LootItem;
-import ngc._resources.models.LootList;
+import resources.actions.CombatAction;
+import resources.actions.EquipArrows;
+import resources.actions.HealAction;
+import resources.actions.LootAction;
+import resources.action_config.CombatConfig;
+import resources.action_config.HealConfig;
+import resources.action_config.ScriptConfig;
+import resources.tools.AntibanTools;
+import resources.tools.CommonActions;
+import resources.tools.GaussianTools;
+import resources.tools.GuiHelper;
+import resources.models.LootItem;
+import resources.models.LootList;
 import ngc.combat_cows.phases.CombatPhase;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
@@ -71,12 +71,12 @@ public class CowKillerAIO extends PollingScript<ClientContext> implements Messag
             projectileId = CommonActions.promptForArrowType();
             this.lootList = new LootList();
             this.lootList.addLootItem(new LootItem(projectileId, 3));
-            this.lootAction = new LootAction(ctx, "Loot", lootList, 10, false, true);
+            this.lootAction = new LootAction(ctx, "Loot", lootList, 10, false);
         }
 
         // Action Setup
-        CombatConfig combatCowConfig = new CombatConfig("Cow", -1, 20, lootList, ctx.combat.inMultiCombat(), null, 0);
-        this.combatCowAction = new CombatAction(ctx, "Attack Cows", combatCowConfig);
+//        CombatConfig combatCowConfig = new CombatConfig("Cow", -1, 20, lootList, ctx.combat.inMultiCombat(), null, 0);
+        this.combatCowAction = new CombatAction(ctx, "Attack Cow" );
 
         CombatConfig combatCalfConfig = new CombatConfig("Cow calf", -1, 20, lootList, ctx.combat.inMultiCombat(), null);
         this.combatCalfAction = new CombatAction(ctx, "Attack Calf", combatCalfConfig);

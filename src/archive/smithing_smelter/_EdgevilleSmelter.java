@@ -1,8 +1,8 @@
 package ngc.smithing_smelter;
 
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.GuiHelper;
-import ngc._resources.actions.ToggleLevelUp;
+import resources.models.BaseAction;
+import resources.tools.GuiHelper;
+import resources.actions.ToggleLevelUp;
 import ngc.misc_barb_village_looter.ToggleRunAction;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;

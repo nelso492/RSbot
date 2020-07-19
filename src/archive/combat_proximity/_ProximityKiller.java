@@ -1,12 +1,12 @@
 package ngc.combat_proximity;
 
-import ngc._resources.actions.*;
-import ngc._resources.actions._config.CombatConfig;
-import ngc._resources.actions._config.HealConfig;
-import ngc._resources.actions._config.LootConfig;
-import ngc._resources.actions._config.RunConfig;
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.GuiHelper;
+import resources.actions.*;
+import resources.action_config.CombatConfig;
+import resources.action_config.HealConfig;
+import resources.action_config.LootConfig;
+import resources.action_config.RunConfig;
+import resources.models.BaseAction;
+import resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.*;

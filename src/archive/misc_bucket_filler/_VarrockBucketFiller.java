@@ -1,7 +1,7 @@
 package ngc.misc_bucket_filler;
 
-import ngc._resources.models.BaseAction;
-import ngc._resources.tools.GuiHelper;
+import resources.models.BaseAction;
+import resources.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 
