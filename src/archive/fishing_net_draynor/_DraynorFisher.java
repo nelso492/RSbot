@@ -1,9 +1,9 @@
-package scripts.fishing_net_draynor;
+package archive.fishing_net_draynor;
 
-import shared.models.BaseAction;
-import scripts.fishing_net_draynor.actions.BankingAction;
-import scripts.fishing_net_draynor.actions.FishingAction;
-import scripts.fishing_net_draynor.actions.WalkToBankAction;
+import shared.templates.AbstractAction;
+import archive.fishing_net_draynor.actions.BankingAction;
+import archive.fishing_net_draynor.actions.FishingAction;
+import archive.fishing_net_draynor.actions.WalkToBankAction;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class _DraynorFisher extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private int expGained = 0;
     private int shrimpCount = 0;
     private int anchovyCount = 0;
@@ -35,7 +35,7 @@ public class _DraynorFisher extends PollingScript<ClientContext> implements Mess
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 t.execute();
             }

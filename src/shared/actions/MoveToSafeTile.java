@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 /**
  * Move to a predefined safe tile when interacting.
  */
-public class MoveToSafeTile extends BaseAction<ClientContext> {
+public class MoveToSafeTile extends AbstractAction<ClientContext> {
 
     private final Tile safeTile;
 

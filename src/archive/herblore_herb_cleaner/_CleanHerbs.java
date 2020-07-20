@@ -3,7 +3,7 @@ package scripts.herblore_herb_cleaner;
 import shared.constants.Items;
 import shared.actions.BankAction;
 import shared.action_config.BankConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
 import shared.actions.InteractWithAllInventory;
@@ -20,7 +20,7 @@ import java.util.List;
 public class _CleanHerbs extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Task List
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
 
     // GUI Tracking
     private String status;
@@ -89,7 +89,7 @@ public class _CleanHerbs extends PollingScript<ClientContext> implements Message
 
     @Override
     public void poll() {
-        for( BaseAction action : taskList ) {
+        for( AbstractAction action : taskList ) {
             if(!ctx.controller.isSuspended() && !ctx.controller.isStopping()) {
                 if( action.activate() ) {
                     status = action.getStatus();

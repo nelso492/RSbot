@@ -1,19 +1,19 @@
 package scripts.cooking_lumby_castle;
 
 
-import scripts.cooking_lumby_castle.phases.ClimbStairsPhase;
-import scripts.cooking_lumby_castle.phases.DescendStairsPhase;
-import shared.actions.BankAction;
-import shared.action_config.ScriptConfig;
-import shared.models.BasePhase;
-import shared.tools.*;
-import scripts.cooking_lumby_castle.actions.*;
-import scripts.cooking_lumby_castle.phases.BankingPhase;
-import scripts.cooking_lumby_castle.phases.CookingPhase;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.Item;
+import scripts.cooking_lumby_castle.phases.AscendStairsPhase;
+import scripts.cooking_lumby_castle.phases.BankingPhase;
+import scripts.cooking_lumby_castle.phases.CookingPhase;
+import scripts.cooking_lumby_castle.phases.DescendStairsPhase;
+import shared.action_config.ScriptConfig;
+import shared.templates.StructuredPhase;
+import shared.tools.AntibanTools;
+import shared.tools.GaussianTools;
+import shared.tools.GuiHelper;
 
 import java.awt.*;
 
@@ -25,6 +25,7 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
     // Config
     private ScriptConfig scriptConfig = new ScriptConfig(ctx, null);
     private boolean antiBanInProgress;
+    private StructuredPhase currentPhase;
 
     private int cookCount;
     private int cooksToLvl;
@@ -39,14 +40,6 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
     private int nextBreakInMinutes;
     //endregion
 
-    //region Phases
-
-    private final CookingPhase cookingPhase = new CookingPhase(ctx, 0);
-    private final BankingPhase bankingPhase = new BankingPhase(ctx, 0);
-    private final ClimbStairsPhase ascendStairsPhase = new ClimbStairsPhase(ctx, 0);
-    private final DescendStairsPhase descendStairsPhase = new DescendStairsPhase(ctx, 0);
-    private BasePhase<ClientContext> currentPhase;
-    //endregion
 
     //region start
     @Override
@@ -76,49 +69,53 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
         } else {
             ctx.controller.stop();
         }
+//
+//        // Actions
+//        //region Actions
+////        BankAction bankAction = new BankAction(ctx, "Banking", 0, -1, i.id(), 28, -1, -1, false, true, false, CommonAreas.lumbridgeCastleBank());
+////        WalkLumbyBankToStairs walkBankToStairsAction = new WalkLumbyBankToStairs(ctx, i.id());
+////        WalkKitchenToStairs walkKitchenToStairsAction = new WalkKitchenToStairs(ctx, i.id());
+////        WalkStairsToLumbyBank walkStairsToBank = new WalkStairsToLumbyBank(ctx, i.id());
+////        DescendStairs navigateStairsAction = new DescendStairs(ctx, i.id());
+////        CookFood cookFoodAction = new CookFood(ctx, i.id());
+//
+//        // Phases
+//        this.cookingPhase.setName("Cooking");
+//        this.cookingPhase.setRawId(i.id());
+//        this.cookingPhase.addAction(cookFoodAction);
+//
+//        this.ascendStairsPhase.setName("Ascending Stairs");
+//        this.ascendStairsPhase.setRawId(i.id());
+//        this.ascendStairsPhase.addAction(walkKitchenToStairsAction);
+//        this.ascendStairsPhase.addAction(navigateStairsAction);
+//
+//        this.bankingPhase.setName("Banking");
+//        this.bankingPhase.setRawId(i.id());
+//        this.bankingPhase.addAction(walkStairsToBank);
+//        this.bankingPhase.addAction(bankAction);
+//        this.bankingPhase.addAction(walkBankToStairsAction);
+//
+//
+//        this.descendStairsPhase.setName("Descending Stairs");
+//        this.descendStairsPhase.setRawId(i.id());
+//        this.descendStairsPhase.addAction(navigateStairsAction);
 
-        // Actions
-        //region Actions
-        BankAction bankAction = new BankAction(ctx, "Banking", 0, -1, i.id(), 28, -1, -1, false, true, false, CommonAreas.lumbridgeCastleBank());
-        WalkLumbyBankToStairs walkBankToStairsAction = new WalkLumbyBankToStairs(ctx, i.id());
-        WalkKitchenToStairs walkKitchenToStairsAction = new WalkKitchenToStairs(ctx, i.id());
-        WalkStairsToLumbyBank walkStairsToBank = new WalkStairsToLumbyBank(ctx, i.id());
-        NavigateStairs navigateStairsAction = new NavigateStairs(ctx, i.id());
-        CookFood cookFoodAction = new CookFood(ctx, i.id());
-
-        // Phases
-        this.cookingPhase.setName("Cooking");
-        this.cookingPhase.setRawId(i.id());
-        this.cookingPhase.addAction(cookFoodAction);
-
-        this.ascendStairsPhase.setName("Ascending Stairs");
-        this.ascendStairsPhase.setRawId(i.id());
-        this.ascendStairsPhase.addAction(walkKitchenToStairsAction);
-        this.ascendStairsPhase.addAction(navigateStairsAction);
-
-        this.bankingPhase.setName("Banking");
-        this.bankingPhase.setRawId(i.id());
-        this.bankingPhase.addAction(walkStairsToBank);
-        this.bankingPhase.addAction(bankAction);
-        this.bankingPhase.addAction(walkBankToStairsAction);
-
-
-        this.descendStairsPhase.setName("Descending Stairs");
-        this.descendStairsPhase.setRawId(i.id());
-        this.descendStairsPhase.addAction(navigateStairsAction);
-
+        CookingPhase cookingPhase = new CookingPhase(ctx, i.id());
+        AscendStairsPhase ascendStairsPhase = new AscendStairsPhase(ctx);
+        BankingPhase bankingPhase = new BankingPhase(ctx, i.id());
+        DescendStairsPhase descendStairsPhase = new DescendStairsPhase(ctx);
 
         // Phase Transitions
-        this.cookingPhase.setNextPhase(this.ascendStairsPhase);
-        this.ascendStairsPhase.setNextPhase(this.bankingPhase);
-        this.bankingPhase.setNextPhase(this.descendStairsPhase);
-        this.descendStairsPhase.setNextPhase(this.cookingPhase);
+        cookingPhase.setNextPhase(ascendStairsPhase);
+        ascendStairsPhase.setNextPhase(bankingPhase);
+        bankingPhase.setNextPhase(descendStairsPhase);
+        descendStairsPhase.setNextPhase(cookingPhase);
 
         // Starting Location
-        if (cookFoodAction.activate()) {
-            this.currentPhase = this.cookingPhase;
+        if (ctx.game.floor() == 0) {
+            this.currentPhase = cookingPhase;
         } else {
-            this.currentPhase = this.bankingPhase;
+            this.currentPhase = bankingPhase;
         }
 
         this.scriptConfig.setStatus(this.currentPhase.getStatus());
@@ -210,12 +207,16 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
             }
         }
 
-        if (!this.antiBanInProgress) {
+        if (!this.antiBanInProgress && this.currentPhase != null) {
             this.scriptConfig.setStatus(this.currentPhase.getStatus());
+
+            System.out.println("Checking Phase Activation: " + this.currentPhase.getName());
             this.currentPhase.activate();
 
             if (this.currentPhase.moveToNextPhase()) {
-                this.currentPhase = this.currentPhase.getNextPhase();
+                System.out.println("Phase Complete: " + this.currentPhase.getName());
+                this.currentPhase = (StructuredPhase) this.currentPhase.getNextPhase();
+                this.currentPhase.resetCurrentAction();
                 this.scriptConfig.setStatus(this.currentPhase.getStatus());
             }
         }
@@ -249,7 +250,6 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
     public void repaint(Graphics g) {
         this.scriptConfig.paint(g, getRuntime());
         g.drawString("Item : " + rawItemName, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(1));
-        g.drawString("Level: " + ctx.skills.level(Constants.SKILLS_COOKING) + " [" + lvlsGained + " ]", GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(2));
         g.drawString("CTL  : " + cooksToLvl, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(3));
         g.drawString("Count: " + cookCount, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(4));
 

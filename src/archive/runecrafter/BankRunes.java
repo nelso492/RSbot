@@ -1,14 +1,14 @@
 package scripts.runecrafter;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.Bank;
 import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class BankRunes extends BaseAction<ClientContext> {
+public class BankRunes extends AbstractAction<ClientContext> {
 
     private int essId;
 

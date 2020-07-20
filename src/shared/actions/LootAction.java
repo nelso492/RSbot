@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import shared.models.LootItem;
 import shared.models.LootList;
@@ -18,7 +18,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Looting based on custom Loot Item objects.
  */
-public class LootAction extends BaseAction<ClientContext> {
+public class LootAction extends AbstractAction<ClientContext> {
     private LootList lootList;
     private boolean lootDuringCombat;
     private int maxDistanceToLoot;

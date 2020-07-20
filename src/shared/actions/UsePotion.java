@@ -1,7 +1,7 @@
 package shared.actions;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import shared.tools.GaussianTools;
 import org.powerbot.script.Condition;
@@ -16,7 +16,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Potion use for skill boosting.
  */
-public class UsePotion extends BaseAction<ClientContext> {
+public class UsePotion extends AbstractAction<ClientContext> {
     private int[] potionIds;
     private int targetSkill;
     private int skillLevelMin;

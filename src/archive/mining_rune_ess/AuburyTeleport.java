@@ -1,6 +1,6 @@
 package scripts.mining_rune_ess;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.NPC_IDS;
 import shared.tools.RsLookup;
 import org.powerbot.script.Condition;
@@ -8,7 +8,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class AuburyTeleport extends BaseAction<ClientContext> {
+public class AuburyTeleport extends AbstractAction<ClientContext> {
     private RsLookup lookup = new RsLookup();
 
     private int AuburyId = lookup.getId(NPC_IDS.Aubury_637);

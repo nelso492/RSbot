@@ -1,7 +1,7 @@
 package scripts.mining_rune_ess;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.OBJECT_IDS;
 import shared.tools.GaussianProbability;
 import shared.tools.RsLookup;
@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class MineEssence extends BaseAction<ClientContext> {
+public class MineEssence extends AbstractAction<ClientContext> {
     private RsLookup lookup = new RsLookup();
     private GaussianProbability p = new GaussianProbability();
 

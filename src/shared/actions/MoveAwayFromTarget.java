@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
@@ -18,7 +18,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Step to a min distance from interacting NPC.
  */
-public class MoveAwayFromTarget extends BaseAction<ClientContext> {
+public class MoveAwayFromTarget extends AbstractAction<ClientContext> {
 
     private final int minDistanceToTarget;
 

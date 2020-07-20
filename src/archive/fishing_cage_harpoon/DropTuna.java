@@ -1,14 +1,14 @@
 package scripts.fishing_cage_harpoon;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class DropTuna extends BaseAction<ClientContext> {
+public class DropTuna extends AbstractAction<ClientContext> {
     public DropTuna(ClientContext ctx) {
         super(ctx, "Drop Tuna");
     }

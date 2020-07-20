@@ -5,7 +5,7 @@ import shared.action_config.CombatConfig;
 import shared.action_config.HealConfig;
 import shared.action_config.LootConfig;
 import shared.action_config.RunConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
@@ -20,7 +20,7 @@ import java.util.List;
 public class _ProximityKiller extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private GuiHelper helper = new GuiHelper();
 
     // Params
@@ -123,7 +123,7 @@ public class _ProximityKiller extends PollingScript<ClientContext> implements Me
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             calculateXP();
 
             if( t.activate() ) {

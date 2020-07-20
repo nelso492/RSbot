@@ -1,7 +1,7 @@
 package scripts.misc_bucket_filler;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.enums.OBJECT_IDS;
 import shared.tools.CommonAreas;
@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class FillBucketAction extends BaseAction<ClientContext> {
+public class FillBucketAction extends AbstractAction<ClientContext> {
     private RsLookup lookup = new RsLookup();
     private CommonAreas areas = new CommonAreas();
 

@@ -8,7 +8,7 @@ import shared.action_config.CombatConfig;
 import shared.action_config.HealConfig;
 import shared.action_config.LootConfig;
 import shared.action_config.RunConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.enums.NPC_IDS;
 import shared.tools.GuiHelper;
@@ -29,7 +29,7 @@ import java.util.List;
 public class _MinotaurKiller extends PollingScript<ClientContext> implements PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private GuiHelper helper = new GuiHelper();
     private RsLookup lookup = new RsLookup();
     private HashMap<Integer, Integer> itemPrices = new HashMap<>();
@@ -72,7 +72,7 @@ public class _MinotaurKiller extends PollingScript<ClientContext> implements Pai
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 status = t.getStatus();
                 t.execute();

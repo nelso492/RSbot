@@ -1,6 +1,6 @@
 package scripts.combat_lumby;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
@@ -14,7 +14,7 @@ import java.util.List;
 public class _LumbyCowFighter extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private int atkLevelsGained = 0;
     private int strLevelsGained = 0;
     private int defLevelsGained = 0;
@@ -40,7 +40,7 @@ public class _LumbyCowFighter extends PollingScript<ClientContext> implements Me
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 t.execute();
             }

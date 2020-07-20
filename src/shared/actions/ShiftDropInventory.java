@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.AntibanTools;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
@@ -10,7 +10,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Shift drop all inventory for power leveling
  */
-public class ShiftDropInventory extends BaseAction<ClientContext> {
+public class ShiftDropInventory extends AbstractAction<ClientContext> {
 
     public ShiftDropInventory(ClientContext ctx) {
         super(ctx, "Drop");

@@ -1,6 +1,6 @@
 package scripts.slayer_simple;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
@@ -8,7 +8,7 @@ import org.powerbot.script.rt4.Item;
 
 import java.util.concurrent.Callable;
 
-public class Teletab extends BaseAction<ClientContext> {
+public class Teletab extends AbstractAction<ClientContext> {
 
     private int teletabId;
     private boolean suspendAfterTeleporting;

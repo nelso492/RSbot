@@ -1,14 +1,14 @@
 package scripts.combat_lumby;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class CombatAction extends BaseAction<ClientContext> {
+public class CombatAction extends AbstractAction<ClientContext> {
     private final int[] COW_IDS = {2807, 2806, 2808, 2809, 2805};
 
 

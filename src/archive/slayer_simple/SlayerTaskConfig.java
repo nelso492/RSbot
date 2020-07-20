@@ -1,7 +1,7 @@
 package scripts.slayer_simple;
 
 import shared.action_config.CombatConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 
 public class SlayerTaskConfig {
 
@@ -14,7 +14,7 @@ public class SlayerTaskConfig {
     private int bonesToPeachesBoneId;
 
     // Combat
-    private BaseAction customCombatAction;
+    private AbstractAction customCombatAction;
     private CombatConfig customCombatConfig;
     private boolean waitingForLootDrop;
 
@@ -77,11 +77,11 @@ public class SlayerTaskConfig {
         this.eatFoodMinHealthPercentage = eatFoodMinHealthPercentage;
     }
 
-    public BaseAction getCustomCombatAction() {
+    public AbstractAction getCustomCombatAction() {
         return customCombatAction;
     }
 
-    public void setCustomCombatAction(BaseAction customCombatAction) {
+    public void setCustomCombatAction(AbstractAction customCombatAction) {
         this.customCombatAction = customCombatAction;
     }
 

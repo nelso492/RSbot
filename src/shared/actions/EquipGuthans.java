@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
@@ -15,7 +15,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Guthans armor swap on min health percent
  */
-public class EquipGuthans extends BaseAction<ClientContext> {
+public class EquipGuthans extends AbstractAction<ClientContext> {
 
     private int minHealth;
 

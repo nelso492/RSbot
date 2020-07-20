@@ -7,7 +7,7 @@ import shared.actions.LootAction;
 import shared.actions.ToggleLevelUp;
 import shared.action_config.CombatConfig;
 import shared.action_config.HealConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GuiHelper;
 import shared.models.LootItem;
 import shared.models.LootList;
@@ -24,7 +24,7 @@ import java.util.List;
 public class GiantKiller extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // App Tracking
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private String status = "";
 
     // Combat Tracking
@@ -107,7 +107,7 @@ public class GiantKiller extends PollingScript<ClientContext> implements Message
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
 
             if( t.activate() ) {
                 status = t.getStatus();

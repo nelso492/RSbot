@@ -1,12 +1,12 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 
 /**
  * Toggle run status based on min energy percentage.
  */
-public class ToggleRunAction extends BaseAction<ClientContext> {
+public class ToggleRunAction extends AbstractAction<ClientContext> {
     private int minPercent;
 
     public ToggleRunAction(ClientContext ctx, String status, int minPercent) {

@@ -2,7 +2,7 @@ package scripts.misc_warriors_guild_animator;
 
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class AnimateArmour extends BaseAction<ClientContext> {
+public class AnimateArmour extends AbstractAction<ClientContext> {
     private int helmId;
     private int bodyId;
     private int legsId;

@@ -1,6 +1,6 @@
 package scripts.misc_barb_village_looter;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
@@ -10,7 +10,7 @@ import org.powerbot.script.rt4.GroundItem;
 
 import java.util.concurrent.Callable;
 
-public class LootGIAction extends BaseAction<ClientContext> {
+public class LootGIAction extends AbstractAction<ClientContext> {
     private CommonAreas areas = new CommonAreas();
 
     private final int[] LOOT_IDS = {329, 331, 333, 335, 351};

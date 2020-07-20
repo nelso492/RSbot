@@ -1,11 +1,11 @@
 package scripts.fishing_cage_harpoon.karamja;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class ExitShipToKaramja extends BaseAction<ClientContext> {
+public class ExitShipToKaramja extends AbstractAction<ClientContext> {
     private int PLANK_ID;
 
     public ExitShipToKaramja(ClientContext ctx, int plankId) {

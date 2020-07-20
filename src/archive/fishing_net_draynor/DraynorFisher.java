@@ -1,16 +1,16 @@
-package scripts.fishing_net_draynor;
+package archive.fishing_net_draynor;
 
 
 import shared.constants.Items;
 import shared.actions.BankAction;
 import shared.actions.ToggleRunAction;
 import shared.action_config.ScriptConfig;
-import shared.models.BasePhase;
+import shared.templates.AbstractPhase;
 import shared.tools.*;
-import scripts.fishing_net_draynor.actions.FishingAction;
-import scripts.fishing_net_draynor.actions.WalkToDraynorBankAction;
-import scripts.fishing_net_draynor.phases.BankingPhase;
-import scripts.fishing_net_draynor.phases.FishingPhase;
+import archive.fishing_net_draynor.actions.FishingAction;
+import archive.fishing_net_draynor.actions.WalkToDraynorBankAction;
+import archive.fishing_net_draynor.phases.BankingPhase;
+import archive.fishing_net_draynor.phases.FishingPhase;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
@@ -22,7 +22,7 @@ public class DraynorFisher extends PollingScript<ClientContext> implements Messa
 
     //region Config
     private ScriptConfig scriptConfig = new ScriptConfig(ctx, null);
-    private BasePhase<ClientContext> currentPhase;
+    private AbstractPhase<ClientContext> currentPhase;
 
     private boolean antiBanInProgress;
     private int startExp;

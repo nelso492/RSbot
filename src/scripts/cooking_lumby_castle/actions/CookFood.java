@@ -2,17 +2,18 @@ package scripts.cooking_lumby_castle.actions;
 
 
 import shared.constants.GameObjects;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
+import shared.templates.StructuredAction;
 import shared.tools.AntibanTools;
 import shared.tools.GaussianTools;
 
 import java.util.concurrent.Callable;
 
-public class CookFood extends BaseAction<ClientContext> {
+public class CookFood extends StructuredAction {
 
     private final int rangeId;
     private final int rawFoodId;
@@ -56,13 +57,7 @@ public class CookFood extends BaseAction<ClientContext> {
                         AntibanTools.moveMouseOffScreen(ctx, (GaussianTools.takeActionNormal()));
                     }
 
-                    // Wait for foodies to cook
-                    Condition.wait(new Callable<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            return ctx.inventory.select().id(rawFoodId).count() == 0 || ctx.widgets.component(233, 3).valid();
-                        }
-                    }, Random.nextInt(2000, 3000), 20);
+                    AntibanTools.sleepDelay(Random.nextInt(0, 5));
                 }
             } else {
                 ctx.movement.step(cookingRange);
@@ -82,5 +77,10 @@ public class CookFood extends BaseAction<ClientContext> {
                 }
             }, Random.nextInt(500, 777), 4);
         }
+    }
+
+    @Override
+    public boolean isComplete() {
+        return ctx.inventory.select().id(this.rawFoodId).count() == 0;
     }
 }

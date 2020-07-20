@@ -2,7 +2,7 @@ package scripts.slayer_simple;
 
 import shared.constants.Items;
 import shared.action_config.CombatConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
@@ -16,7 +16,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WyrmCombat extends BaseAction<ClientContext> {
+public class WyrmCombat extends AbstractAction<ClientContext> {
     private CombatConfig config;
     private int[] alchableIds;
     private ArrayList<Integer> directions;

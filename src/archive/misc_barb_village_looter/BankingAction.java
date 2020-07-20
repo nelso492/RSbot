@@ -1,7 +1,7 @@
 package scripts.misc_barb_village_looter;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
@@ -10,7 +10,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class BankingAction extends BaseAction<ClientContext> {
+public class BankingAction extends AbstractAction<ClientContext> {
     public BankingAction(ClientContext ctx) {
         super(ctx, "Banking");
     }

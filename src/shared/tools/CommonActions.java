@@ -82,9 +82,6 @@ public class CommonActions {
         }
     }
 
-    public static void traversePath(ClientContext ctx, Tile[] path) {
-        ctx.movement.newTilePath(path).traverse();
-    }
 
     /**
      * Valid loot condition (could be moved to loot action

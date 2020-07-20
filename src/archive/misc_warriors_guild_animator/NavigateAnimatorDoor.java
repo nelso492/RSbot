@@ -1,6 +1,6 @@
 package scripts.misc_warriors_guild_animator;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
@@ -9,7 +9,7 @@ import org.powerbot.script.rt4.GameObject;
 
 import java.util.concurrent.Callable;
 
-public class NavigateAnimatorDoor extends BaseAction<ClientContext> {
+public class NavigateAnimatorDoor extends AbstractAction<ClientContext> {
 
     private int[] doorIds;
 

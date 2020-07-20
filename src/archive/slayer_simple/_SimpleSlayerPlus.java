@@ -4,7 +4,7 @@ import shared.constants.Items;
 import shared.actions.*;
 import shared.action_config.CombatConfig;
 import shared.action_config.HealConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
 import shared.models.LootItem;
@@ -43,8 +43,8 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
 
     // Tasks
     private HealAction healAction;
-    private BaseAction combatAction;
-    private BaseAction superiorCombatAction;
+    private AbstractAction combatAction;
+    private AbstractAction superiorCombatAction;
     private BonesToPeaches bonesToPeaches;
     private LootAction lootAction;
     private ToggleLevelUp toggleLevelUp;

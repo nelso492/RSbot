@@ -1,13 +1,13 @@
 package scripts.misc_warriors_guild_animator;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkToBank extends BaseAction<ClientContext> {
+public class WalkToBank extends AbstractAction<ClientContext> {
 
     private int[] doorIds;
     private Tile[] pathToBank;

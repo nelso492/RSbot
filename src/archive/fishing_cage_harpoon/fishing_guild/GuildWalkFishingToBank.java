@@ -1,6 +1,6 @@
 package scripts.fishing_cage_harpoon.fishing_guild;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
@@ -8,7 +8,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class GuildWalkFishingToBank extends BaseAction<ClientContext> {
+public class GuildWalkFishingToBank extends AbstractAction<ClientContext> {
 
     private Tile[] path;
     private Area bankArea;

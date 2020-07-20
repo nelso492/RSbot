@@ -1,7 +1,7 @@
 package scripts.cmb_nechryaels;
 
 import shared.action_config.CombatConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class NechryaelCombatAction extends BaseAction<ClientContext> {
+public class NechryaelCombatAction extends AbstractAction<ClientContext> {
     private CombatConfig config;
 
     public NechryaelCombatAction(ClientContext ctx, String status, CombatConfig _config) {

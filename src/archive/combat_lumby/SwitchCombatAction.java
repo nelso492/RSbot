@@ -1,12 +1,12 @@
 package scripts.combat_lumby;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Combat;
 import org.powerbot.script.rt4.Constants;
 
-public class SwitchCombatAction extends BaseAction<ClientContext> {
+public class SwitchCombatAction extends AbstractAction<ClientContext> {
     public SwitchCombatAction(ClientContext ctx) {
         super(ctx, "Switch Style");
     }

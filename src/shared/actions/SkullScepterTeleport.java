@@ -1,14 +1,14 @@
 package shared.actions;
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;
 
 /**
  * Teleport with Skull Sceptre (i)
  */
-public class SkullScepterTeleport extends BaseAction<ClientContext> {
+public class SkullScepterTeleport extends AbstractAction<ClientContext> {
     private int foodId;
     private int minHealth;
 

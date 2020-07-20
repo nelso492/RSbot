@@ -1,7 +1,7 @@
 package scripts.misc_bucket_filler;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.tools.CommonAreas;
 import shared.tools.RsLookup;
@@ -12,7 +12,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class BankingAction extends BaseAction<ClientContext> {
+public class BankingAction extends AbstractAction<ClientContext> {
     private RsLookup lookup = new RsLookup();
     private CommonAreas areas = new CommonAreas();
 

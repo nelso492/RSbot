@@ -1,9 +1,9 @@
-package scripts.combat_cows.phases;
+package archive.combat_cows.phases;
 
-import shared.models.BasePhase;
+import shared.templates.AbstractPhase;
 import org.powerbot.script.rt4.ClientContext;
 
-public class CombatPhase extends BasePhase<ClientContext> {
+public class CombatPhase extends AbstractPhase<ClientContext> {
     public CombatPhase(ClientContext ctx) {
         super(ctx, "Combat");
     }

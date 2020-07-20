@@ -2,7 +2,7 @@ package scripts.wc_yews;
 
 
 import shared.constants.GameObjects;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;
@@ -11,7 +11,7 @@ import org.powerbot.script.rt4.GameObject;
 
 import java.util.concurrent.Callable;
 
-public class ChopYewAction extends BaseAction<ClientContext> {
+public class ChopYewAction extends AbstractAction<ClientContext> {
     private int yewTreeId = GameObjects.YEW_TREE_1753;
 
     public ChopYewAction(ClientContext ctx) {

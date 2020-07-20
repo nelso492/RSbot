@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 /**
  * Teletab teleport when inventory is full
  */
-public class TeleTab extends BaseAction<ClientContext> {
+public class TeleTab extends AbstractAction<ClientContext> {
 
     private int teletabId;
     private boolean suspendAfterTeleporting;

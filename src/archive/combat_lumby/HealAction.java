@@ -1,12 +1,12 @@
 package scripts.combat_lumby;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class HealAction extends BaseAction<ClientContext> {
+public class HealAction extends AbstractAction<ClientContext> {
     private final int[] FOOD_IDS = {333};
 
 

@@ -4,7 +4,7 @@ import shared.constants.Items;
 import shared.actions.*;
 import shared.action_config.CombatConfig;
 import shared.action_config.HealConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
 import shared.models.LootItem;
@@ -32,8 +32,8 @@ public class _LowTierAIOCombat extends PollingScript<ClientContext> implements M
 
     // Tasks
     private HealAction healAction;
-    private BaseAction combatAction;
-    private BaseAction combatActionSecondary;
+    private AbstractAction combatAction;
+    private AbstractAction combatActionSecondary;
     private LootAction lootAction;
     private ToggleLevelUp toggleLevelUp;
     private MoveToSafeTile moveToSafeTile;

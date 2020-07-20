@@ -2,7 +2,7 @@ package scripts.combat_ogress;
 
 import shared.constants.Npcs;
 import shared.action_config.CombatConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.models.LootItem;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
@@ -15,7 +15,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class SafeSpotOgress extends BaseAction<ClientContext> {
+public class SafeSpotOgress extends AbstractAction<ClientContext> {
     private CombatConfig config;
     private int[] targetNpcIds;
     private int maxDistanceToLoot;

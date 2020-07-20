@@ -4,7 +4,7 @@ import shared.constants.Items;
 import shared.actions.*;
 import shared.action_config.CombatConfig;
 import shared.action_config.HealConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
 import shared.models.LootItem;
@@ -22,7 +22,7 @@ import java.util.List;
 public class _NechryaelAIO extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // App Tracking
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private String status;
     private boolean lootDuringCombat;
     private int minHealthPercent;

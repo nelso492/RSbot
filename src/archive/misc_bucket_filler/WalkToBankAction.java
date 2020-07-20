@@ -1,7 +1,7 @@
 package scripts.misc_bucket_filler;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.tools.CommonAreas;
 import shared.tools.RsLookup;
@@ -11,7 +11,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkToBankAction extends BaseAction<ClientContext> {
+public class WalkToBankAction extends AbstractAction<ClientContext> {
     private CommonAreas areas = new CommonAreas();
     private RsLookup lookup = new RsLookup();
     private Area geBank = areas.getGeAreaEast();

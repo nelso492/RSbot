@@ -1,7 +1,7 @@
 package scripts.fishing_cage_harpoon;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class FishAtDocks extends BaseAction<ClientContext> {
+public class FishAtDocks extends AbstractAction<ClientContext> {
     private int FISHING_SPOT;
     private boolean usingHarpoon;
     private boolean karamja;

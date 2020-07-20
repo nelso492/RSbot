@@ -1,7 +1,7 @@
 package scripts.magic_zammywine;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.tools.RsLookup;
 import org.powerbot.script.Condition;
@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class FallyTeleport extends BaseAction<ClientContext> {
+public class FallyTeleport extends AbstractAction<ClientContext> {
     private RsLookup lookup = new RsLookup();
 
     private int zammyWineId = lookup.getId(ITEM_IDS.WineOfZamorak_245);

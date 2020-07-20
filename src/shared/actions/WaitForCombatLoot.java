@@ -1,7 +1,7 @@
 package shared.actions;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
@@ -15,7 +15,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Wait for loot to drop after killing an NPC
  */
-public class WaitForCombatLoot extends BaseAction<ClientContext> {
+public class WaitForCombatLoot extends AbstractAction<ClientContext> {
 
     public WaitForCombatLoot(ClientContext ctx) {
         super(ctx, "Loot Pause");

@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Game;
@@ -13,7 +13,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Bury bones for Prayer leveling. Will toggle quick prayers if enabled for use in Kourend dungeon.
  */
-public class BuryBones extends BaseAction<ClientContext> {
+public class BuryBones extends AbstractAction<ClientContext> {
 
     private int boneId;
     private boolean togglePrayers;

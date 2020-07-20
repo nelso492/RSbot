@@ -1,13 +1,13 @@
 package scripts.fishing_cage_harpoon.karamja;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkShipToBank extends BaseAction<ClientContext> {
+public class WalkShipToBank extends AbstractAction<ClientContext> {
     public static final Tile[] path = {new Tile(3029, 3217, 0), new Tile(3027, 3221, 0), new Tile(3027, 3225, 0), new Tile(3027, 3229, 0), new Tile(3027, 3233, 0), new Tile(3030, 3236, 0), new Tile(3034, 3236, 0), new Tile(3038, 3236, 0), new Tile(3042, 3236, 0)};
     private Area depositBox;
     private Area portSarim;

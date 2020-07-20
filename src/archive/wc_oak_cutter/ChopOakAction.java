@@ -1,7 +1,7 @@
 package scripts.wc_oak_cutter;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;
@@ -10,7 +10,7 @@ import org.powerbot.script.rt4.GameObject;
 import java.util.concurrent.Callable;
 
 
-public class ChopOakAction extends BaseAction<ClientContext> {
+public class ChopOakAction extends AbstractAction<ClientContext> {
 
     public ChopOakAction(ClientContext ctx) {
         super(ctx, "Chopping");

@@ -2,7 +2,7 @@ package scripts.mining_allminer;
 
 import shared.constants.GameObjects;
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import org.powerbot.script.MessageEvent;
 import org.powerbot.script.MessageListener;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class _AllMiner extends PollingScript<ClientContext> implements PaintListener, MessageListener {
 
-    public List<BaseAction> tasks = new ArrayList<>();
+    public List<AbstractAction> tasks = new ArrayList<>();
     public String status;
 
     // Ore Config
@@ -49,7 +49,7 @@ public class _AllMiner extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void poll() {
-        for( BaseAction action : tasks ) {
+        for( AbstractAction action : tasks ) {
             if( action.activate() ) {
                 status = action.getStatus();
                 action.execute();

@@ -7,7 +7,7 @@ import shared.actions.HealAction;
 import shared.actions.LootAction;
 import shared.action_config.CombatConfig;
 import shared.action_config.HealConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
 import shared.models.LootItem;
@@ -25,7 +25,7 @@ import java.util.List;
 public class _FleshCrawlerKiller extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Tasks
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
 
     // GUI
     private String status;
@@ -93,7 +93,7 @@ public class _FleshCrawlerKiller extends PollingScript<ClientContext> implements
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 status = t.getStatus();
                 t.execute();

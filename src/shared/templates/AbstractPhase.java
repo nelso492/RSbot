@@ -1,4 +1,4 @@
-package shared.models;
+package shared.templates;
 
 
 import org.powerbot.script.ClientAccessor;
@@ -11,8 +11,8 @@ import java.util.List;
  *
  * @param <C> ClientContext from RsBot Runtime
  */
-public abstract class BasePhase<C extends ClientContext> extends ClientAccessor<C> {
-    public BasePhase(C ctx, String name) {
+public abstract class AbstractPhase<C extends ClientContext> extends ClientAccessor<C> {
+    public AbstractPhase(C ctx, String name) {
         super(ctx);
         this.actions = new ArrayList<>();
         this.name = name;
@@ -22,19 +22,14 @@ public abstract class BasePhase<C extends ClientContext> extends ClientAccessor<
     private String name;
     private String status;
 
-    private List<BaseAction> actions;
+    private List<AbstractAction<ClientContext>> actions;
 
-    private BasePhase<org.powerbot.script.rt4.ClientContext> nextPhase;
+    private AbstractPhase<org.powerbot.script.rt4.ClientContext> nextPhase;
 
-    public void activate() {
-        for (BaseAction action : actions) {
-            if (action.activate()) {
-                action.execute();
-                setStatus(action.getStatus());
-                break;
-            }
-        }
-    }
+    /**
+     * Activation to be called on poll to decide which action to perform
+     */
+    public abstract void activate();
 
     /**
      * Criteria for moving to the next phase in the script
@@ -46,7 +41,7 @@ public abstract class BasePhase<C extends ClientContext> extends ClientAccessor<
     //region G&S
 
     public String getStatus() {
-        return name + ":" + status;
+        return name + "." + status;
     }
 
     public void setStatus(String status) {
@@ -61,23 +56,23 @@ public abstract class BasePhase<C extends ClientContext> extends ClientAccessor<
         this.name = name;
     }
 
-    public List<BaseAction> getActions() {
+    public List<AbstractAction<ClientContext>> getActions() {
         return actions;
     }
 
-    public void setActions(List<BaseAction> actions) {
+    public void setActions(List<AbstractAction<ClientContext>> actions) {
         this.actions = actions;
     }
 
-    public void addAction(BaseAction action) {
+    public void addAction(AbstractAction<ClientContext> action) {
         this.actions.add(action);
     }
 
-    public BasePhase<org.powerbot.script.rt4.ClientContext> getNextPhase() {
+    public AbstractPhase<org.powerbot.script.rt4.ClientContext> getNextPhase() {
         return nextPhase;
     }
 
-    public void setNextPhase(BasePhase<org.powerbot.script.rt4.ClientContext> nextPhase) {
+    public void setNextPhase(AbstractPhase<org.powerbot.script.rt4.ClientContext> nextPhase) {
         this.nextPhase = nextPhase;
     }
 

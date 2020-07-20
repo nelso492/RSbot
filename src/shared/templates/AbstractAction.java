@@ -1,4 +1,4 @@
-package shared.models;
+package shared.templates;
 
 import org.powerbot.script.ClientAccessor;
 import org.powerbot.script.ClientContext;
@@ -9,13 +9,13 @@ import org.powerbot.script.ClientContext;
  *
  * @param <C>
  */
-public abstract class BaseAction<C extends ClientContext> extends ClientAccessor<C> {
+public abstract class AbstractAction<C extends ClientContext> extends ClientAccessor<C> {
 
     /**
      * @param ctx    Runtime context
      * @param status Status set on execution
      */
-    public BaseAction(C ctx, String status) {
+    public AbstractAction(C ctx, String status) {
         super(ctx);
         this.status = status;
     }

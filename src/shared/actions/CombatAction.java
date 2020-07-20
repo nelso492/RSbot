@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.models.LootList;
 import shared.tools.AntibanTools;
 import shared.tools.CommonActions;
@@ -21,7 +21,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Combat interactions with a single NPC by name
  */
-public class CombatAction extends BaseAction<ClientContext> {
+public class CombatAction extends AbstractAction<ClientContext> {
     private String npcName;
     private int npcDeathAnimation;
     private int minHealthPercent;

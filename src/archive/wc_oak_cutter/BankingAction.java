@@ -2,7 +2,7 @@ package scripts.wc_oak_cutter;
 
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
@@ -11,7 +11,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class BankingAction extends BaseAction<ClientContext> {
+public class BankingAction extends AbstractAction<ClientContext> {
     private Area geArea = CommonAreas.getGeAreaEast();
 
 

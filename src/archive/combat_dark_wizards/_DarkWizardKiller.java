@@ -7,7 +7,7 @@ import shared.actions.ToggleRunAction;
 import shared.action_config.CombatConfig;
 import shared.action_config.HealConfig;
 import shared.action_config.RunConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.enums.NPC_IDS;
 import shared.tools.GuiHelper;
@@ -26,7 +26,7 @@ import java.util.List;
 public class _DarkWizardKiller extends PollingScript<ClientContext> implements PaintListener {
 
     // Task List
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
 
     // Params
     private String status = "";
@@ -79,7 +79,7 @@ public class _DarkWizardKiller extends PollingScript<ClientContext> implements P
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 status = t.getStatus();
                 t.execute();

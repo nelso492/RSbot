@@ -3,7 +3,7 @@ package scripts.smithing_smelter;
 
 import shared.constants.GameObjects;
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import shared.tools.GaussianProbability;
 import org.powerbot.script.Area;
@@ -15,7 +15,7 @@ import org.powerbot.script.rt4.GameObject;
 import java.awt.*;
 import java.util.concurrent.Callable;
 
-public class SmeltBars extends BaseAction<ClientContext> {
+public class SmeltBars extends AbstractAction<ClientContext> {
     private GaussianProbability probability = new GaussianProbability();
 
     private Area furnaceArea = CommonAreas.edgevilleSmelter();

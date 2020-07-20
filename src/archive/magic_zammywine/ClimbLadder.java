@@ -1,7 +1,7 @@
 package scripts.magic_zammywine;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.enums.OBJECT_IDS;
 import shared.tools.RsLookup;
@@ -13,7 +13,7 @@ import org.powerbot.script.rt4.GameObject;
 
 import java.util.concurrent.Callable;
 
-public class ClimbLadder extends BaseAction<ClientContext> {
+public class ClimbLadder extends AbstractAction<ClientContext> {
     private RsLookup lookup = new RsLookup();
 
     private int zammyWineId =  lookup.getId(ITEM_IDS.WineOfZamorak_245);

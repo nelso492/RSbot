@@ -1,11 +1,14 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.Bank;
 import org.powerbot.script.rt4.ClientContext;
+import shared.templates.StructuredAction;
+import shared.tools.AntibanTools;
+import shared.tools.CommonAreas;
 
 import java.util.concurrent.Callable;
 
@@ -14,7 +17,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Withdrawal and Deposit actions within bank window context.
  */
-public class BankAction extends BaseAction<ClientContext> {
+public class BankAction extends StructuredAction {
     private int primaryDepositId;
     private int secondaryDepositId;
 
@@ -44,6 +47,11 @@ public class BankAction extends BaseAction<ClientContext> {
         this.closeWhenDone = false;
     }
 
+    @Override
+    public boolean isComplete() {
+        return true;
+    }
+
     public BankAction(ClientContext ctx, String status, int primaryDepositId, int secondaryDepositId, int primaryWithdrawId, int primaryWithdrawQty, int secondaryWithdrawId, int secondaryWithdrawQty, boolean bankOnInventoryFull, boolean bankOnWithdrawsEmpty, boolean closeWhenDone, Area bankArea) {
         super(ctx, status);
         this.primaryDepositId = primaryDepositId;
@@ -65,7 +73,6 @@ public class BankAction extends BaseAction<ClientContext> {
         return (invFull || resourcesEmpty) && (getBankArea() != null || ctx.bank.inViewport());
     }
 
-
     @Override
     public void execute() {
         if (ctx.bank.inViewport()) {
@@ -80,73 +87,52 @@ public class BankAction extends BaseAction<ClientContext> {
                 }, 150, 20);
             }
 
-            // Deposit if needed
-            if (getPrimaryDepositId() > -1) {
-                if (getPrimaryDepositId() == 0) {
-                    ctx.bank.depositInventory();
-                } else {
-                    ctx.bank.deposit(getPrimaryDepositId(), Bank.Amount.ALL);
-                    Condition.wait(new Callable<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            return ctx.inventory.select().id(getPrimaryDepositId()).count() == 0;
-                        }
-                    }, 150, 100);
-                    ctx.bank.deposit(getSecondaryDepositId(), Bank.Amount.ALL);
-                    Condition.wait(new Callable<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            return ctx.inventory.select().id(getSecondaryDepositId()).count() == 0;
-                        }
-                    }, 150, 100);
-                }
-            }
-
-            // Withdraw
-            if (getPrimaryWithdrawId() > 0) {
-
-                // Check Quantity
-                if (getPrimaryWithdrawQty() == 28) {
-                    ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.ALL);
-
-                    Condition.wait(new Callable<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            return ctx.inventory.select().id(getPrimaryWithdrawId()).count() > 0;
-                        }
-                    }, 250, 50);
-                } else {
-                    ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.X);//.select().id(getPrimaryWithdrawId()).poll().click(); // Uses X qty
-
-                    Condition.wait(new Callable<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            return ctx.inventory.select().id(getPrimaryWithdrawId()).count() > 0;
-                        }
-                    }, 250, 50);
-
-                    // Check secondary withdraw if primary quantity less than full inventory
-                    if (getSecondaryWithdrawId() > 0) {
-                        ctx.bank.withdraw(getSecondaryDepositId(), Bank.Amount.X);//.select().id(getSecondaryWithdrawId()).poll().click(); // Uses X qty
-
+            if (ctx.bank.opened()) {
+                // Deposit if needed
+                if (getPrimaryDepositId() > -1) {
+                    if (getPrimaryDepositId() == 0) {
+                        ctx.bank.depositInventory();
+                    } else {
+                        ctx.bank.deposit(getPrimaryDepositId(), Bank.Amount.ALL);
                         Condition.wait(new Callable<Boolean>() {
                             @Override
                             public Boolean call() throws Exception {
-                                return ctx.inventory.select().id(getSecondaryWithdrawId()).count() > 0;
+                                return ctx.inventory.select().id(getPrimaryDepositId()).count() == 0;
                             }
-                        }, 150, 20);
+                        }, 150, 100);
+                        ctx.bank.deposit(getSecondaryDepositId(), Bank.Amount.ALL);
+                        Condition.wait(new Callable<Boolean>() {
+                            @Override
+                            public Boolean call() throws Exception {
+                                return ctx.inventory.select().id(getSecondaryDepositId()).count() == 0;
+                            }
+                        }, 150, 100);
                     }
                 }
+                AntibanTools.sleepDelay(Random.nextInt(0, 2));
 
-                if (ctx.inventory.select().id(this.primaryWithdrawId).count() == 0 && this.primaryWithdrawQty > 0) {
-                    ctx.controller.stop();
+                // Withdraw
+                if (getPrimaryWithdrawId() > 0) {
+
+                    // Check Quantity
+                    if (getPrimaryWithdrawQty() == 28) {
+                        ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.ALL);
+                    } else {
+                        ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.X);//.select().id(getPrimaryWithdrawId()).poll().click(); // Uses X qty
+
+                        // Check secondary withdraw if primary quantity less than full inventory
+                        if (getSecondaryWithdrawId() > 0) {
+                            ctx.bank.withdraw(getSecondaryDepositId(), Bank.Amount.X);//.select().id(getSecondaryWithdrawId()).poll().click(); // Uses X qty
+                        }
+                    }
                 }
-            }
+                AntibanTools.sleepDelay(Random.nextInt(0, 2));
 
-            // Close if needed
-            if (isCloseWhenDone() && ctx.bank.open()) {
-                ctx.bank.close();
-                sleep(Random.nextInt(400, 1200));
+                // Close if needed
+                if (isCloseWhenDone() && ctx.bank.open()) {
+                    ctx.bank.close();
+                    sleep(Random.nextInt(400, 1200));
+                }
             }
         }
     }

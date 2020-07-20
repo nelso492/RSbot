@@ -1,7 +1,7 @@
 package scripts.smithing_cannonball;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
@@ -11,7 +11,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class BankCannonballs extends BaseAction<ClientContext> {
+public class BankCannonballs extends AbstractAction<ClientContext> {
     private int resourceId;
     private int craftedItemId;
     private Area bankArea;

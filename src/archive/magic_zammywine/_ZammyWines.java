@@ -1,6 +1,6 @@
 package scripts.magic_zammywine;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.tools.GaussianProbability;
 import shared.tools.GuiHelper;
@@ -22,7 +22,7 @@ import static org.powerbot.script.Condition.sleep;
 public class _ZammyWines extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private GuiHelper helper = new GuiHelper();
     private RsLookup lookup = new RsLookup();
     private GaussianProbability probability = new GaussianProbability();
@@ -86,7 +86,7 @@ public class _ZammyWines extends PollingScript<ClientContext> implements Message
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 if( t.getStatus() != null ) {
                     status = t.getStatus();

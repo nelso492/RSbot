@@ -1,13 +1,13 @@
 package scripts.fishing_cage_harpoon;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Game;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class HarpoonSpecial extends BaseAction<ClientContext> {
+public class HarpoonSpecial extends AbstractAction<ClientContext> {
     public HarpoonSpecial(ClientContext ctx) {
         super(ctx, "Special Attack");
     }

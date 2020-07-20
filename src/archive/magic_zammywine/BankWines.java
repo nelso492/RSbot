@@ -1,7 +1,7 @@
 package scripts.magic_zammywine;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.tools.CommonAreas;
 import shared.tools.RsLookup;
@@ -11,7 +11,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class BankWines extends BaseAction<ClientContext> {
+public class BankWines extends AbstractAction<ClientContext> {
     private RsLookup lookup = new RsLookup();
     private CommonAreas areas = new CommonAreas();
 

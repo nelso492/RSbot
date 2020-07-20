@@ -1,6 +1,6 @@
 package scripts.smithing_smelter;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GuiHelper;
 import shared.actions.ToggleLevelUp;
 import scripts.misc_barb_village_looter.ToggleRunAction;
@@ -17,7 +17,7 @@ import java.util.List;
 public class _EdgevilleSmelter extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private double barCount = 0;
     private String status = "";
     private double barsToLevel = 0;
@@ -33,7 +33,7 @@ public class _EdgevilleSmelter extends PollingScript<ClientContext> implements M
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 if( t.getStatus() != null ) {
                     status = t.getStatus();

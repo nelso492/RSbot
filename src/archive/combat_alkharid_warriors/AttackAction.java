@@ -1,6 +1,6 @@
 package scripts.combat_alkharid_warriors;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.rt4.ClientContext;
@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class AttackAction extends BaseAction<ClientContext> {
+public class AttackAction extends AbstractAction<ClientContext> {
     private final int[] NPC_ID = {3103};
     private final int IRON_ARROW_ID = 884;
 

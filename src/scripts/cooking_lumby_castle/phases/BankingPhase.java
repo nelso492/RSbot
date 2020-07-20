@@ -1,22 +1,50 @@
 package scripts.cooking_lumby_castle.phases;
 
-import org.powerbot.script.rt4.GameObject;
+import scripts.cooking_lumby_castle.actions.WalkLumbyBankToStairs;
+import scripts.cooking_lumby_castle.actions.WalkStairsToLumbyBank;
+import shared.actions.BankAction;
 import shared.constants.GameObjects;
-import shared.models.BasePhase;
+import shared.templates.AbstractPhase;
 import org.powerbot.script.rt4.ClientContext;
+import shared.templates.StructuredPhase;
+import shared.tools.CommonAreas;
 
-public class BankingPhase extends BasePhase<ClientContext> {
+/**
+ * Walks from the top level stairs to the Lumby bank
+ */
+public class BankingPhase extends StructuredPhase {
+    //region Actions
+    WalkStairsToLumbyBank walkStairsToBankAction;
+    BankAction bankAction;
+    WalkLumbyBankToStairs walkBankToStairsAction;
+    //endregion
+
+    //region Vars
+    private final int rawId;
+    //endregion
+
+
     public BankingPhase(ClientContext ctx, int rawId) {
-        super(ctx, "Banking");
+        super(ctx, "BANK");
         this.rawId = rawId;
+
+        // Define Actions
+        this.walkStairsToBankAction = new WalkStairsToLumbyBank(ctx, rawId);
+        this.bankAction = new BankAction(ctx, "Banking", 0, -1, rawId, 28, -1, -1, false, true, false, CommonAreas.lumbridgeCastleBank());
+        this.walkBankToStairsAction = new WalkLumbyBankToStairs(ctx, rawId);
+
+        // Connect actions
+        this.walkStairsToBankAction.setNextAction(this.bankAction);
+        this.bankAction.setNextAction(this.walkBankToStairsAction);
+
+        this.setInitialAction(this.walkStairsToBankAction);
     }
 
-    private int rawId;
 
     @Override
     public boolean moveToNextPhase() {
-        var stairs = ctx.objects.select().id(GameObjects.STAIRCASE_LUMBRIDGE_CASTLE_16673).poll();
-        return ctx.inventory.select().id(this.rawId).count() != 0 && ctx.game.floor() == 2 && stairs.valid() && stairs.inViewport();
+
+        return this.walkBankToStairsAction.isComplete();
     }
 
 
@@ -24,7 +52,4 @@ public class BankingPhase extends BasePhase<ClientContext> {
         return rawId;
     }
 
-    public void setRawId(int rawId) {
-        this.rawId = rawId;
-    }
 }

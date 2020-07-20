@@ -2,7 +2,7 @@ package shared.actions;
 
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GaussianTools;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
@@ -12,7 +12,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Dwarven rock cake guzzle action for NMZ
  */
-public class GuzzleRockCake extends BaseAction<ClientContext> {
+public class GuzzleRockCake extends AbstractAction<ClientContext> {
 
     public GuzzleRockCake(ClientContext ctx, String status) {
         super(ctx, status);

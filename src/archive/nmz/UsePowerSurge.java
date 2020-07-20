@@ -1,12 +1,12 @@
 package scripts.nmz;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class UsePowerSurge extends BaseAction<ClientContext> {
+public class UsePowerSurge extends AbstractAction<ClientContext> {
 
     public UsePowerSurge(ClientContext ctx) {
         super(ctx, "Power Surge");

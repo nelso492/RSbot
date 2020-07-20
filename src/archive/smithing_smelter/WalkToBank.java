@@ -2,7 +2,7 @@ package scripts.smithing_smelter;
 
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Random;
@@ -11,7 +11,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkToBank extends BaseAction<ClientContext> {
+public class WalkToBank extends AbstractAction<ClientContext> {
     private Area bankArea = CommonAreas.edgevilleBankNorth();
     private int silverId = Items.SILVER_ORE_442;
 

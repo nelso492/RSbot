@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;
@@ -12,7 +12,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Use one inventory item on another. Useful for potions, crafting, fletching, etc
  */
-public class CombineInventoryItems extends BaseAction<ClientContext> {
+public class CombineInventoryItems extends AbstractAction<ClientContext> {
     private int primaryItemId;
     private int secondaryItemId;
     private boolean hasPrompt;

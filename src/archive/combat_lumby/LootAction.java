@@ -1,13 +1,13 @@
 package scripts.combat_lumby;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class LootAction extends BaseAction<ClientContext> {
+public class LootAction extends AbstractAction<ClientContext> {
     private final int[] ITEM_IDS = {1440, 562, 557};
 
 

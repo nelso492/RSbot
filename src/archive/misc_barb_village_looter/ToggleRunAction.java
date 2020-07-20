@@ -1,10 +1,10 @@
 package scripts.misc_barb_village_looter;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 
-public class ToggleRunAction extends BaseAction<ClientContext> {
+public class ToggleRunAction extends AbstractAction<ClientContext> {
 
     public ToggleRunAction(ClientContext ctx) {
         super(ctx, "Toggling Run");

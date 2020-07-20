@@ -1,7 +1,7 @@
 package shared.actions;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Game;
@@ -9,7 +9,7 @@ import org.powerbot.script.rt4.Game;
 /**
  * Equip arrows, bolts, and other projectiles
  */
-public class EquipArrows extends BaseAction<ClientContext> {
+public class EquipArrows extends AbstractAction<ClientContext> {
     private int arrowId;
     private int equipQuantity;
 

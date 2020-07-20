@@ -4,7 +4,7 @@ import shared.constants.Items;
 import shared.actions.BankAction;
 import shared.actions.InteractWithAllInventory;
 import shared.action_config.BankConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
 import org.powerbot.script.*;
@@ -20,7 +20,7 @@ import java.util.List;
 public class _BankBones extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Task List
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
 
     // GUI Tracking
     private String status;
@@ -87,7 +87,7 @@ public class _BankBones extends PollingScript<ClientContext> implements MessageL
 
     @Override
     public void poll() {
-        for( BaseAction action : taskList ) {
+        for( AbstractAction action : taskList ) {
             if( action.activate() ) {
                 status = action.getStatus();
                 action.execute();

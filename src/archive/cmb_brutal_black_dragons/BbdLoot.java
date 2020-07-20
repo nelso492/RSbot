@@ -1,6 +1,6 @@
 package scripts.cmb_brutal_black_dragons;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.models.LootList;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
@@ -9,7 +9,7 @@ import org.powerbot.script.rt4.GroundItem;
 
 import java.util.concurrent.Callable;
 
-public class BbdLoot extends BaseAction<ClientContext> {
+public class BbdLoot extends AbstractAction<ClientContext> {
     private int[] lootIds;
     private LootList lootList;
 

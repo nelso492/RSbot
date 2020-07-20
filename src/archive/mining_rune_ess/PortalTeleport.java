@@ -1,7 +1,7 @@
 package scripts.mining_rune_ess;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.NPC_IDS;
 import shared.tools.RsLookup;
 import org.powerbot.script.Condition;
@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class PortalTeleport extends BaseAction<ClientContext> {
+public class PortalTeleport extends AbstractAction<ClientContext> {
     private RsLookup lookup = new RsLookup();
 
     private int[] portalIds = {lookup.getId(NPC_IDS.EssMinePortal_5895), lookup.getId(NPC_IDS.EssMinePortal_5904), lookup.getId(NPC_IDS.EssMinePortal_5905), lookup.getId(NPC_IDS.EssMinePortal_5897), lookup.getId(NPC_IDS.EssMinePortal_5896)};

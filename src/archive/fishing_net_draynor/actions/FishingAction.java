@@ -1,8 +1,8 @@
-package scripts.fishing_net_draynor.actions;
+package archive.fishing_net_draynor.actions;
 
 
 import org.powerbot.script.Random;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
@@ -10,7 +10,7 @@ import shared.tools.AntibanTools;
 
 import java.util.concurrent.Callable;
 
-public class FishingAction extends BaseAction<ClientContext> {
+public class FishingAction extends AbstractAction<ClientContext> {
     private final int[] FISHINGID = {1525};
 
     public FishingAction(ClientContext ctx) {

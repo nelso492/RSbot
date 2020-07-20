@@ -1,14 +1,14 @@
 package scripts.runecrafter;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkFromRuins extends BaseAction<ClientContext> {
+public class WalkFromRuins extends AbstractAction<ClientContext> {
 
     private Tile[] path;
     private int ruinsYCoord;

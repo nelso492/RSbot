@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
@@ -16,7 +16,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Interact with every inventory item with the same action.
  */
-public class InteractWithAllInventory extends BaseAction<ClientContext> {
+public class InteractWithAllInventory extends AbstractAction<ClientContext> {
     private int objectId;
     private String action;
     private int sleepMid;

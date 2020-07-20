@@ -2,7 +2,7 @@ package scripts.smithing_cannonball;
 
 
 import shared.action_config.CraftComponentConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GaussianTools;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
@@ -13,7 +13,7 @@ import org.powerbot.script.rt4.GameObject;
 import java.awt.*;
 import java.util.concurrent.Callable;
 
-public class SmithCannonballs extends BaseAction<ClientContext> {
+public class SmithCannonballs extends AbstractAction<ClientContext> {
 
     private Area furnaceArea;
     private int furnaceId;

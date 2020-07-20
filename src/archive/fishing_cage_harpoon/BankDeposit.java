@@ -2,7 +2,7 @@ package scripts.fishing_cage_harpoon;
 
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
@@ -12,7 +12,7 @@ import org.powerbot.script.rt4.Npc;
 
 import java.util.concurrent.Callable;
 
-public class BankDeposit extends BaseAction<ClientContext> {
+public class BankDeposit extends AbstractAction<ClientContext> {
 
     private int COINS;
     private int HARPOON;

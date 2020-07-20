@@ -1,7 +1,7 @@
 package shared.actions;
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
@@ -16,7 +16,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * High alch setup with options for staff use and inventory swap.
  */
-public class HighAlch extends BaseAction<ClientContext> {
+public class HighAlch extends AbstractAction<ClientContext> {
     private int[] alchableItemIds;
     private boolean backToInventory;
     private boolean usingStaff;

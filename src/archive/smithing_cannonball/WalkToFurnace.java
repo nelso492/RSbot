@@ -2,7 +2,7 @@ package scripts.smithing_cannonball;
 
 
 import shared.constants.GameObjects;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkToFurnace extends BaseAction<ClientContext> {
+public class WalkToFurnace extends AbstractAction<ClientContext> {
 
 
     private int resource;

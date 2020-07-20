@@ -1,7 +1,7 @@
 package scripts.fishing_cage_harpoon;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GaussianTools;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;
@@ -10,7 +10,7 @@ import org.powerbot.script.rt4.Npc;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class HoverFishingSpots extends BaseAction<ClientContext> {
+public class HoverFishingSpots extends AbstractAction<ClientContext> {
 
     public HoverFishingSpots(ClientContext ctx) {
         super(ctx, "Random Hover");

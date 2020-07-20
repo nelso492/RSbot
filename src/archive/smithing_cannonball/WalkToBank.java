@@ -1,7 +1,7 @@
 package scripts.smithing_cannonball;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
@@ -11,7 +11,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkToBank extends BaseAction<ClientContext> {
+public class WalkToBank extends AbstractAction<ClientContext> {
 
     private int resourceId;
     private Area bankArea = CommonAreas.edgevilleBankNorth();

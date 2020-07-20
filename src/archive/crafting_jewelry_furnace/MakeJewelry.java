@@ -2,7 +2,7 @@ package scripts.crafting_jewelry_furnace;
 
 
 import shared.action_config.CraftComponentConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GaussianTools;
 import org.powerbot.script.Area;
 import org.powerbot.script.Condition;
@@ -13,7 +13,7 @@ import org.powerbot.script.rt4.GameObject;
 import java.awt.*;
 import java.util.concurrent.Callable;
 
-public class MakeJewelry extends BaseAction<ClientContext> {
+public class MakeJewelry extends AbstractAction<ClientContext> {
     private Area furnaceArea;
     private int furnaceId;
     private CraftComponentConfig config;

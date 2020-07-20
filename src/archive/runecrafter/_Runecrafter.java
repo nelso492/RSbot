@@ -1,7 +1,7 @@
 package scripts.runecrafter;
 
 import shared.action_config.RunecraftConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import shared.tools.GuiHelper;
 import org.powerbot.script.*;
@@ -23,7 +23,7 @@ public class _Runecrafter extends PollingScript<ClientContext> implements Messag
     private CommonAreas areas = new CommonAreas();
 
     // Tasks
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
 
     // Tracking
     private String status = "";
@@ -116,7 +116,7 @@ public class _Runecrafter extends PollingScript<ClientContext> implements Messag
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 status = t.getStatus();
                 t.execute();

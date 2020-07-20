@@ -1,7 +1,7 @@
 package scripts.misc_bucket_filler;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.ITEM_IDS;
 import shared.enums.OBJECT_IDS;
 import shared.tools.CommonAreas;
@@ -14,7 +14,7 @@ import org.powerbot.script.rt4.GameObject;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkToFountainAction extends BaseAction<ClientContext> {
+public class WalkToFountainAction extends AbstractAction<ClientContext> {
     private CommonAreas areas = new CommonAreas();
     private RsLookup lookup = new RsLookup();
 

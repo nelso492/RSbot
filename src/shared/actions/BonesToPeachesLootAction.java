@@ -1,7 +1,7 @@
 package shared.actions;
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.AntibanTools;
 import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
@@ -18,7 +18,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Special looting logic for bones when using B2P
  */
-public class BonesToPeachesLootAction extends BaseAction<ClientContext> {
+public class BonesToPeachesLootAction extends AbstractAction<ClientContext> {
     private BasicQuery<GroundItem> groundItems;
     private int[] boneIds;
 

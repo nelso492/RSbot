@@ -1,6 +1,6 @@
 package scripts.wc_willows;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
@@ -17,7 +17,7 @@ import static org.powerbot.script.Condition.sleep;
 public class _PortSarimWillowChopper extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private double logCount = 0;
     private String status = "";
     private int logsToLevel = 0;
@@ -51,7 +51,7 @@ public class _PortSarimWillowChopper extends PollingScript<ClientContext> implem
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
 
             if( t.activate() ) {
                 if( t.getStatus() != null ) {

@@ -1,6 +1,6 @@
-package scripts.fishing_net_draynor.phases;
+package archive.fishing_net_draynor.phases;
 
-import shared.models.BasePhase;
+import shared.templates.AbstractPhase;
 import shared.tools.AntibanTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
@@ -10,7 +10,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class FishingPhase extends BasePhase<ClientContext> {
+public class FishingPhase extends AbstractPhase<ClientContext> {
     public FishingPhase(ClientContext ctx) {
         super(ctx, "Fishing");
     }

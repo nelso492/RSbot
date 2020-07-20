@@ -1,7 +1,7 @@
 package scripts.runecrafter;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
@@ -9,7 +9,7 @@ import org.powerbot.script.rt4.GameObject;
 
 import java.util.concurrent.Callable;
 
-public class EnterRuins extends BaseAction<ClientContext> {
+public class EnterRuins extends AbstractAction<ClientContext> {
 
     private int ruinsId;
     private int ruinsYcoord;

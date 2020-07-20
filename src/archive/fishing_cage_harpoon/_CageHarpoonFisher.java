@@ -3,7 +3,7 @@ package scripts.fishing_cage_harpoon;
 import shared.constants.GameObjects;
 import shared.constants.Npcs;
 import shared.actions.ToggleLevelUp;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
@@ -25,7 +25,7 @@ import static org.powerbot.script.Condition.sleep;
 public class _CageHarpoonFisher extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Task List
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
 
     // Tracking
     private int catchCount = 0;
@@ -112,7 +112,7 @@ public class _CageHarpoonFisher extends PollingScript<ClientContext> implements 
             lastCameraMove = getRuntime();
         }
 
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 if( t.getStatus() != null ) {
                     status = t.getStatus();

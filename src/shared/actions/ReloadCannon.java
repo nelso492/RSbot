@@ -1,7 +1,7 @@
 package shared.actions;
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
@@ -14,7 +14,7 @@ import java.util.concurrent.Callable;
 /**
  * Locate and reload a placed multicannon
  */
-public class ReloadCannon extends BaseAction<ClientContext> {
+public class ReloadCannon extends AbstractAction<ClientContext> {
 
     private final Tile cannonTile;
 

@@ -10,7 +10,7 @@ import shared.actions.LootAction;
 import shared.actions.ToggleLevelUp;
 import shared.action_config.CombatConfig;
 import shared.action_config.HealConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GuiHelper;
 import shared.models.LootItem;
 import shared.models.LootList;
@@ -26,7 +26,7 @@ import java.util.List;
 public class _OgressKiller extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Tasks & Tracking
-    private List<BaseAction> taskList;
+    private List<AbstractAction> taskList;
     private String status;
     private Tile safeTile;
     private Tile altSafeTile;
@@ -143,7 +143,7 @@ public class _OgressKiller extends PollingScript<ClientContext> implements Messa
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
 
             if( t.activate() ) {
                 status = t.getStatus();

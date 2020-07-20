@@ -2,7 +2,7 @@ package scripts.magic_high_alch;
 
 import shared.constants.Items;
 import shared.actions.HighAlch;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GuiHelper;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
@@ -18,7 +18,7 @@ import java.util.List;
 public class _HighAlch extends PollingScript<ClientContext> implements PaintListener {
 
     // Task List
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
 
     // GUI Tracking
     private String status;
@@ -40,7 +40,7 @@ public class _HighAlch extends PollingScript<ClientContext> implements PaintList
 
     @Override
     public void poll() {
-        for( BaseAction action : taskList ) {
+        for( AbstractAction action : taskList ) {
             if( action.activate() ) {
                 status = action.getStatus();
                 action.execute();

@@ -1,7 +1,7 @@
 package scripts.slayer_simple;
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
@@ -9,7 +9,7 @@ import org.powerbot.script.rt4.Item;
 
 import java.util.concurrent.Callable;
 
-public class BonesToPeaches extends BaseAction<ClientContext> {
+public class BonesToPeaches extends AbstractAction<ClientContext> {
 
     private int minBoneCount;
     private int boneId;

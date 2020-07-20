@@ -3,7 +3,7 @@ package scripts.wc_yews;
 import shared.constants.Items;
 import shared.actions.BankAction;
 import shared.action_config.BankConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GuiHelper;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
@@ -20,7 +20,7 @@ import java.util.List;
 public class _CorsairYewChopper extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private int logCount = 0;
     private String status = "";
     private double profit = 0;
@@ -56,7 +56,7 @@ public class _CorsairYewChopper extends PollingScript<ClientContext> implements 
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 if( t.getStatus() != null ) {
                     status = t.getStatus();

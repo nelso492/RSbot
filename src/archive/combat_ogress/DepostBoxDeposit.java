@@ -2,13 +2,13 @@ package scripts.combat_ogress;
 
 
 import shared.constants.Items;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class DepostBoxDeposit extends BaseAction<ClientContext> {
+public class DepostBoxDeposit extends AbstractAction<ClientContext> {
 
     private int DEPOSIT_BOX;
     private int[] retainOnDepositIds;

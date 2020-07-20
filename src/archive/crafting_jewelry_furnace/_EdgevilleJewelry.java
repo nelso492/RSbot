@@ -6,7 +6,7 @@ import shared.actions.BankAction;
 import shared.actions.ToggleLevelUp;
 import shared.action_config.BankConfig;
 import shared.action_config.CraftComponentConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import shared.tools.GuiHelper;
 import org.powerbot.script.*;
@@ -22,7 +22,7 @@ import java.util.List;
 public class _EdgevilleJewelry extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private String status = "";
 
     // Tracking

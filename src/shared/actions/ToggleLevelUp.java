@@ -1,7 +1,7 @@
 package shared.actions;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.AntibanTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
@@ -12,7 +12,7 @@ import java.util.concurrent.Callable;
 /**
  * Manage the level up prompt with spacebar input
  */
-public class ToggleLevelUp extends BaseAction<ClientContext> {
+public class ToggleLevelUp extends AbstractAction<ClientContext> {
     public ToggleLevelUp(ClientContext ctx) {
         super(ctx, "Level Up");
     }

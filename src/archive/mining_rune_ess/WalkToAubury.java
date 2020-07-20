@@ -1,7 +1,7 @@
 package scripts.mining_rune_ess;
 
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import org.powerbot.script.Area;
 import org.powerbot.script.Tile;
@@ -9,7 +9,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkToAubury extends BaseAction<ClientContext> {
+public class WalkToAubury extends AbstractAction<ClientContext> {
     private CommonAreas areas = new CommonAreas();
     private Area runeShop = areas.getAuburyRuneShop();
     private Area essMinerBounds = areas.getVarrockEssMinerBounds();

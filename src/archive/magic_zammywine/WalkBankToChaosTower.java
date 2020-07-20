@@ -1,6 +1,6 @@
 package scripts.magic_zammywine;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.enums.OBJECT_IDS;
 import shared.tools.RsLookup;
 import org.powerbot.script.Tile;
@@ -8,7 +8,7 @@ import org.powerbot.script.rt4.ClientContext;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class WalkBankToChaosTower extends BaseAction<ClientContext> {
+public class WalkBankToChaosTower extends AbstractAction<ClientContext> {
     private RsLookup lookup = new RsLookup();
 
     private int towerLadderLowerId = lookup.getId(OBJECT_IDS.ChaosLadderLower_31580);

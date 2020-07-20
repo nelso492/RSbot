@@ -1,6 +1,6 @@
 package shared.actions;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
@@ -14,7 +14,7 @@ import static org.powerbot.script.Condition.sleep;
 /**
  * Perform an action on a game object. Can be used to open doors, collect NMZ powerups, etc.
  */
-public class InteractWithGameObject extends BaseAction<ClientContext> {
+public class InteractWithGameObject extends AbstractAction<ClientContext> {
     private int objectId;
     private String action;
 

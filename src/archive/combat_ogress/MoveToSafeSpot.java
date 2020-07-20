@@ -1,6 +1,6 @@
 package scripts.combat_ogress;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonAreas;
 import shared.tools.GaussianTools;
 import shared.models.LootList;
@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class MoveToSafeSpot extends BaseAction<ClientContext> {
+public class MoveToSafeSpot extends AbstractAction<ClientContext> {
     private Tile safeTile;
     private int[] npcs;
     private LootList lootList;

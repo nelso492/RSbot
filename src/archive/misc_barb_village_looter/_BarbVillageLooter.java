@@ -1,6 +1,6 @@
 package scripts.misc_barb_village_looter;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.GuiHelper;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
@@ -15,7 +15,7 @@ import java.util.List;
 public class _BarbVillageLooter extends PollingScript<ClientContext> implements PaintListener {
 
     // Constants
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private String status = "Starting";
     private GuiHelper helper = new GuiHelper();
     //  private int pickupCount = 0;
@@ -29,7 +29,7 @@ public class _BarbVillageLooter extends PollingScript<ClientContext> implements 
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
             if( t.activate() ) {
                 status = t.getStatus() != null ? t.getStatus() : status;
 

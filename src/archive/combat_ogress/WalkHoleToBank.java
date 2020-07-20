@@ -1,11 +1,11 @@
 package scripts.combat_ogress;
 
 import shared.constants.GameObjects;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 
-public class WalkHoleToBank extends BaseAction<ClientContext> {
+public class WalkHoleToBank extends AbstractAction<ClientContext> {
 
     Tile[] path = {new Tile(2523, 2860, 0), new Tile(2527, 2860, 0), new Tile(2531, 2860, 0), new Tile(2535, 2859, 0), new Tile(2539, 2857, 0), new Tile(2543, 2857, 0), new Tile(2547, 2858, 0), new Tile(2550, 2861, 0), new Tile(2554, 2863, 0), new Tile(2558, 2863, 0), new Tile(2562, 2863, 0), new Tile(2566, 2863, 0), new Tile(2570, 2861, 0)};
     private int depositBoxId;

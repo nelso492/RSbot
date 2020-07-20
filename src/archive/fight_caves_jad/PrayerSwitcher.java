@@ -1,6 +1,6 @@
 package scripts.fight_caves_jad;
 
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Game;
 import org.powerbot.script.rt4.Npc;
@@ -8,7 +8,7 @@ import org.powerbot.script.rt4.Prayer;
 
 import static org.powerbot.script.Condition.sleep;
 
-public class PrayerSwitcher extends BaseAction<ClientContext> {
+public class PrayerSwitcher extends AbstractAction<ClientContext> {
 
     private int animation;
     private Prayer.Effect prayer;

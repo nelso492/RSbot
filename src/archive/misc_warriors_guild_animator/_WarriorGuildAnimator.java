@@ -8,7 +8,7 @@ import shared.actions.ToggleRunAction;
 import shared.action_config.BankConfig;
 import shared.action_config.HealConfig;
 import shared.action_config.RunConfig;
-import shared.models.BaseAction;
+import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
 import shared.models.LootItem;
@@ -25,7 +25,7 @@ import java.util.List;
 public class _WarriorGuildAnimator extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // App Tracking
-    private List<BaseAction> taskList = new ArrayList<>();
+    private List<AbstractAction> taskList = new ArrayList<>();
     private String status = "";
 
     private int helm, body, legs;
@@ -76,7 +76,7 @@ public class _WarriorGuildAnimator extends PollingScript<ClientContext> implemen
 
     @Override
     public void poll() {
-        for( BaseAction t : taskList ) {
+        for( AbstractAction t : taskList ) {
 
             if( t.activate() ) {
                 status = t.getStatus();
