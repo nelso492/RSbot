@@ -36,7 +36,7 @@ public class CommonAreas {
     }
 
     public static Area getDraynorBank() {
-        return new Area(new Tile(3092, 3247), new Tile(3094, 3244));
+        return new Area(new Tile(3092, 3247), new Tile(3095, 3242));
     }
 
     public static Area getKaramjaFishingDock() {

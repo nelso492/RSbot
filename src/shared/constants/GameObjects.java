@@ -31,5 +31,7 @@ public class GameObjects {
     public final static int VINE_LADDER_31791 = 31790;
     public final static int HOLE_31791 = 31791;
 
+    public final static int BANK_BOOTH_1270 = 1270;
+
 
 }

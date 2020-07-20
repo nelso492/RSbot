@@ -44,6 +44,9 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
         skills[0] = Constants.SKILLS_FISHING;
         this.startExp = ctx.skills.experience(skills[0]);
 
+        this.catchCount = 0;
+        this.avgCatchXp = 1;
+
         this.scriptConfig = new ScriptConfig(ctx, skills);
         this.scriptConfig.setStatus("Config");
 
@@ -87,23 +90,10 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
             if (GaussianTools.takeActionNever()) {
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
-
-                switch (Random.nextInt(0, 2)) {
-                    case 0:
-                        AntibanTools.hoverRandomNPC(ctx);
-                        this.antiBanInProgress = false;
-                        break;
-                    case 1:
-                        AntibanTools.hoverRandomObject(ctx);
-                        this.antiBanInProgress = false;
-                        break;
-                    case 2:
-                        AntibanTools.toggleXPDrops(ctx);
-                        this.antiBanInProgress = false;
-                        break;
-                }
+                AntibanTools.toggleXPDrops(ctx);
+                this.antiBanInProgress = false;
             }
-            if (!this.antiBanInProgress && GaussianTools.takeActionRarely()) {
+            if (!this.antiBanInProgress && GaussianTools.takeActionNormal()) {
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
 
@@ -113,7 +103,7 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
                         this.antiBanInProgress = false;
                         break;
                     case 1:
-                        AntibanTools.checkStat(ctx, Constants.SKILLS_COOKING);
+                        AntibanTools.checkStat(ctx, Constants.SKILLS_FISHING);
                         this.antiBanInProgress = false;
                         break;
                     case 2:
@@ -126,10 +116,10 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
                         break;
                 }
             }
-            if (!this.antiBanInProgress && GaussianTools.takeActionUnlikely()) {
+            if (!this.antiBanInProgress && GaussianTools.takeActionLikely()) {
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
-                switch (Random.nextInt(0, 4)) {
+                switch (Random.nextInt(0, 2)) {
                     case 0:
                         AntibanTools.setRandomCameraAngle(ctx);
                         this.antiBanInProgress = false;
@@ -139,14 +129,10 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
                         this.antiBanInProgress = false;
                         break;
                     case 2:
-                        AntibanTools.checkCombatLevel(ctx);
-                        this.antiBanInProgress = false;
-                        break;
-                    case 3:
                         AntibanTools.resetCamera(ctx);
                         this.antiBanInProgress = false;
                         break;
-                    case 4:
+                    case 3:
                         AntibanTools.toggleRun(ctx);
                         this.antiBanInProgress = false;
                         break;

@@ -109,7 +109,6 @@ public class BankAction extends StructuredAction {
                         }, 150, 100);
                     }
                 }
-                AntibanTools.sleepDelay(Random.nextInt(0, 2));
 
                 // Withdraw
                 if (getPrimaryWithdrawId() > 0) {
@@ -126,7 +125,6 @@ public class BankAction extends StructuredAction {
                         }
                     }
                 }
-                AntibanTools.sleepDelay(Random.nextInt(0, 2));
 
                 // Close if needed
                 if (isCloseWhenDone() && ctx.bank.open()) {

@@ -45,12 +45,13 @@ public abstract class StructuredPhase extends AbstractPhase<ClientContext> {
                     this.currentAction = (StructuredAction) this.currentAction.getNextAction();
                 } else {
                     // Sleep till retry
-                    this.checkAttempt += this.checkAttempt;
+
+                    if (this.checkAttempt < 5) this.checkAttempt++;
                     AntibanTools.sleepDelay(this.checkAttempt);
 
                 }
 
-                if (!ctx.players.local().interacting().valid() && ctx.players.local().animation() == -1 && !ctx.players.local().inMotion() && this.currentAction.activate()) {
+                if (!ctx.players.local().interacting().valid() && ctx.players.local().animation() == -1 && !ctx.players.local().inMotion() && this.currentAction != null && this.currentAction.activate()) {
                     // Retry execution
                     System.out.println("Retrying: " + this.currentAction.getStatus());
                     this.currentAction.execute();

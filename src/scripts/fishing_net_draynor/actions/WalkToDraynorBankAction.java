@@ -15,12 +15,12 @@ public class WalkToDraynorBankAction extends StructuredAction {
 
     @Override
     public boolean isComplete() {
-        return ctx.bank.inViewport();
+        return ctx.bank.inViewport() && CommonAreas.getDraynorBank().contains(ctx.players.local()) && !ctx.players.local().inMotion();
     }
 
     @Override
     public boolean activate() {
-        return ctx.inventory.isFull() && !ctx.bank.inViewport();
+        return ctx.inventory.isFull() && !CommonAreas.getDraynorBank().contains(ctx.players.local());
     }
 
     @Override

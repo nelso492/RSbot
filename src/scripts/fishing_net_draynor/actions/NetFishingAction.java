@@ -18,7 +18,7 @@ public class NetFishingAction extends StructuredAction {
 
     @Override
     public boolean activate() {
-        return !ctx.inventory.isFull() && ctx.players.local().animation() == -1 && ctx.players.local().interacting().valid();
+        return !ctx.inventory.isFull() && ctx.players.local().animation() == -1 && !ctx.players.local().interacting().valid();
     }
 
     @Override

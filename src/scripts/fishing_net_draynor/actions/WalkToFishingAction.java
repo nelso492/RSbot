@@ -23,7 +23,7 @@ public class WalkToFishingAction extends StructuredAction {
 
     @Override
     public boolean activate() {
-        return ctx.inventory.select().count() == 1 && ctx.npcs.select().id(1525).poll().inViewport();
+        return ctx.inventory.select().count() == 1 && !ctx.npcs.select().id(1525).poll().inViewport();
     }
 
     @Override
