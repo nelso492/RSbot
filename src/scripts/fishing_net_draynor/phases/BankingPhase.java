@@ -16,7 +16,7 @@ public class BankingPhase extends StructuredPhase {
         super(ctx, name);
 
         WalkToDraynorBankAction walkToDraynorBankAction = new WalkToDraynorBankAction(ctx, "To Bank");
-        BankAction bankAction = new BankAction(ctx, "Deposit Fish", 0, 0, Items.SMALL_FISHING_NET_303, 1, -1, -1, true, false, false, CommonAreas.getDraynorBank());
+        BankAction bankAction = new BankAction(ctx, "Deposit Fish", 0, 0, Items.SMALL_FISHING_NET_303, -1, -1, -1, true, false, false, CommonAreas.getDraynorBank());
         WalkToFishingAction walkToFishingAction = new WalkToFishingAction(ctx, "To Fishing");
 
         walkToDraynorBankAction.setNextAction(bankAction);

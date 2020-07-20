@@ -62,7 +62,7 @@ public class AntibanTools {
         openTab(ctx, Game.Tab.STATS);
 
         int skillsXOffset = 60;
-        int skillsYOffset = 20;
+        int skillsYOffset = 24;
         int skillsXStart = 550;
         int skillsYStart = 210;
 
@@ -173,6 +173,8 @@ public class AntibanTools {
         ctx.input.move(Random.nextInt(x, x + skillsXOffset), Random.nextInt(y, y + skillsYOffset));
 
         sleepDelay(Random.nextInt(1, 3));
+
+        openTab(ctx, Game.Tab.INVENTORY);
     }
 
     /**

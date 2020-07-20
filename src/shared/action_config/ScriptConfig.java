@@ -1,6 +1,7 @@
 package shared.action_config;
 
 import shared.actions.ToggleLevelUp;
+import shared.actions.ToggleRunAction;
 import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
 import org.powerbot.script.rt4.ClientContext;
@@ -26,6 +27,7 @@ public class ScriptConfig {
 
     // DEFAULT TASKS
     private final ToggleLevelUp toggleLevelUp;
+    private final ToggleRunAction toggleRunAction;
 
     // CONSTRUCTOR
     public ScriptConfig(ClientContext ctx, int[] skillIds) {
@@ -38,6 +40,7 @@ public class ScriptConfig {
 
         // Action Setup
         this.toggleLevelUp = new ToggleLevelUp(this.ctx);
+        this.toggleRunAction = new ToggleRunAction(this.ctx, "Run", 30);
     }
 
 
@@ -64,7 +67,7 @@ public class ScriptConfig {
         g.drawString("Lvls Gained: " + (this.levelsGained), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(3));
 
         g.setColor(GuiHelper.getTextColorImportant());
-        if(this.trackedSkillIds != null) {
+        if (this.trackedSkillIds != null) {
             for (int i = 0; i < this.trackedSkillIds.length; i++) {
                 g.drawString(CommonActions.getSkillName(this.trackedSkillIds[i]) + ": " + ctx.skills.level(this.trackedSkillIds[i]), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(i + 4));
             }
@@ -81,6 +84,11 @@ public class ScriptConfig {
             this.status = "Level Up";
             this.levelsGained++;
             this.toggleLevelUp.execute();
+        }
+
+        if (this.toggleRunAction.activate()) {
+            this.status = "Running";
+            this.toggleRunAction.execute();
         }
     }
 

@@ -117,7 +117,11 @@ public class BankAction extends StructuredAction {
                     if (getPrimaryWithdrawQty() == 28) {
                         ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.ALL);
                     } else {
-                        ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.X);//.select().id(getPrimaryWithdrawId()).poll().click(); // Uses X qty
+                        if (getPrimaryWithdrawQty() > 0) {
+                            ctx.bank.withdraw(getPrimaryWithdrawId(), Bank.Amount.X);
+                        } else {
+                            ctx.bank.select().id(getPrimaryWithdrawId()).poll().click(); // Uses selected qty
+                        }
 
                         // Check secondary withdraw if primary quantity less than full inventory
                         if (getSecondaryWithdrawId() > 0) {

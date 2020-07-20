@@ -179,6 +179,8 @@ public class CommonActions {
                 return "Cooking";
             case Constants.SKILLS_FISHING:
                 return "Fishing";
+            case Constants.SKILLS_WOODCUTTING:
+                return "WC";
             default:
                 return "None";
         }
