@@ -34,7 +34,7 @@ public abstract class StructuredPhase extends AbstractPhase<ClientContext> {
                     }
                 } else {
                     // This is a new Action, execute it
-                    this.checkAttempt = 1;
+                    this.checkAttempt = 0;
                     System.out.println("Executing: " + this.currentAction.getStatus());
                     this.currentAction.execute();
                     this.setStatus(this.currentAction.getStatus());
@@ -51,8 +51,10 @@ public abstract class StructuredPhase extends AbstractPhase<ClientContext> {
 
                 }
 
+                // Retry in case of misclick
                 if (!ctx.players.local().interacting().valid() && ctx.players.local().animation() == -1 && !ctx.players.local().inMotion() && this.currentAction != null && this.currentAction.activate()) {
                     // Retry execution
+                    this.checkAttempt = 0;
                     System.out.println("Retrying: " + this.currentAction.getStatus());
                     this.currentAction.execute();
                 }

@@ -48,7 +48,7 @@ public class LootAction extends AbstractAction<ClientContext> {
             }
         });
 
-        return !groundItems.isEmpty() && (this.lootDuringCombat || !ctx.players.local().interacting().valid());
+        return !groundItems.isEmpty() && !ctx.players.local().inMotion() && (this.lootDuringCombat || !ctx.players.local().interacting().valid());
     }
 
     @Override

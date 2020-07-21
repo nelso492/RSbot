@@ -7,9 +7,13 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/src/archive" />
+<<<<<<< HEAD
       <excludeFolder url="file://$MODULE_DIR$/src/disabled/combat_goblins" />
       <excludeFolder url="file://$MODULE_DIR$/src/scripts/combat_minotaur" />
       <excludeFolder url="file://$MODULE_DIR$/src/scripts/fishing_harpoon_catherby" />
+=======
+      <excludeFolder url="file://$MODULE_DIR$/src/disabled" />
+>>>>>>> 948560f... combat bots and updates to random generation
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

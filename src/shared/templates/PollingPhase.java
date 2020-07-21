@@ -11,8 +11,8 @@ public abstract class PollingPhase extends AbstractPhase<ClientContext> {
     public void activate() {
         for (var action : getActions()) {
             if (action.activate()) {
-                action.execute();
                 setStatus(action.getStatus());
+                action.execute();
                 break;
             }
         }

@@ -64,7 +64,7 @@ public abstract class AbstractPhase<C extends ClientContext> extends ClientAcces
         this.actions = actions;
     }
 
-    public void addAction(AbstractAction<ClientContext> action) {
+    public void addAction(AbstractAction action) {
         this.actions.add(action);
     }
 

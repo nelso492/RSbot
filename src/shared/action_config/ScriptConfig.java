@@ -64,12 +64,12 @@ public class ScriptConfig {
         g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
         g.drawString("Status : " + (this.status), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(1));
         g.drawString("Runtime: " + GuiHelper.getReadableRuntime(runtime), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(2));
-        g.drawString("Lvls Gained: " + (this.levelsGained), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(3));
 
         g.setColor(GuiHelper.getTextColorImportant());
         if (this.trackedSkillIds != null) {
             for (int i = 0; i < this.trackedSkillIds.length; i++) {
-                g.drawString(CommonActions.getSkillName(this.trackedSkillIds[i]) + ": " + ctx.skills.level(this.trackedSkillIds[i]), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(i + 4));
+                if (this.trackedSkillIds[i] > -1)
+                    g.drawString(CommonActions.getSkillName(this.trackedSkillIds[i]) + ": " + ctx.skills.realLevel(this.trackedSkillIds[i]), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(i + 3));
             }
         }
 
@@ -99,5 +99,9 @@ public class ScriptConfig {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void incrementLevelsGained() {
+        this.levelsGained++;
     }
 }
