@@ -1,7 +1,5 @@
 package scripts.fishing_net_draynor.actions;
 
-import org.powerbot.script.Area;
-import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import shared.templates.StructuredAction;
@@ -18,17 +16,17 @@ public class WalkToFishingAction extends StructuredAction {
 
     @Override
     public boolean isComplete() {
-        return ctx.npcs.select().id(1525).poll().inViewport();
+        return ctx.npcs.select().id(1525).poll().inViewport() && !CommonAreas.getDraynorBank().contains(ctx.players.local());
     }
 
     @Override
     public boolean activate() {
-        return ctx.inventory.select().count() == 1 && !ctx.npcs.select().id(1525).poll().inViewport();
+        return ctx.inventory.select().count() == 1 && ctx.npcs.select().id(1525).nearest().poll().tile().distanceTo(ctx.players.local()) > 4;
     }
 
     @Override
     public void execute() {
         ctx.movement.newTilePath(path).traverse();
-        AntibanTools.sleepDelay(Random.nextInt(1, 3));
+        AntibanTools.sleepDelay(AntibanTools.getRandomInRange(1, 3));
     }
 }

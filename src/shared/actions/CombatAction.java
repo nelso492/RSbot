@@ -10,7 +10,9 @@ import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
+import shared.tools.GaussianTools;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -52,7 +54,7 @@ public class CombatAction extends AbstractAction<ClientContext> {
                 || ctx.npcs.select().select(new Filter<Npc>() {
             @Override
             public boolean accept(Npc npc) {
-                return npc.name().equals(npcName) && npc.interacting().valid() && npc.interacting().name().equalsIgnoreCase(ctx.players.local().name());
+                return npc.name().equals(npcName) && npc.interacting().valid() && !npc.interacting().name().equalsIgnoreCase(ctx.players.local().name());
             }
         }).poll().valid();
         boolean validNpcNearby =
@@ -68,8 +70,7 @@ public class CombatAction extends AbstractAction<ClientContext> {
 
     @Override
     public void execute() {
-        // Add a touch of AFK
-        AntibanTools.sleepDelay(Random.nextInt(0, 3));
+
 
         // Check for npc interacting with player
         Npc target = ctx.npcs.select().select(new Filter<Npc>() {
@@ -93,11 +94,19 @@ public class CombatAction extends AbstractAction<ClientContext> {
         Npc npc = target;
 
 
+        if(GaussianTools.takeActionRarely()){
+            ctx.input.move(new Point(npc.nextPoint().x + Random.nextInt(-20, 20), npc.nextPoint().y + Random.nextInt(-20, 20)));
+            sleep();
+        }
+
+        // Add a touch of AFK
+        AntibanTools.sleepDelay(Random.nextInt(0, 3));
+
         // Target Npc
         if (npc.inViewport() && (!npc.interacting().valid() || npc.interacting().name().equals(ctx.players.local().name()))) {
             if (npc.interact("Attack", npc.name())) {
                 // Chill for a sec
-                sleep(500);
+               AntibanTools.sleepDelay(2);
 
                 // Wait for the first hit
                 waitForCombat();

@@ -52,6 +52,16 @@ public class AntibanTools {
         sleepDelay(Random.nextInt(1, 3));
     }
 
+    public static int getRandomInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        java.util.Random r = new java.util.Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
+
     /**
      * Hover over specific stat
      *
@@ -75,7 +85,6 @@ public class AntibanTools {
                 row = 1;
                 break;
             case Constants.SKILLS_ATTACK:
-                col = 0;
                 row = 0;
                 break;
             case Constants.SKILLS_DEFENSE:
@@ -136,7 +145,6 @@ public class AntibanTools {
                 break;
             case Constants.SKILLS_MINING:
                 col = 2;
-                row = 0;
                 break;
             case Constants.SKILLS_SMITHING:
                 col = 2;

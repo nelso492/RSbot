@@ -19,7 +19,7 @@ import java.awt.*;
 
 import static org.powerbot.script.Condition.sleep;
 
-@Script.Manifest(name = "cooking_LumbyCastleCooker", description = "Cooks at the range and banks on the roof.", properties = "client=4; topic=051515; author=Bowman")
+@Script.Manifest(name = "COOK - LumbyCastleCooker", description = "Cooks at the range and banks on the roof.", properties = "client=4; topic=051515; author=Bowman")
 public class CastleCooker extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Config
@@ -54,7 +54,7 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
 
         // Antiban
         lastBreakTimestamp = 0L;
-        nextBreakInMinutes = Random.nextInt(3, 7);
+        nextBreakInMinutes = AntibanTools.getRandomInRange(3, 7);
 
         // Find Raw Item to cook
         Item i = ctx.inventory.select().select(new Filter<Item>() {
@@ -134,14 +134,14 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
         // Antiban Check
         if (getRuntime() - lastBreakTimestamp > (1000 * 60 * nextBreakInMinutes)) {
             this.lastBreakTimestamp = getRuntime();
-            this.nextBreakInMinutes = Random.nextInt(1, 4);
+            this.nextBreakInMinutes = AntibanTools.getRandomInRange(1, 4);
             this.antiBanInProgress = false;
 
             if (GaussianTools.takeActionNever()) {
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
 
-                switch (Random.nextInt(0, 2)) {
+                switch (AntibanTools.getRandomInRange(0, 2)) {
                     case 0:
                         AntibanTools.hoverRandomNPC(ctx);
                         this.antiBanInProgress = false;
@@ -160,7 +160,7 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
 
-                switch (Random.nextInt(0, 3)) {
+                switch (AntibanTools.getRandomInRange(0, 3)) {
                     case 0:
                         AntibanTools.moveMouseOffScreen(ctx, true);
                         this.antiBanInProgress = false;
@@ -182,7 +182,7 @@ public class CastleCooker extends PollingScript<ClientContext> implements Messag
             if (!this.antiBanInProgress && GaussianTools.takeActionUnlikely()) {
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
-                switch (Random.nextInt(0, 4)) {
+                switch (AntibanTools.getRandomInRange(0, 4)) {
                     case 0:
                         AntibanTools.setRandomCameraAngle(ctx);
                         this.antiBanInProgress = false;

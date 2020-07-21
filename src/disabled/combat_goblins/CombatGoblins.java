@@ -1,31 +1,31 @@
-package scripts.fishing_net_draynor;
+package disabled.combat_goblins;
 
 
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
-import scripts.fishing_net_draynor.phases.BankingPhase;
-import scripts.fishing_net_draynor.phases.DraynorNetFishingPhase;
 import shared.action_config.ScriptConfig;
-import shared.templates.StructuredPhase;
+import shared.actions.CombatAction;
+import shared.actions.HealAction;
+import shared.actions.LootAction;
+import shared.constants.Items;
+import shared.models.LootItem;
+import shared.models.LootList;
+import shared.templates.AbstractAction;
+import shared.templates.PollingPhase;
 import shared.tools.AntibanTools;
 import shared.tools.GaussianTools;
-import shared.tools.GuiHelper;
 
 import java.awt.*;
 
-@Script.Manifest(name = "FISH - DraynorNetFisher", description = "DraynorNetFisher", properties = "client=4; topic=051515; author=Bowman")
-public class DraynorNetFisher extends PollingScript<ClientContext> implements MessageListener, PaintListener {
+@Script.Manifest(name = "combat_Goblins", description = "Kills in lumby. loots stackables and coins", properties = "client=4; topic=051515; author=Bowman")
+public class CombatGoblins extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Config
     private ScriptConfig scriptConfig = new ScriptConfig(ctx, null);
     private boolean antiBanInProgress;
-    private StructuredPhase currentPhase;
+    private PollingPhase currentPhase;
 
-    private int numToLevel;
-    private int catchCount;
-    private int avgCatchXp;
-    private int startExp;
 
     //region Antiban
     private long lastBreakTimestamp;
@@ -36,13 +36,13 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
     //region start
     @Override
     public void start() {
-        // Tracked Skills
-        int[] skills = new int[1];
-        skills[0] = Constants.SKILLS_FISHING;
-        this.startExp = ctx.skills.experience(skills[0]);
 
-        this.catchCount = 0;
-        this.avgCatchXp = 1;
+        // Tracked Skills
+        int[] skills = new int[4];
+        skills[0] = Constants.SKILLS_HITPOINTS;
+        skills[1] = Constants.SKILLS_ATTACK;
+        skills[2] = Constants.SKILLS_STRENGTH;
+        skills[3] = Constants.SKILLS_DEFENSE;
 
         this.scriptConfig = new ScriptConfig(ctx, skills);
         this.scriptConfig.setStatus("Config");
@@ -51,18 +51,24 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
         lastBreakTimestamp = 0L;
         nextBreakInMinutes = AntibanTools.getRandomInRange(3, 7);
 
-        // Phase
-        DraynorNetFishingPhase fishingPhase = new DraynorNetFishingPhase(ctx, "Fishing");
-        BankingPhase bankingPhase = new BankingPhase(ctx, "Banking");
+        // Starting Location
+        this.currentPhase = new PollingPhase(ctx, "Combat") {
+            @Override
+            public boolean moveToNextPhase() {
+                return false;
+            }
+        };
 
-        fishingPhase.setNextPhase(bankingPhase);
-        bankingPhase.setNextPhase(fishingPhase);
+        LootList lootList = new LootList();
+        lootList.addLootItem(new LootItem(Items.EARTH_RUNE_557, 2));
+        lootList.addLootItem(new LootItem(Items.WATER_RUNE_555, 2));
 
-        if (ctx.npcs.select().id(1525).nearest().poll().inViewport()) {
-            this.currentPhase = fishingPhase;
-        } else {
-            this.currentPhase = bankingPhase;
-        }
+        AbstractAction combatAction = new CombatAction(ctx, "Attack", "Goblin",-1,20,lootList,ctx.combat.inMultiCombat(),null,0);
+        AbstractAction healAction = new HealAction(ctx, "Heal", new int[] {Items.TROUT_333}, 30);
+
+        this.currentPhase.addAction(new LootAction(ctx, "Looting", lootList, 3, false));
+        this.currentPhase.addAction(combatAction);
+        this.currentPhase.addAction(healAction);
 
         // Initial Status
         this.scriptConfig.setStatus(this.currentPhase.getStatus());
@@ -76,7 +82,6 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
         // Pre State Check Action
         this.scriptConfig.prePollAction();
 
-        numToLevel = 1 + ((ctx.skills.experienceAt(ctx.skills.level(Constants.SKILLS_FISHING) + 1) - (ctx.skills.experience(Constants.SKILLS_FISHING))) / avgCatchXp);
 
         // Antiban Check
         if (getRuntime() - lastBreakTimestamp > (1000 * 60 * nextBreakInMinutes)) {
@@ -87,10 +92,23 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
             if (GaussianTools.takeActionNever()) {
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
-                AntibanTools.toggleXPDrops(ctx);
-                this.antiBanInProgress = false;
+
+                switch (AntibanTools.getRandomInRange(0, 2)) {
+                    case 0:
+                        AntibanTools.hoverRandomNPC(ctx);
+                        this.antiBanInProgress = false;
+                        break;
+                    case 1:
+                        AntibanTools.hoverRandomObject(ctx);
+                        this.antiBanInProgress = false;
+                        break;
+                    case 2:
+                        AntibanTools.toggleXPDrops(ctx);
+                        this.antiBanInProgress = false;
+                        break;
+                }
             }
-            if (!this.antiBanInProgress && GaussianTools.takeActionNormal()) {
+            if (!this.antiBanInProgress && GaussianTools.takeActionRarely()) {
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
 
@@ -100,7 +118,7 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
                         this.antiBanInProgress = false;
                         break;
                     case 1:
-                        AntibanTools.checkStat(ctx, Constants.SKILLS_FISHING);
+                        AntibanTools.checkStat(ctx, Constants.SKILLS_ATTACK);
                         this.antiBanInProgress = false;
                         break;
                     case 2:
@@ -113,10 +131,10 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
                         break;
                 }
             }
-            if (!this.antiBanInProgress && GaussianTools.takeActionLikely()) {
+            if (!this.antiBanInProgress && GaussianTools.takeActionUnlikely()) {
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
-                switch (AntibanTools.getRandomInRange(0, 2)) {
+                switch (AntibanTools.getRandomInRange(0, 4)) {
                     case 0:
                         AntibanTools.setRandomCameraAngle(ctx);
                         this.antiBanInProgress = false;
@@ -126,10 +144,14 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
                         this.antiBanInProgress = false;
                         break;
                     case 2:
-                        AntibanTools.resetCamera(ctx);
+                        AntibanTools.checkCombatLevel(ctx);
                         this.antiBanInProgress = false;
                         break;
                     case 3:
+                        AntibanTools.resetCamera(ctx);
+                        this.antiBanInProgress = false;
+                        break;
+                    case 4:
                         AntibanTools.toggleRun(ctx);
                         this.antiBanInProgress = false;
                         break;
@@ -141,12 +163,6 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
             this.scriptConfig.setStatus(this.currentPhase.getStatus());
 
             this.currentPhase.activate();
-
-            if (this.currentPhase.moveToNextPhase()) {
-                this.currentPhase = (StructuredPhase) this.currentPhase.getNextPhase();
-                this.currentPhase.resetCurrentAction();
-                this.scriptConfig.setStatus(this.currentPhase.getStatus());
-            }
         }
     }
     //endregion
@@ -156,13 +172,8 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
     public void messaged(MessageEvent e) {
         String msg = e.text();
 
-        if (msg.contains("you are dead")) {
-            ctx.controller.stop();
-        }
-
-        if (msg.contains("You catch some")) {
-            catchCount++;
-            avgCatchXp = (ctx.skills.experience(Constants.SKILLS_FISHING) - startExp) / catchCount;
+        if(msg.contains("just advanced your")){
+            this.scriptConfig.incrementLevelsGained();
         }
     }
     //endregion
@@ -171,8 +182,6 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
     @Override
     public void repaint(Graphics g) {
         this.scriptConfig.paint(g, getRuntime());
-        g.drawString("CTL  : " + numToLevel, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(2));
-        g.drawString("Count: " + catchCount, GuiHelper.getDialogMiddleX(), GuiHelper.getStartY(3));
     }
     //endregion
 }
