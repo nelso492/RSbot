@@ -1,4 +1,4 @@
-package archive.combat_cows;
+package scripts.combat_cows;
 
 import shared.actions.CombatAction;
 import shared.actions.EquipArrows;
@@ -11,7 +11,7 @@ import shared.tools.GaussianTools;
 import shared.tools.GuiHelper;
 import shared.models.LootItem;
 import shared.models.LootList;
-import archive.combat_cows.phases.CombatPhase;
+import scripts.combat_cows.phases.CombatPhase;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;

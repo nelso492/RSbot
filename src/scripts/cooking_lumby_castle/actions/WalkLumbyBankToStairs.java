@@ -1,15 +1,13 @@
 package scripts.cooking_lumby_castle.actions;
 
 
-import org.powerbot.script.Random;
-import shared.constants.GameObjects;
-import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
+import shared.constants.GameObjects;
 import shared.templates.StructuredAction;
-import shared.tools.CommonActions;
+import shared.tools.AntibanTools;
 import shared.tools.CommonAreas;
 
 import java.util.concurrent.Callable;
@@ -45,7 +43,7 @@ public class WalkLumbyBankToStairs extends StructuredAction {
             public Boolean call() throws Exception {
                 return !ctx.players.local().inMotion();
             }
-        }, Random.nextInt(100, 500), 10);
+        }, AntibanTools.getRandomInRange(100, 500), 10);
 
     }
 

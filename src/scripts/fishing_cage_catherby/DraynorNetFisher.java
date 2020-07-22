@@ -1,11 +1,11 @@
-package scripts.fishing_net_draynor;
+package scripts.fishing_cage_catherby;
 
 
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
-import scripts.fishing_net_draynor.phases.BankingPhase;
-import scripts.fishing_net_draynor.phases.DraynorNetFishingPhase;
+import scripts.fishing_cage_catherby.phases.BankingPhase;
+import scripts.fishing_cage_catherby.phases.DraynorNetFishingPhase;
 import shared.action_config.ScriptConfig;
 import shared.templates.StructuredPhase;
 import shared.tools.AntibanTools;
@@ -14,7 +14,7 @@ import shared.tools.GuiHelper;
 
 import java.awt.*;
 
-@Script.Manifest(name = "FISH - DraynorNetFisher", description = "DraynorNetFisher", properties = "client=4; topic=051515; author=Bowman")
+@Script.Manifest(name = "fishing_CatherbyCageFisher", description = "DraynorNetFisher", properties = "client=4; topic=051515; author=Bowman")
 public class DraynorNetFisher extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Config
@@ -49,7 +49,7 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
 
         // Antiban
         lastBreakTimestamp = 0L;
-        nextBreakInMinutes = AntibanTools.getRandomInRange(3, 7);
+        nextBreakInMinutes = Random.nextInt(3, 7);
 
         // Phase
         DraynorNetFishingPhase fishingPhase = new DraynorNetFishingPhase(ctx, "Fishing");
@@ -81,7 +81,7 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
         // Antiban Check
         if (getRuntime() - lastBreakTimestamp > (1000 * 60 * nextBreakInMinutes)) {
             this.lastBreakTimestamp = getRuntime();
-            this.nextBreakInMinutes = AntibanTools.getRandomInRange(1, 4);
+            this.nextBreakInMinutes = Random.nextInt(1, 4);
             this.antiBanInProgress = false;
 
             if (GaussianTools.takeActionNever()) {
@@ -94,7 +94,7 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
 
-                switch (AntibanTools.getRandomInRange(0, 3)) {
+                switch (Random.nextInt(0, 3)) {
                     case 0:
                         AntibanTools.moveMouseOffScreen(ctx, true);
                         this.antiBanInProgress = false;
@@ -116,7 +116,7 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
             if (!this.antiBanInProgress && GaussianTools.takeActionLikely()) {
                 this.scriptConfig.setStatus("Antiban");
                 this.antiBanInProgress = true;
-                switch (AntibanTools.getRandomInRange(0, 2)) {
+                switch (Random.nextInt(0, 2)) {
                     case 0:
                         AntibanTools.setRandomCameraAngle(ctx);
                         this.antiBanInProgress = false;

@@ -1,4 +1,4 @@
-package archive.combat_cows.phases;
+package scripts.combat_cows.phases;
 
 import shared.templates.AbstractPhase;
 import org.powerbot.script.rt4.ClientContext;

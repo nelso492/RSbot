@@ -2,13 +2,12 @@ package scripts.cooking_lumby_castle.actions;
 
 
 import org.powerbot.script.Condition;
-import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GameObject;
 import shared.constants.GameObjects;
-import shared.templates.AbstractAction;
 import shared.templates.StructuredAction;
+import shared.tools.AntibanTools;
 
 import java.util.concurrent.Callable;
 
@@ -32,7 +31,7 @@ public class AscendStairs extends StructuredAction {
     @Override
     public void execute() {
         int currentFloor = ctx.game.floor();
-        int waitTime = Random.nextInt(150, 450);
+        int waitTime = AntibanTools.getRandomInRange(150, 450);
 
         if (currentFloor == 0) {
             ctx.objects.select().id(GameObjects.STAIRCASE_LUMBRIDGE_CASTLE_16671).nearest().poll().interact("Climb-up");

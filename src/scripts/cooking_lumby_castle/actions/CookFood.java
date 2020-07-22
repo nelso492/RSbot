@@ -47,7 +47,7 @@ public class CookFood extends StructuredAction {
                     public Boolean call() throws Exception {
                         return !ctx.players.local().inMotion() && ctx.widgets.component(270, 13).valid();
                     }
-                }, Random.nextInt(500, 800), 10);
+                }, AntibanTools.getRandomInRange(500, 800), 10);
 
                 if (ctx.widgets.component(270, 13).valid()) {
                     ctx.input.send(" ");
@@ -57,7 +57,7 @@ public class CookFood extends StructuredAction {
                         AntibanTools.moveMouseOffScreen(ctx, (GaussianTools.takeActionNormal()));
                     }
 
-                    AntibanTools.sleepDelay(Random.nextInt(0, 5));
+                    AntibanTools.sleepDelay(AntibanTools.getRandomInRange(0, 5));
                 }
             } else {
                 ctx.movement.step(cookingRange);
@@ -66,7 +66,7 @@ public class CookFood extends StructuredAction {
                     public Boolean call() throws Exception {
                         return !ctx.players.local().inMotion();
                     }
-                }, Random.nextInt(500, 777), 4);
+                }, AntibanTools.getRandomInRange(500, 777), 4);
             }
         } else {
             ctx.movement.step(cookingRange);
@@ -75,7 +75,7 @@ public class CookFood extends StructuredAction {
                 public Boolean call() throws Exception {
                     return !ctx.players.local().inMotion();
                 }
-            }, Random.nextInt(500, 777), 4);
+            }, AntibanTools.getRandomInRange(500, 777), 4);
         }
     }
 
