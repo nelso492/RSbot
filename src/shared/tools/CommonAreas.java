@@ -89,5 +89,5 @@ public class CommonAreas {
 
     public static Area ogressSafeZone() {return new Area(new Tile(2014, 9004), new Tile(2012, 9002));}
 
-    public static Area catherybyBank() {return new Area(new Tile(2812, 3441), new Tile(2807, 3438));}
+    public static Area catherbyBank() {return new Area(new Tile(2812, 3441), new Tile(2807, 3438));}
 }

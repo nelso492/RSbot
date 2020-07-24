@@ -8,11 +8,11 @@ import shared.templates.StructuredAction;
 import java.util.concurrent.Callable;
 
 /**
- * Net fishing at Draynor fishing spots.
+ * Net fishing at Catherby fishing spots.
  */
-public class NetFishingAction extends StructuredAction {
+public class CageFishingAction extends StructuredAction {
 
-    public NetFishingAction(ClientContext ctx, String status) {
+    public CageFishingAction(ClientContext ctx, String status) {
         super(ctx, status);
     }
 
@@ -23,10 +23,10 @@ public class NetFishingAction extends StructuredAction {
 
     @Override
     public void execute() {
-        Npc fishingSpot = ctx.npcs.select().id(1525).nearest().poll();
+        Npc fishingSpot = ctx.npcs.select().id(1519).nearest().poll();
 
         if (fishingSpot.inViewport()) {
-            fishingSpot.interact("Small Net");
+            fishingSpot.interact("Cage");
             Condition.wait(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {

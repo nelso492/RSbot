@@ -5,7 +5,7 @@ import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 import scripts.fishing_cage_catherby.phases.BankingPhase;
-import scripts.fishing_cage_catherby.phases.DraynorNetFishingPhase;
+import scripts.fishing_cage_catherby.phases.CatherbyCageFishingPhase;
 import shared.action_config.ScriptConfig;
 import shared.templates.StructuredPhase;
 import shared.tools.AntibanTools;
@@ -14,8 +14,8 @@ import shared.tools.GuiHelper;
 
 import java.awt.*;
 
-@Script.Manifest(name = "fishing_CatherbyCageFisher", description = "DraynorNetFisher", properties = "client=4; topic=051515; author=Bowman")
-public class DraynorNetFisher extends PollingScript<ClientContext> implements MessageListener, PaintListener {
+@Script.Manifest(name = "FISH - CatherbyCageFisher", description = "CatherbyCageFisher", properties = "client=4; topic=051515; author=Bowman")
+public class CatherbyCageFisher extends PollingScript<ClientContext> implements MessageListener, PaintListener {
 
     // Config
     private ScriptConfig scriptConfig = new ScriptConfig(ctx, null);
@@ -52,13 +52,13 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
         nextBreakInMinutes = Random.nextInt(3, 7);
 
         // Phase
-        DraynorNetFishingPhase fishingPhase = new DraynorNetFishingPhase(ctx, "Fishing");
+        CatherbyCageFishingPhase fishingPhase = new CatherbyCageFishingPhase(ctx, "Fishing");
         BankingPhase bankingPhase = new BankingPhase(ctx, "Banking");
 
         fishingPhase.setNextPhase(bankingPhase);
         bankingPhase.setNextPhase(fishingPhase);
 
-        if (ctx.npcs.select().id(1525).nearest().poll().inViewport()) {
+        if (ctx.npcs.select().id(1519).nearest().poll().inViewport()) {
             this.currentPhase = fishingPhase;
         } else {
             this.currentPhase = bankingPhase;
@@ -160,7 +160,7 @@ public class DraynorNetFisher extends PollingScript<ClientContext> implements Me
             ctx.controller.stop();
         }
 
-        if (msg.contains("You catch some")) {
+        if (msg.contains("You catch")) {
             catchCount++;
             avgCatchXp = (ctx.skills.experience(Constants.SKILLS_FISHING) - startExp) / catchCount;
         }

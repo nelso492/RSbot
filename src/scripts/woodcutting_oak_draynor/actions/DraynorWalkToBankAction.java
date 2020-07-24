@@ -1,6 +1,5 @@
 package scripts.woodcutting_oak_draynor.actions;
 
-import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import shared.templates.StructuredAction;
 import shared.tools.AntibanTools;
