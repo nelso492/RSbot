@@ -1,6 +1,5 @@
 package scripts.slayer_simple;
 
-import shared.action_config.CombatConfig;
 import shared.templates.AbstractAction;
 
 public class SlayerTaskConfig {
@@ -36,6 +35,8 @@ public class SlayerTaskConfig {
         this.customCombatConfig = null;
         this.superiorCombatConfig = null;
     }
+
+
 
     public boolean isUsingGuthans() {
         return usingGuthans;

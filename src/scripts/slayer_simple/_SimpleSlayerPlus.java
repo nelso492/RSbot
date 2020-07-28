@@ -1,18 +1,18 @@
 package scripts.slayer_simple;
 
-import shared.constants.Items;
-import shared.actions.*;
-import shared.action_config.CombatConfig;
-import shared.action_config.HealConfig;
-import shared.templates.AbstractAction;
-import shared.tools.CommonActions;
-import shared.tools.GuiHelper;
-import shared.models.LootItem;
-import shared.models.LootList;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.Equipment;
+import org.powerbot.script.rt4.Game;
+import shared.actions.*;
+import shared.constants.Items;
+import shared.models.LootItem;
+import shared.models.LootList;
+import shared.templates.AbstractAction;
+import shared.tools.AntibanTools;
+import shared.tools.CommonActions;
+import shared.tools.GuiHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,9 +32,13 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
     private SlayerTaskConfig taskConfig;
     private String[] targetNames;
     private int killCount = 0;
+    private int potionDosesUsed = 0;
     private int[] combatPotionIds;
     private int[] prayerPotionIds;
     private ArrayList<Integer> specWeaponIds;
+
+    // Antiban
+    long nextAntibanActionTime;
 
     // Loot
     private LootList lootList;
@@ -66,15 +70,20 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         ctx.properties.setProperty("randomevents.disable", "true"); //Ignore random events
         startXP = ctx.skills.experience(Constants.SKILLS_SLAYER);
 
-        targetNames = new String[] {"-", "Aberrant spectre", "Ankou", "Black demon", "Blue dragon", "Bloodveld", "Dagannoth", "Deviant spectre", "Fire giant", "Gargoyle", "Greater demon", "Greater Nechryael", "Hellhound", "Jelly", "Kalphite Worker", "Kurask", "Mountain troll", "Mutated Bloodveld", "Nechryael", "Turoth", "Warped Jelly", "Wyrm"};
+        targetNames = new String[]{"-", "Aberrant spectre", "Ankou", "Black demon", "Blue dragon", "Bloodveld", "Dagannoth", "Deviant spectre", "Fire giant", "Gargoyle", "Greater demon", "Greater Nechryael", "Hellhound", "Jelly", "Kalphite Worker", "Kurask", "Mountain troll", "Mutated Bloodveld", "Nechryael", "Turoth", "Warped Jelly", "Wyrm"};
 
         lootList = new LootList();
         taskConfig = new SlayerTaskConfig();
+
+        taskConfig.setEatFoodMinHealthPercentage(30);
+        potionDosesUsed = 0;
 
         specWeaponIds = new ArrayList<>();
         specWeaponIds.add(Items.ABYSSAL_WHIP_4151);
         specWeaponIds.add(Items.GRANITE_HAMMER_21742);
         specWeaponIds.add(Items.DRAGON_CROSSBOW_21902);
+
+        this.nextAntibanActionTime = getRuntime() + (3600 * AntibanTools.getRandomInRange(0, 5));
     }
 
     private enum State {
@@ -84,84 +93,88 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
     private State checkState() {
 
         // Highest Priority (heals, pots, gear)
-        if( healAction.activate() ) {
+        if (healAction.activate()) {
             status = "Heal";
             return State.Healing;
         }
-        if( prayerPotion != null && prayerPotion.activate() && ctx.inventory.select().id(prayerPotionIds).count() > 0 ) {
+        if (this.buryBones != null && this.buryBones.activate()) {
+            status = "Bury";
+            return State.BuryBones;
+        }
+        if (prayerPotion != null && prayerPotion.activate() && ctx.inventory.select().id(prayerPotionIds).count() > 0) {
             status = "Prayer";
             return State.PrayerPotion;
         }
-        if( bonesToPeaches != null && bonesToPeaches.activate() && ctx.inventory.select().id(Items.BONES_TO_PEACHES_8015).count() > 0 ) {
+        if (bonesToPeaches != null && bonesToPeaches.activate() && ctx.inventory.select().id(Items.BONES_TO_PEACHES_8015).count() > 0) {
             status = "B2P";
             return State.BonesToPeaches;
         }
-        if( equipGuthans != null && equipGuthans.activate() ) {
+        if (equipGuthans != null && equipGuthans.activate()) {
             status = "Guthans";
             return State.Guthans;
         }
-        if( equipGear != null && equipGear.activate() ) {
+        if (equipGear != null && equipGear.activate()) {
             status = "Gear";
             return State.Gear;
         }
-        if( combatPotion.activate() && ctx.inventory.select().id(combatPotionIds).count() > 0 ) {
+        if (combatPotion.activate() && ctx.inventory.select().id(combatPotionIds).count() > 0) {
             status = "Combat Potion";
             return State.CombatPotion;
         }
 
 
         // High Priority (task Specific)
-        if( moveAwayFromTarget != null && moveAwayFromTarget.activate() ) {
+        if (moveAwayFromTarget != null && moveAwayFromTarget.activate()) {
             status = "Moving";
             return State.MoveAwayFromTarget;
         }
-        if( moveToSafeTile != null && moveToSafeTile.activate() ) {
+        if (moveToSafeTile != null && moveToSafeTile.activate()) {
             status = "Safetile";
             return State.SafeTile;
         }
 
 
         // Normal Priority (combat, loot)
-        if( waitForLoot != null && waitForLoot.activate() ) {
+        if (waitForLoot != null && waitForLoot.activate()) {
             status = "Drop";
             return State.WaitForLoot;
         }
-        if( lootAction.activate() ) {
+        if (lootAction.activate()) {
             status = "Loot";
             return State.Loot;
         }
-        if( bonesToPeachesLootAction != null && bonesToPeachesLootAction.activate() ) {
+        if (bonesToPeachesLootAction != null && bonesToPeachesLootAction.activate()) {
             status = bonesToPeachesLootAction.getStatus();
             return State.B2PLoot;
         }
-        if( buryBones != null && buryBones.activate() ) {
+        if (buryBones != null && buryBones.activate()) {
             status = "Bones";
             return State.BuryBones;
         }
-        if( superiorCombatAction != null && superiorCombatAction.activate() ) {
+        if (superiorCombatAction != null && superiorCombatAction.activate()) {
             status = "Superior";
             return State.SuperiorCombat;
         }
-        if( combatAction.activate() ) {
+        if (combatAction.activate()) {
             status = "Combat";
             return State.Combat;
         }
-        if( ctx.combat.specialPercentage() >= 60 && !ctx.combat.specialAttack() && specWeaponIds.contains(ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id()) ) {
+        if (ctx.combat.specialPercentage() >= 60 && !ctx.combat.specialAttack() && specWeaponIds.contains(ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id())) {
             status = "Spec";
             return State.Spec;
         }
 
 
         // Low Priority (Alch, Levels)
-        if( highAlch.activate() ) {
+        if (highAlch.activate()) {
             status = "Alch";
             return State.Alch;
         }
-        if( toggleLevelUp.activate() ) {
+        if (toggleLevelUp.activate()) {
             status = "Level";
             return State.LevelUp;
         }
-        if( teletab != null && teletab.activate() ) {
+        if (teletab != null && teletab.activate()) {
             status = "Tele";
             return State.Teletab;
         }
@@ -179,12 +192,19 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         // Get Target
         npcName = CommonActions.promptForSelection("Target NPC Name", "Target", targetNames);
 
+        if (CommonActions.promptForYesNo("Bury Bones", "")) {
+            this.buryBones = new BuryBones(ctx, "Bury", Items.BIG_BONES_532, false);
+//            this.lootList.addLootItem(new LootItem(Items.BONES_526, 1, 5));
+            this.lootList.addLootItem(new LootItem(Items.BIG_BONES_532, 1, 5));
+//            this.lootList.addLootItem(new LootItem(Items.DRAGON_BONES_536, 1, 5));
+        }
+
         // Slayer Config
         slayerConfig();
 
         // Healing Methods
         // Guthans
-        if( taskConfig.isUsingGuthans() ) {
+        if (taskConfig.isUsingGuthans()) {
             equipGuthans = new EquipGuthans(ctx, 70);
             equipGear = new EquipGear(ctx, 90, true, ctx.equipment.itemAt(Equipment.Slot.HEAD).id(), ctx.equipment.itemAt(Equipment.Slot.TORSO).id(), ctx.equipment.itemAt(Equipment.Slot.LEGS).id(), ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id(), ctx.equipment.itemAt(Equipment.Slot.OFF_HAND).id());
             // GUI
@@ -192,15 +212,15 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         }
 
         // Prayer
-        if( taskConfig.isUsingPrayer() && ctx.inventory.select().id(Items.PRAYER_POTION4_2434).count() > 0 ) {
-            prayerPotionIds = new int[] {Items.PRAYER_POTION4_2434, Items.PRAYER_POTION3_139, Items.PRAYER_POTION2_141, Items.PRAYER_POTION1_143};
+        if (taskConfig.isUsingPrayer() && ctx.inventory.select().id(Items.PRAYER_POTION4_2434).count() > 0) {
+            prayerPotionIds = new int[]{Items.PRAYER_POTION4_2434, Items.PRAYER_POTION3_139, Items.PRAYER_POTION2_141, Items.PRAYER_POTION1_143};
             prayerPotion = new UsePotion(ctx, "Prayer Pot", prayerPotionIds, Constants.SKILLS_PRAYER, 5, 15, true);
 
             healingMethod = "Prayer";
         }
 
         // Bones to Peaches
-        if( taskConfig.isUsingBonesToPeaches() && ctx.inventory.select().id(Items.BONES_TO_PEACHES_8015).count() > 0 ) {
+        if (taskConfig.isUsingBonesToPeaches() && ctx.inventory.select().id(Items.BONES_TO_PEACHES_8015).count() > 0) {
             bonesToPeaches = new BonesToPeaches(ctx, 8, taskConfig.getBonesToPeachesBoneId());
             bonesToPeachesLootAction = new BonesToPeachesLootAction(ctx, "B2P Loot");
             healingMethod = "B2P";
@@ -208,36 +228,35 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
 
 
         // Heal Config
-        HealConfig healConfig = new HealConfig(CommonActions.allFoodIds(), taskConfig.getEatFoodMinHealthPercentage());
-        healAction = new HealAction(ctx, "Healing", healConfig);
+        healAction = new HealAction(ctx, "Healing", CommonActions.allFoodIds(), taskConfig.getEatFoodMinHealthPercentage());
 
 
         // Superior Config
-        if( taskConfig.getSuperiorCombatConfig() != null ) {
-            superiorCombatAction = new CombatAction(ctx, "Superior", taskConfig.getSuperiorCombatConfig());
+        if (taskConfig.getSuperiorCombatConfig() != null) {
+            superiorCombatAction = new CombatAction(ctx, taskConfig.getSuperiorCombatConfig());
             superiorSlayerLoot();
         }
 
         // Combat Config
         CombatConfig _combatConfig;
-        if( taskConfig.getCustomCombatConfig() == null ) {
+        if (taskConfig.getCustomCombatConfig() == null) {
             _combatConfig = new CombatConfig(npcName, -1, taskConfig.getEatFoodMinHealthPercentage(), lootList, ctx.combat.inMultiCombat(), (safetile));
         } else {
             _combatConfig = taskConfig.getCustomCombatConfig();
         }
 
         // Combat Action
-        if( taskConfig.getCustomCombatAction() == null ) {
-            combatAction = new CombatAction(ctx, "Combat", _combatConfig);
+        if (taskConfig.getCustomCombatAction() == null) {
+            combatAction = new CombatAction(ctx, _combatConfig);
         } else {
             combatAction = taskConfig.getCustomCombatAction();
         }
 
         // Loot Task
-        lootAction = new LootAction(ctx, "Loot", lootList, -1, true, true);
+        lootAction = new LootAction(ctx, "Loot", lootList, 5, true);
 
         // Loot Drop
-        if( taskConfig.isWaitingForLootDrop() ) {
+        if (taskConfig.isWaitingForLootDrop()) {
             waitForLoot = new WaitForCombatLoot(ctx);
         }
 
@@ -248,20 +267,27 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         toggleLevelUp = new ToggleLevelUp(ctx);
 
         // GUI Final Checks
-        if( !taskConfig.isUsingPrayer() && !taskConfig.isUsingGuthans() ) {
+        if (!taskConfig.isUsingPrayer() && !taskConfig.isUsingGuthans()) {
             healingMethod = "Food";
         }
 
         // Combat Potions
-        if( ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id() == Items.DRAGON_CROSSBOW_21902 ) {
+        if (ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id() == Items.DRAGON_CROSSBOW_21902) {
             //Range Task
-            combatPotionIds = new int[] {Items.RANGING_POTION4_2444, Items.RANGING_POTION3_169, Items.RANGING_POTION2_171, Items.RANGING_POTION1_173};
+            combatPotionIds = new int[]{Items.RANGING_POTION4_2444, Items.RANGING_POTION3_169, Items.RANGING_POTION2_171, Items.RANGING_POTION1_173};
             combatPotion = new UsePotion(ctx, "Range Pot", combatPotionIds, Constants.SKILLS_RANGE, ctx.skills.realLevel(Constants.SKILLS_RANGE) + 4, ctx.skills.realLevel(Constants.SKILLS_RANGE) + 6, true);
         } else {
-            combatPotionIds = new int[] {Items.SUPER_COMBAT_POTION1_12701, Items.SUPER_COMBAT_POTION2_12699, Items.SUPER_COMBAT_POTION3_12697, Items.SUPER_COMBAT_POTION4_12695};
+            combatPotionIds = new int[]{Items.SUPER_COMBAT_POTION1_12701, Items.SUPER_COMBAT_POTION2_12699, Items.SUPER_COMBAT_POTION3_12697, Items.SUPER_COMBAT_POTION4_12695};
             combatPotion = new UsePotion(ctx, "Combat Pot", combatPotionIds, Constants.SKILLS_STRENGTH, ctx.skills.realLevel(Constants.SKILLS_STRENGTH) + 4, ctx.skills.realLevel(Constants.SKILLS_STRENGTH) + 6, true);
         }
-        grimyHerbs = new int[] {Items.GRIMY_RANARR_WEED_207, Items.GRIMY_LANTADYME_2485, Items.GRIMY_AVANTOE_211, Items.GRIMY_KWUARM_213, Items.GRIMY_CADANTINE_215, Items.GRIMY_IRIT_LEAF_209};
+        grimyHerbs = new int[]{Items.GRIMY_RANARR_WEED_207, Items.GRIMY_LANTADYME_2485, Items.GRIMY_AVANTOE_211, Items.GRIMY_KWUARM_213, Items.GRIMY_CADANTINE_215, Items.GRIMY_IRIT_LEAF_209};
+
+
+        // Check counts on Slayer Helm
+        CommonActions.openTab(ctx, Game.Tab.EQUIPMENT);
+        ctx.equipment.itemAt(Equipment.Slot.HEAD).interact("Check");
+        sleep();
+        CommonActions.openTab(ctx, Game.Tab.INVENTORY);
 
         status = "Started";
     }
@@ -270,12 +296,13 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
     public void poll() {
         killCount = (int) Math.abs(((ctx.skills.experience(Constants.SKILLS_SLAYER) - startXP) / taskConfig.getXpPerKill()));
 
-        switch( checkState() ) {
+        switch (checkState()) {
             case Healing:
                 healAction.execute();
                 break;
             case PrayerPotion:
                 prayerPotion.execute();
+                this.potionDosesUsed++;
                 break;
             case BonesToPeaches:
                 bonesToPeaches.execute();
@@ -298,7 +325,7 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
             case Loot:
                 lootAction.execute();
                 sleep();
-                if( ctx.inventory.select().id(grimyHerbs).count() > 0 && ctx.inventory.select().id(Items.HERB_SACK_13226).count() == 1 ) {
+                if (ctx.inventory.select().id(grimyHerbs).count() > 0 && ctx.inventory.select().id(Items.HERB_SACK_13226).count() == 1) {
                     ctx.inventory.select().id(Items.HERB_SACK_13226).poll().interact("Fill");
                     sleep();
                 }
@@ -332,12 +359,17 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
                 break;
             default: // waiting
                 status = "Waiting";
+                if (getRuntime() < nextAntibanActionTime) {
+                    AntibanTools.runCommonAntiban(ctx);
+                    nextAntibanActionTime = getRuntime() + AntibanTools.getRandomInRange(1, 3);
+                }
+
         }
     }
 
     @Override
     public void repaint(Graphics g) {
-        if( !ctx.controller.isSuspended() && taskConfig != null ) {
+        if (!ctx.controller.isSuspended() && taskConfig != null) {
             //  Draw Background
             g.setColor(GuiHelper.getBaseColor());
             g.fillRoundRect(GuiHelper.getDialogX(), GuiHelper.getDialogY(), GuiHelper.getDialogWidth(), GuiHelper.getDialogHeight(), 4, 4);
@@ -359,6 +391,9 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
             g.drawString("Remaining: " + (remainingKills - killCount), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(4));
             g.drawString("Heal: " + healingMethod, GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(5));
 
+            if (taskConfig.isUsingPrayer())
+                g.drawString("Doses Used: " + potionDosesUsed, GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(6));
+
         }
     }
 
@@ -366,23 +401,23 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
     public void messaged(MessageEvent e) {
         String msg = e.text();
 
-        if( msg.toLowerCase().contains("return to a slayer master") ) {
+        if (msg.toLowerCase().contains("return to a slayer master")) {
             CommonActions.slayerRingTeleport(ctx, 1);
             ctx.controller.stop();
         }
-        if( msg.contains("monsters to complete your current slayer assignment") ) {
+        if (msg.contains("monsters to complete your current slayer assignment")) {
             String[] msgparts = msg.split(" ");
 
             remainingKills = Integer.parseInt(msgparts[5]);
             startXP = ctx.skills.experience(Constants.SKILLS_SLAYER);
         }
-        if( msg.contains("assigned to kill") && msg.contains("more to go") ) {
+        if (msg.contains("assigned to kill") && msg.contains("more to go")) {
             String[] msgparts = msg.split("; ")[1].split(" ");
 
             remainingKills = Integer.parseInt(msgparts[1]);
             startXP = ctx.skills.experience(Constants.SKILLS_SLAYER);
         }
-        if( msg.contains("no ammo left") ) {
+        if (msg.contains("no ammo left")) {
             ctx.controller.stop();
         }
     }
@@ -390,7 +425,7 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
     // Slayer Configurations
     private void slayerConfig() {
 
-        switch( npcName ) {
+        switch (npcName) {
             case "Bloodveld":
                 bloodveld();
                 break;
@@ -538,7 +573,6 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         standardRareDropTable();
 
         taskConfig.setXpPerKill(111);
-        taskConfig.setUsingGuthans(true);
     }
 
     private void ankou() {
@@ -592,6 +626,8 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         lootList.addLootItem(new LootItem(Items.GRIMY_KWUARM_213));
         lootList.addLootItem(new LootItem(Items.GRIMY_HARRALANDER_205));
         lootList.addLootItem(new LootItem(Items.GRIMY_IRIT_LEAF_209));
+
+        lootList.addLootItem(new LootItem(Items.BONES_526, 1, 1));
 
 
         gemDropTable();
@@ -650,7 +686,7 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         taskConfig.setXpPerKill(87);
 
 
-        if( ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id() == Items.DRAGON_CROSSBOW_21902 ) {
+        if (ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id() == Items.DRAGON_CROSSBOW_21902) {
             moveToSafeTile = new MoveToSafeTile(ctx, ctx.players.local().tile());
         } else {
             taskConfig.setUsingGuthans(true);
@@ -662,9 +698,12 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
     private void hellhound() {
 
         lootList.addLootItem(new LootItem(Items.SMOULDERING_STONE_13233));
-
+//        lootList.addLootItem(new LootItem(Items.BONES_526, 1, 10));
         taskConfig.setXpPerKill(116);
         taskConfig.setUsingGuthans(true);
+
+//        taskConfig.setUsingBonesToPeaches(true);
+
     }
 
     private void turoth() {
@@ -780,7 +819,7 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
 
         lootList.addLootItem(new LootItem(Items.SOUL_RUNE_566));
         lootList.addLootItem(new LootItem(Items.BLOOD_RUNE_565));
-        lootList.addLootItem(new LootItem(Items.FIRE_RUNE_554, 200, 1000));
+//        lootList.addLootItem(new LootItem(Items.FIRE_RUNE_554, 200, 1000));
         lootList.addLootItem(new LootItem(Items.EARTH_RUNE_557, 75, 5000));
 
         lootList.addLootItem(new LootItem(Items.GRIMY_RANARR_WEED_207));

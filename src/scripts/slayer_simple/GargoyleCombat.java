@@ -1,13 +1,12 @@
 package scripts.slayer_simple;
 
-import shared.action_config.CombatConfig;
-import shared.templates.AbstractAction;
-import shared.tools.GaussianTools;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
+import shared.templates.AbstractAction;
+import shared.tools.AntibanTools;
 
 import java.util.concurrent.Callable;
 
@@ -49,7 +48,7 @@ public class GargoyleCombat extends AbstractAction<ClientContext> {
     @Override
     public void execute() {
         // Add a touch of AFK
-        sleep(Math.abs(GaussianTools.getRandomGaussian(0, 500)));
+        AntibanTools.sleepDelay(2);
 
         // Check for npc interacting with player
         Npc target = ctx.npcs.select().select(new Filter<Npc>() {

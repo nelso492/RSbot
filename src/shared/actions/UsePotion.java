@@ -59,6 +59,7 @@ public class UsePotion extends AbstractAction<ClientContext> {
         }
 
         return (ctx.skills.level(targetSkill) != lastSkillLevel)
+                && ctx.inventory.select().id(this.potionIds).count() > 0
                 && ( skillDistance < 0 || (ctx.skills.level(targetSkill) >= skillLevelMin && ctx.skills.level(targetSkill) <= skillLevelMax));
     }
 
@@ -93,7 +94,7 @@ public class UsePotion extends AbstractAction<ClientContext> {
                 public Boolean call() throws Exception {
                     return ctx.skills.level(targetSkill) > skillLevelMax;
                 }
-            }, 100, 10);
+            }, 1000, 5);
         }
     }
 

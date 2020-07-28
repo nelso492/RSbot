@@ -93,7 +93,7 @@ public class CommonActions {
      * @return true if valid loot
      */
     public static boolean isValidLoot(ClientContext ctx, GroundItem groundItem, LootItem i, int maxDistanceToLoot) {
-        return (!ctx.inventory.isFull() || (groundItem.stackable() && ctx.inventory.select().id(groundItem.id()).count() > 0))
+        return (!ctx.inventory.isFull() || (groundItem.stackable() && ctx.inventory.select().id(groundItem.id()).count() > 0&& ctx.inventory.select().id(groundItem.id()).count() < i.getMaxInventoryCount()))
                 && groundItem.stackSize() >= i.getMinStackSize()
                 && groundItem.tile().matrix(ctx).reachable()
                 && groundItem.inViewport() && (maxDistanceToLoot < 0 || groundItem.tile().distanceTo(ctx.players.local()) <= maxDistanceToLoot);
