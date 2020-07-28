@@ -1,15 +1,15 @@
 package shared.actions;
 
-import shared.templates.AbstractAction;
-import shared.models.LootList;
-import shared.tools.AntibanTools;
-import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
+import scripts.slayer_simple.CombatConfig;
+import shared.models.LootList;
+import shared.templates.AbstractAction;
+import shared.tools.CommonActions;
 import shared.tools.GaussianTools;
 
 import java.awt.*;
@@ -36,6 +36,18 @@ public class CombatAction extends AbstractAction<ClientContext> {
         super(ctx, status);
     }
 
+    public CombatAction(ClientContext ctx, CombatConfig c) {
+        super(ctx, "Combat");
+        this.npcName = c.getNpcName();
+        this.npcDeathAnimation = c.getNpcDeathAnimation();
+        this.minDistanceToTarget = c.getMinDistanceToTarget();
+        this.loot = c.getLoot();
+        this.minHealthPercent = c.getMinHealthPercent();
+        this.safeTile = c.getSafeTile();
+        this.multiCombatArea = c.isMultiCombatArea();
+
+    }
+
     public CombatAction(ClientContext ctx, String status, String npcName, int npcDeathAnimation, int minHealthPercent, LootList loot, boolean multiCombatArea, Tile safeTile, int minDistanceToTarget) {
         super(ctx, status);
         this.npcName = npcName;
@@ -50,13 +62,13 @@ public class CombatAction extends AbstractAction<ClientContext> {
     @Override
     public boolean activate() {
         boolean hasMinHealth = ctx.combat.healthPercent() >= this.minHealthPercent;
-        boolean interacting = (ctx.players.local().interacting().valid() && ctx.players.local().interacting().name().equals(this.npcName))
-                || ctx.npcs.select().select(new Filter<Npc>() {
-            @Override
-            public boolean accept(Npc npc) {
-                return npc.name().equals(npcName) && npc.interacting().valid() && !npc.interacting().name().equalsIgnoreCase(ctx.players.local().name());
-            }
-        }).poll().valid();
+        boolean interacting = (ctx.players.local().interacting().valid() && ctx.players.local().interacting().name().equals(this.npcName));
+//                || ctx.npcs.select().select(new Filter<Npc>() {
+//            @Override
+//            public boolean accept(Npc npc) {
+//                return npc.name().equals(npcName) && npc.interacting().valid() && npc.interacting().name().equalsIgnoreCase(ctx.players.local().name()) && npc.tile().distanceTo(ctx.players.local()) < 5;
+//            }
+//        }).poll().valid();
         boolean validNpcNearby =
                 ctx.npcs.select().select(new Filter<Npc>() {
                     @Override
@@ -81,7 +93,9 @@ public class CombatAction extends AbstractAction<ClientContext> {
         }).poll();
 
 
-        if (!target.valid()) {
+        if (target.valid() && target.tile().matrix(ctx).reachable() && (target.tile().distanceTo(ctx.players.local()) < 2)) {
+            sleep();
+        } else {
             // None Found. Find nearest valid target
             target = ctx.npcs.select().select(new Filter<Npc>() {
                 @Override
@@ -89,90 +103,87 @@ public class CombatAction extends AbstractAction<ClientContext> {
                     return (npc.name().equals(npcName) && validNpcForCombat(npc));
                 }
             }).nearest().poll();
-        }
 
-        Npc npc = target;
+            Npc npc = target;
 
-
-        if(GaussianTools.takeActionRarely()){
-            ctx.input.move(new Point(npc.nextPoint().x + Random.nextInt(-20, 20), npc.nextPoint().y + Random.nextInt(-20, 20)));
-            sleep();
-        }
-
-        // Add a touch of AFK
-        AntibanTools.sleepDelay(Random.nextInt(0, 3));
-
-        // Target Npc
-        if (npc.inViewport() && (!npc.interacting().valid() || npc.interacting().name().equals(ctx.players.local().name()))) {
-            if (npc.interact("Attack", npc.name())) {
-                // Chill for a sec
-               AntibanTools.sleepDelay(2);
-
-                // Wait for the first hit
-                waitForCombat();
-
-                // Triple check we've got a target
-                if (ctx.players.local().interacting().valid()) {
-                    if (this.npcDeathAnimation > 0) {
-                        // Wait for drop like a good human
-                        Condition.wait(new Callable<Boolean>() {
-                            @Override
-                            public Boolean call() throws Exception {
-                                return !npc.valid() || validNpcForCombat(npc);
-                            }
-                        }, Random.nextInt(250, 500), 60);
-                    }
-                }
+            if (GaussianTools.takeActionRarely()) {
+                ctx.input.move(new Point(npc.nextPoint().x + Random.nextInt(-20, 20), npc.nextPoint().y + Random.nextInt(-20, 20)));
+                sleep();
             }
-        } else {
-            if (this.safeTile == null) {
-                ctx.camera.turnTo(npc);
 
-                Condition.wait(new Callable<Boolean>() {
-                    @Override
-                    public Boolean call() throws Exception {
-                        return npc.inViewport();
-                    }
-                }, 100, 20);
+            // Add a touch of AFK
+//        AntibanTools.sleepDelay(AntibanTools.getRandomInRange(0, 1));
 
-                if (!npc.inViewport()) {
-                    Tile playerTile = ctx.players.local().tile();
-                    ArrayList<Tile> destinationTiles = new ArrayList<>();
-                    int secondaryOffset = Random.nextInt(-3, 3);
+            // Target Npc
+            if (npc.inViewport() && (!npc.interacting().valid() || npc.interacting().name().equals(ctx.players.local().name()))) {
+                if (npc.interact("Attack", npc.name())) {
 
-                    // Add new destination tiles
-                    destinationTiles.add(new Tile(npc.tile().x() + secondaryOffset, npc.tile().y() + this.minDistanceToTarget + 1)); // N
-                    destinationTiles.add(new Tile(npc.tile().x() + secondaryOffset, npc.tile().y() - this.minDistanceToTarget)); // S
-                    destinationTiles.add(new Tile(npc.tile().x() - this.minDistanceToTarget, npc.tile().y() + secondaryOffset + 1)); // E
-                    destinationTiles.add(new Tile(npc.tile().x() + this.minDistanceToTarget, npc.tile().y() + secondaryOffset)); // W
+                    // Wait for the first hit
+                    waitForCombat();
 
-                    // Closest to player
-                    Collections.sort(destinationTiles, new Comparator<Tile>() {
+                    // Triple check we've got a target
+//                if (ctx.players.local().interacting().valid()) {
+//                    if (this.npcDeathAnimation > 0) {
+//                        // Wait for drop like a good human
+//                        Condition.wait(new Callable<Boolean>() {
+//                            @Override
+//                            public Boolean call() throws Exception {
+//                                return !npc.valid() || validNpcForCombat(npc);
+//                            }
+//                        }, Random.nextInt(250, 500), 60);
+//                    }
+//                }
+                }
+            } else {
+                if (this.safeTile == null) {
+                    ctx.camera.turnTo(npc);
+
+                    Condition.wait(new Callable<Boolean>() {
                         @Override
-                        public int compare(Tile o1, Tile o2) {
-                            return (int) ((o1.distanceTo(playerTile) - o2.distanceTo(playerTile)) * 100);
+                        public Boolean call() throws Exception {
+                            return npc.inViewport();
                         }
-                    });
+                    }, 100, 20);
 
-                    for (Tile t : destinationTiles) {
+                    if (!npc.inViewport() && this.minDistanceToTarget > 1) {
+                        Tile playerTile = ctx.players.local().tile();
+                        ArrayList<Tile> destinationTiles = new ArrayList<>();
+                        int secondaryOffset = Random.nextInt(-3, 3);
 
-                        // move to "safe" tile
-                        if (t.matrix(ctx).reachable()) {
-                            CommonActions.walkToSafespot(ctx, t);
-                            sleep();
+                        // Add new destination tiles
+                        destinationTiles.add(new Tile(npc.tile().x() + secondaryOffset, npc.tile().y() + this.minDistanceToTarget + 1)); // N
+                        destinationTiles.add(new Tile(npc.tile().x() + secondaryOffset, npc.tile().y() - this.minDistanceToTarget)); // S
+                        destinationTiles.add(new Tile(npc.tile().x() - this.minDistanceToTarget, npc.tile().y() + secondaryOffset + 1)); // E
+                        destinationTiles.add(new Tile(npc.tile().x() + this.minDistanceToTarget, npc.tile().y() + secondaryOffset)); // W
 
-                            Condition.wait(new Callable<Boolean>() {
-                                @Override
-                                public Boolean call() throws Exception {
-                                    return !ctx.players.local().inMotion();
-                                }
-                            }, 150, 30);
-
-                            if (ctx.players.local().tile().distanceTo(npc) >= this.minDistanceToTarget) {
-                                break;
+                        // Closest to player
+                        Collections.sort(destinationTiles, new Comparator<Tile>() {
+                            @Override
+                            public int compare(Tile o1, Tile o2) {
+                                return (int) ((o1.distanceTo(playerTile) - o2.distanceTo(playerTile)) * 100);
                             }
-                        }
+                        });
 
+                        for (Tile t : destinationTiles) {
+
+                            // move to "safe" tile
+                            if (t.matrix(ctx).reachable()) {
+                                CommonActions.walkToSafespot(ctx, t);
+                                sleep();
+
+                                Condition.wait(new Callable<Boolean>() {
+                                    @Override
+                                    public Boolean call() throws Exception {
+                                        return !ctx.players.local().inMotion();
+                                    }
+                                }, 150, 30);
+
+                                if (ctx.players.local().tile().distanceTo(npc) >= this.minDistanceToTarget) {
+                                    break;
+                                }
+                            }
+
+                        }
                     }
                 }
             }
@@ -183,8 +194,8 @@ public class CombatAction extends AbstractAction<ClientContext> {
     private boolean validNpcForCombat(Npc npc) {
         boolean approved =
                 npc.healthPercent() > 0 &&
-                        !npc.interacting().valid()
-                        && (this.minDistanceToTarget <= 0 || npc.tile().distanceTo(ctx.players.local()) >= this.minDistanceToTarget);
+                        !npc.interacting().valid();
+//                        && (this.minDistanceToTarget <= 0 || npc.tile().distanceTo(ctx.players.local()) >= this.minDistanceToTarget);
         return approved;
         //        return (isMultiCombatArea() ||  || (getSafeTile() != null && getSafeTile().distanceTo(ctx.players.local()) == 0))) && npc.healthPercent() > 1;
     }
@@ -193,9 +204,9 @@ public class CombatAction extends AbstractAction<ClientContext> {
         Condition.wait(new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                return ctx.players.local().interacting().valid();
+                return ctx.players.local().interacting().valid() && !ctx.players.local().inMotion();
             }
-        }, 200, 10);
+        }, 200, 5);
     }
 
     public String getNpcName() {

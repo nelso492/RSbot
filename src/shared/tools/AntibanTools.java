@@ -180,7 +180,7 @@ public class AntibanTools {
 
         ctx.input.move(Random.nextInt(x, x + skillsXOffset), Random.nextInt(y, y + skillsYOffset));
 
-        sleepDelay(Random.nextInt(1, 3));
+        sleepDelay(Random.nextInt(1, 6));
 
         openTab(ctx, Game.Tab.INVENTORY);
     }
@@ -313,5 +313,21 @@ public class AntibanTools {
      */
     public static void toggleXPDrops(ClientContext ctx) {
         ctx.widgets.widget(160).component(1).click();
+    }
+
+    public static void runCommonAntiban(ClientContext ctx){
+        switch(Random.nextInt(0, 11)){
+            case 1: toggleRun(ctx); break;
+            case 2: moveMouseOffScreen(ctx, true); break;
+            case 3: checkStat(ctx, getRandomInRange(0,23)); break;
+            case 4: moveMouseOffScreen(ctx, false); break;
+            case 5: checkStat(ctx, getRandomInRange(0,4)); break;
+            case 6: resetCamera(ctx); break;
+            case 7: hoverRandomNPC(ctx); break;
+            case 8: setRandomCameraAngle(ctx); break;
+            case 9: setRandomCameraPitch(ctx); break;
+            case 10: jiggleMouse(ctx); break;
+            case 11: doNothing(); break;
+        }
     }
 }

@@ -1,13 +1,12 @@
 package scripts.nmz;
 
 
+import org.powerbot.script.rt4.ClientContext;
 import shared.constants.Items;
 import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
-import org.powerbot.script.rt4.ClientContext;
 
 import static java.lang.Integer.parseInt;
-import static org.powerbot.script.Condition.sleep;
 
 public class UseAbsorptionPotion extends AbstractAction<ClientContext> {
 
