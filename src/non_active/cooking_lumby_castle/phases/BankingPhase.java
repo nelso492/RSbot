@@ -3,8 +3,6 @@ package scripts.cooking_lumby_castle.phases;
 import scripts.cooking_lumby_castle.actions.WalkLumbyBankToStairs;
 import scripts.cooking_lumby_castle.actions.WalkStairsToLumbyBank;
 import shared.actions.BankAction;
-import shared.constants.GameObjects;
-import shared.templates.AbstractPhase;
 import org.powerbot.script.rt4.ClientContext;
 import shared.templates.StructuredPhase;
 import shared.tools.CommonAreas;

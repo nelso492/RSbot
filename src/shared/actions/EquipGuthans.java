@@ -1,5 +1,6 @@
 package shared.actions;
 
+import org.powerbot.script.rt4.Game;
 import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
@@ -36,6 +37,7 @@ public class EquipGuthans extends AbstractAction<ClientContext> {
 
     @Override
     public void execute() {
+        CommonActions.openTab(ctx, Game.Tab.INVENTORY);
         for( Item i : ctx.inventory.select(new Filter<Item>() {
             @Override
             public boolean accept(Item item) {

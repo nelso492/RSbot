@@ -1,15 +1,15 @@
 package shared.actions;
 
-import shared.templates.AbstractAction;
-import shared.tools.CommonActions;
-import shared.models.LootItem;
-import shared.models.LootList;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Filter;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.BasicQuery;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GroundItem;
+import shared.models.LootItem;
+import shared.models.LootList;
+import shared.templates.AbstractAction;
+import shared.tools.CommonActions;
 
 import java.util.concurrent.Callable;
 
@@ -53,6 +53,7 @@ public class LootAction extends AbstractAction<ClientContext> {
 
     @Override
     public void execute() {
+
         for (GroundItem item : ctx.groundItems) {
             if (!ctx.inventory.isFull() || (item.stackable() && ctx.inventory.select().id(item.id()).count() == 1)) {
                 // Pause for human nature

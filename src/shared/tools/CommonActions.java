@@ -33,14 +33,39 @@ public class CommonActions {
      */
     public static void openTab(ClientContext ctx, Game.Tab tab) {
         if (ctx.game.tab() != tab) {
-            ctx.game.tab(tab);
 
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return ctx.game.tab() == tab;
-                }
-            }, 250, 10);
+            if (tab == Game.Tab.INVENTORY) {
+                ctx.input.send("{VK_F2 down}");
+                Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return ctx.game.tab() == tab;
+                    }
+                }, 250, 10);
+                ctx.input.send("{VK_F2 up}");
+
+            } else if(tab == Game.Tab.MAGIC) {
+                ctx.input.send("{VK_F4 down}");
+
+                Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return ctx.game.tab() == tab;
+                    }
+                }, 250, 10);
+                ctx.input.send("{VK_F4 up}");
+            }
+
+            else {
+                ctx.game.tab(tab);
+
+                Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return ctx.game.tab() == tab;
+                    }
+                }, 250, 10);
+            }
         }
     }
 
@@ -93,7 +118,10 @@ public class CommonActions {
      * @return true if valid loot
      */
     public static boolean isValidLoot(ClientContext ctx, GroundItem groundItem, LootItem i, int maxDistanceToLoot) {
-        return (!ctx.inventory.isFull() || (groundItem.stackable() && ctx.inventory.select().id(groundItem.id()).count() > 0&& ctx.inventory.select().id(groundItem.id()).count() < i.getMaxInventoryCount()))
+        return (
+                (groundItem.stackable() && (ctx.inventory.select().id(groundItem.id()).count() == 1 || !ctx.inventory.isFull()) && (ctx.inventory.select().id(groundItem.id()).first().poll().stackSize() < i.getMaxInventoryCount() || i.getMaxInventoryCount() == -1)) ||
+                        (!ctx.inventory.isFull() && (ctx.inventory.select().id(groundItem.id()).count() < i.getMaxInventoryCount() || i.getMaxInventoryCount() == -1))
+        )
                 && groundItem.stackSize() >= i.getMinStackSize()
                 && groundItem.tile().matrix(ctx).reachable()
                 && groundItem.inViewport() && (maxDistanceToLoot < 0 || groundItem.tile().distanceTo(ctx.players.local()) <= maxDistanceToLoot);

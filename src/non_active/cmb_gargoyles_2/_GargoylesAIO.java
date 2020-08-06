@@ -1,18 +1,18 @@
-package scripts.cmb_gargoyles_2;
+package non_active.cmb_gargoyles_2;
 
-import shared.constants.Items;
-import shared.actions.*;
-import shared.action_config.CombatConfig;
-import shared.action_config.HealConfig;
-import shared.tools.CommonActions;
-import shared.tools.GuiHelper;
-import shared.models.LootItem;
-import shared.models.LootList;
-import scripts.slayer_simple.GargoyleCombat;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.Equipment;
+import scripts.slayer_simple.CombatConfig;
+import shared.actions.*;
+import shared.constants.Items;
+import shared.models.LootItem;
+import shared.models.LootList;
+import shared.tools.AntibanTools;
+import shared.tools.CommonActions;
+import shared.tools.GaussianTools;
+import shared.tools.GuiHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,12 +26,14 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
     private String status;
     private boolean lootDuringCombat;
     private int minHealthPercent;
-    private CombatConfig combatConfig;
     private int killCount;
     private String killCountMsg;
     private int[] combatPotionIds;
     private Tile[] pathToSafeZone = {new Tile(3443, 3549, 2), new Tile(3440, 3546, 2), new Tile(3437, 3543, 2), new Tile(3433, 3540, 2), new Tile(3429, 3538, 2), new Tile(3426, 3541, 2)};
     private ArrayList<Integer> specWeaponIds;
+    private Rectangle invRect;
+    private long nextBreak;
+
 
     // Loot
     private LootList lootList;
@@ -39,7 +41,7 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
 
     // Tasks
     private HealAction healAction;
-    private GargoyleCombat combatAction;
+    private CombatAction combatAction;
     private LootAction lootAction;
     private ToggleLevelUp toggleLevelUp;
     private HighAlch highAlch;
@@ -52,20 +54,22 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
     public void start() {
         // Config
         startConfigs();
+        nextBreak = (long) AntibanTools.getRandomInRange(0, 5) + 3600;
+
+        this.invRect = ctx.widgets.component(7, 0).boundingRect();
 
         // Heal Config
-        HealConfig healConfig = new HealConfig(CommonActions.allFoodIds(), minHealthPercent);
-        healAction = new HealAction(ctx, "Healing", healConfig);
+        healAction = new HealAction(ctx, "Healing", CommonActions.allFoodIds(), minHealthPercent);
 
         // Slayer Config
         gargLootConfig();
 
         // Loot Task
-        lootAction = new LootAction(ctx, "Loot", lootList, -1, lootDuringCombat, true);
+        lootAction = new LootAction(ctx, "Loot", lootList, -1, lootDuringCombat);
 
         // Combat Config
-        combatConfig = new CombatConfig("Gargoyle", -1, minHealthPercent, lootList, ctx.combat.inMultiCombat(), null);
-        combatAction = new GargoyleCombat(ctx, "Combat", combatConfig);
+        var combatConfig = new CombatConfig("Gargoyle", -1, minHealthPercent, lootList, ctx.combat.inMultiCombat(), null);
+        combatAction = new CombatAction(ctx, combatConfig);
         waitForLoot = new WaitForCombatLoot(ctx);
 
         // Alch Config
@@ -87,7 +91,7 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
 
     @Override
     public void poll() {
-        switch( checkState() ) {
+        switch (checkState()) {
             case Loot:
                 lootAction.execute();
                 break;
@@ -98,7 +102,7 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
                 healAction.execute();
                 break;
             case Spec:
-                if( !ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).name().contains("Guthan") )
+                if (!ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).name().contains("Guthan"))
                     ctx.widgets.component(160, 32).click();
                 break;
             case Alch:
@@ -123,11 +127,17 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
                 ctx.movement.newTilePath(pathToSafeZone).traverse();
                 sleep();
 
-                if( ctx.players.local().tile().x() < 3430 ) {
+                if (ctx.players.local().tile().x() < 3430) {
                     ctx.game.logout();
                     ctx.controller.stop();
                 }
             default: // waiting
+                if (getRuntime() > nextBreak) {
+                    if (GaussianTools.takeActionNormal()) {
+                        AntibanTools.runCommonAntiban(ctx);
+                    }
+                    this.nextBreak = getRuntime() + (AntibanTools.getRandomInRange(4, 9) * 3600);
+                }
                 status = "Waiting";
         }
 
@@ -136,23 +146,20 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
 
     @Override
     public void repaint(Graphics g) {
-        if( !ctx.controller.isSuspended() ) {
+        if (!ctx.controller.isSuspended()) {
 
 
             //  Draw Background
             g.setColor(GuiHelper.getBaseColor());
-            g.fillRoundRect(GuiHelper.getBaseX(), GuiHelper.getBaseY(), GuiHelper.getWidthX(), GuiHelper.getWidthY(), 4, 4);
+            g.fillRoundRect(this.invRect.x, this.invRect.y, this.invRect.width, this.invRect.height, 4, 4);
             g.setColor(Color.WHITE);
-            g.drawRoundRect(GuiHelper.getBaseX(), GuiHelper.getBaseY(), GuiHelper.getWidthX(), GuiHelper.getWidthY(), 4, 4);
+            g.drawRoundRect(this.invRect.x, this.invRect.y, this.invRect.width, this.invRect.height, 4, 4);
             g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
 
             //   Draw Data
-            g.drawString("Status : " + (status), GuiHelper.getStartX(), GuiHelper.getStartY(1));
-            g.drawString("Runtime: " + GuiHelper.getReadableRuntime(getRuntime()), GuiHelper.getStartX(), GuiHelper.getStartY(2));
-            g.drawString(killCountMsg, GuiHelper.getStartX(), GuiHelper.getStartY(3));
-            g.drawString("ATK: " + ctx.skills.level(Constants.SKILLS_ATTACK), GuiHelper.getStartX(), GuiHelper.getStartY(5));
-            g.drawString("STR: " + ctx.skills.level(Constants.SKILLS_STRENGTH), GuiHelper.getStartX(), GuiHelper.getStartY(6));
-            g.drawString("DEF: " + ctx.skills.level(Constants.SKILLS_DEFENSE), GuiHelper.getStartX(), GuiHelper.getStartY(7));
+            g.drawString("Status : " + (status), this.invRect.x, this.invRect.y + 20);
+            g.drawString("Runtime: " + GuiHelper.getReadableRuntime(getRuntime()), this.invRect.x, this.invRect.y + 40);
+            g.drawString(killCountMsg, this.invRect.x, this.invRect.y + 60);
 
 
         }
@@ -162,7 +169,7 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
     public void messaged(MessageEvent e) {
         String msg = e.text();
 
-        if( msg.equals("The gargoyle cracks apart.") ) {
+        if (msg.equals("The gargoyle cracks apart.")) {
             killCount++;
         }
     }
@@ -177,14 +184,13 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
         killCountMsg = "Kills: " + killCount;
         status = "";
         lootDuringCombat = true;
-        combatConfig = null;
         minHealthPercent = 50;
 
         specWeaponIds = new ArrayList<>();
         specWeaponIds.add(Items.ABYSSAL_BLUDGEON_13263);
         specWeaponIds.add(Items.GRANITE_HAMMER_21742);
 
-        combatPotionIds = new int[] {Items.SUPER_COMBAT_POTION1_12701, Items.SUPER_COMBAT_POTION2_12699, Items.SUPER_COMBAT_POTION3_12697, Items.SUPER_COMBAT_POTION4_12695};
+        combatPotionIds = new int[]{Items.SUPER_COMBAT_POTION1_12701, Items.SUPER_COMBAT_POTION2_12699, Items.SUPER_COMBAT_POTION3_12697, Items.SUPER_COMBAT_POTION4_12695};
     }
 
     // Loot Configs
@@ -234,53 +240,53 @@ public class _GargoylesAIO extends PollingScript<ClientContext> implements Messa
 
     private State checkState() {
 
-        if( healAction.activate() ) {
+        if (healAction.activate()) {
             status = "Heal";
             return State.Healing;
         }
-        if( equipGear.activate() ) {
+        if (equipGear.activate()) {
             status = "Gear";
             return State.Gear;
         }
-        if( equipGuthans.activate() ) {
+        if (equipGuthans.activate()) {
             status = "Guthans";
             return State.Guthans;
         }
-        if( lootAction.activate() ) {
+        if (lootAction.activate()) {
             status = "Loot";
             return State.Loot;
         }
-        if( highAlch.activate() ) {
+        if (highAlch.activate()) {
             status = "Alch";
             return State.Alch;
         }
 
-        if( waitForLoot.activate() ) {
+        if (waitForLoot.activate()) {
             status = "Drop";
             return State.WaitForLoot;
         }
-        if( combatAction.activate() ) {
+        if (combatAction.activate()) {
             status = "Combat";
             return State.Combat;
         }
 
-        if( combatPotion.activate() && ctx.inventory.select().id(combatPotionIds).count() > 0 ) {
+        if (combatPotion.activate() && ctx.inventory.select().id(combatPotionIds).count() > 0) {
             status = "Potion";
             return State.Potion;
         }
 
-        if( ctx.combat.specialPercentage() >= 60 && !ctx.combat.specialAttack() && specWeaponIds.contains(ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id()) ) {
+        if (ctx.combat.specialPercentage() >= 60 && !ctx.combat.specialAttack() && specWeaponIds.contains(ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id())) {
             status = "Spec";
             return State.Spec;
         }
 
 
-        if( toggleLevelUp.activate() ) {
+        if (toggleLevelUp.activate()) {
             status = "Level";
             return State.LevelUp;
         }
 
-        if( ctx.inventory.select().id(CommonActions.allFoodIds()).count() == 0 && ctx.combat.healthPercent() < minHealthPercent ) {
+        if (ctx.inventory.select().id(CommonActions.allFoodIds()).count() == 0 && ctx.combat.healthPercent() < minHealthPercent) {
             status = "Teleport";
             return State.Stop;
         }

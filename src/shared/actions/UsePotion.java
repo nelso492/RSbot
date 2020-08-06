@@ -52,50 +52,48 @@ public class UsePotion extends AbstractAction<ClientContext> {
     @Override
     public boolean activate() {
         // Calculate distance to bounds
-        if( isSkillDropping ) {
+        if (isSkillDropping) {
             skillDistance = ctx.skills.level(targetSkill) - skillLevelMin;
         } else {
             skillDistance = skillLevelMax - ctx.skills.level(targetSkill);
         }
 
+        // check no range given
+        boolean drinkPotionProbability = false;
+
+        // Check distance to bound
+        if (skillRange == 0 || skillDistance <= 0 || skillDistance < skill25) {
+            drinkPotionProbability = true;
+        } else if (skillDistance >= skill75) {
+            drinkPotionProbability = GaussianTools.takeActionRarely();
+        } else if (skillDistance >= skill50) {
+            drinkPotionProbability = GaussianTools.takeActionUnlikely();
+        } else if (skillDistance >= skill25) {
+            drinkPotionProbability = !GaussianTools.takeActionLikely();
+        }
+
+
         return (ctx.skills.level(targetSkill) != lastSkillLevel)
-                && ctx.inventory.select().id(this.potionIds).count() > 0
-                && ( skillDistance < 0 || (ctx.skills.level(targetSkill) >= skillLevelMin && ctx.skills.level(targetSkill) <= skillLevelMax));
+                && drinkPotionProbability
+                && ctx.inventory.select().id(this.potionIds).count() > 0;
     }
 
     @Override
     public void execute() {
         lastSkillLevel = ctx.skills.level(targetSkill);
-        boolean drinkPotion;
 
-        // check no range given
-        if( skillRange == 0 || skillDistance <= 0 ) {
-            drinkPotion = true;
-        } else {
-            // Check distance to bound
-            if( skillDistance >= skill75){
-                drinkPotion = GaussianTools.takeActionRarely();
-            }else if( skillDistance >= skill50){
-                drinkPotion = GaussianTools.takeActionUnlikely();
-            }else if( skillDistance >= skill25){
-                drinkPotion = !GaussianTools.takeActionLikely();
-            }else{
-                drinkPotion = true;
+
+        ctx.game.tab(Game.Tab.INVENTORY);
+        sleep(Random.nextInt(500, 1200));
+        CommonActions.usePotion(ctx, potionIds);
+
+        Condition.wait(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return ctx.skills.level(targetSkill) > skillLevelMax;
             }
-        }
+        }, 1000, 5);
 
-        if(drinkPotion) {
-            ctx.game.tab(Game.Tab.INVENTORY);
-            sleep(Random.nextInt(500, 1200));
-            CommonActions.usePotion(ctx, potionIds);
-
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return ctx.skills.level(targetSkill) > skillLevelMax;
-                }
-            }, 1000, 5);
-        }
     }
 
 

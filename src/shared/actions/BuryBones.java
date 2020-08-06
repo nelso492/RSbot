@@ -1,14 +1,12 @@
 package shared.actions;
 
-import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Game;
 import org.powerbot.script.rt4.Item;
+import shared.templates.AbstractAction;
 
 import java.util.concurrent.Callable;
-
-import static org.powerbot.script.Condition.sleep;
 
 /**
  * Bury bones for Prayer leveling. Will toggle quick prayers if enabled for use in Kourend dungeon.
@@ -16,23 +14,26 @@ import static org.powerbot.script.Condition.sleep;
 public class BuryBones extends AbstractAction<ClientContext> {
 
     private int boneId;
+    private int minInventoryCount;
     private boolean togglePrayers;
 
-    public BuryBones(ClientContext ctx, String status, int boneId, boolean togglePrayers) {
+    public BuryBones(ClientContext ctx, String status, int boneId, int minInventoryCount, boolean togglePrayers) {
         super(ctx, status);
         this.boneId = boneId;
+        this.minInventoryCount = minInventoryCount;
         this.togglePrayers = togglePrayers;
     }
 
     public BuryBones(ClientContext ctx, String status) {
         super(ctx, status);
         this.boneId = -1;
+        this.minInventoryCount = 1;
         this.togglePrayers = false;
     }
 
     @Override
     public boolean activate() {
-        return ctx.inventory.select().id(boneId).count() > 0;
+        return ctx.inventory.select().id(boneId).count() >= minInventoryCount;
     }
 
     @Override
@@ -43,17 +44,20 @@ public class BuryBones extends AbstractAction<ClientContext> {
         }
 
         ctx.game.tab(Game.Tab.INVENTORY);
-        Item bone = ctx.inventory.select().id(boneId).poll();
 
-        if(bone.valid()){
-            bone.interact("Bury");
+        while (ctx.inventory.select().id(boneId).count() > 0) {
+            Item bone = ctx.inventory.select().id(boneId).poll();
 
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return !bone.valid();
-                }
-            }, 100, 10);
+            if (bone.valid()) {
+                bone.interact("Bury");
+
+                Condition.wait(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        return !bone.valid();
+                    }
+                }, 100, 10);
+            }
         }
 
         if(!ctx.prayer.prayersActive() && togglePrayers){
