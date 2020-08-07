@@ -26,6 +26,8 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
     private GuzzleRockCake guzzleRockCake;
     private InteractWithGameObject recurrentDamagePowerUp;
     private InteractWithGameObject zapperPowerUp;
+    private boolean overloadRequired;
+
 //    private InteractWithGameObject powerSurgePowerUp;
 
     // Power Surge
@@ -48,6 +50,8 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
     @Override
     public void start() {
         this.invRect = ctx.widgets.component(7, 0).boundingRect();
+
+        this.overloadRequired = ctx.combat.health() > 50;
 
         // Overload Potion (might ignore for now)
         overloadPotion = new UsePotion(ctx, "Overload", overloadIds, Constants.SKILLS_HITPOINTS, 50, 52, false);
@@ -79,20 +83,21 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
 
     @Override
     public void poll() {
-        this.invRect = ctx.widgets.component(7, 0).boundingRect();
-
 
         // Antiban Check
         switch (checkState()) {
             case GUZZLE:
                 status = guzzleRockCake.getStatus();
+//                sleep(Random.nextInt(1000, 50000));
                 guzzleRockCake.execute();
+                lastGuzzleAttemptTimestamp = getRuntime();
                 this.lastGuzzleAttemptHP = 1;
                 break;
             case OVERLOAD:
                 status = overloadPotion.getStatus();
                 lastOverloadTimestamp = getRuntime();
                 overloadPotion.execute();
+                this.overloadRequired = false;
                 break;
             case ABSORPTION:
                 status = absorptionPotion.getStatus();
@@ -142,24 +147,53 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
         g.drawString("Runtime: " + GuiHelper.getReadableRuntime(getRuntime()), this.invRect.x + 15, this.invRect.y + 40);
 
         g.setColor(GuiHelper.getTextColorInformation());
-        g.drawString("Guzzled: " + GuiHelper.getReadableRuntime(this.lastGuzzleAttemptTimestamp), this.invRect.x + 15, this.invRect.y + 70);
+        g.drawString("Guzzled: " + GuiHelper.getReadableRuntime(this.lastGuzzleAttemptTimestamp) + " | " + this.lastGuzzleAttemptHP + "HP", this.invRect.x + 15, this.invRect.y + 70);
         g.drawString("Overloaded: " + GuiHelper.getReadableRuntime(this.lastOverloadTimestamp), this.invRect.x + 15, this.invRect.y + 90);
+
+        g.setColor(GuiHelper.getTextColorImportant());
+        g.drawString("DEF: " + ctx.skills.level(Constants.SKILLS_DEFENSE), this.invRect.x + 15, this.invRect.y + 120);
 //        g.drawString("Last Overload : " + GuiHelper.getReadableRuntime(getRuntime() - lastOverloadTimestamp), GuiHelper.getDialogStartX(), GuiHelper.getStartY(4));
 
+    }
+
+    private boolean getGuzzleChance() {
+        switch (ctx.combat.health()) {
+            case 1:
+                return false; //Never Guzzle On 1HP
+            case 2:
+                return GaussianTools.takeActionNormal();
+            case 3:
+                return GaussianTools.takeActionLikely();
+            case 4:
+                return !GaussianTools.takeActionRarely();
+            case 5:
+                return !GaussianTools.takeActionNever();
+            default:
+                return true;
+        }
     }
 
     @Override
     public void messaged(MessageEvent messageEvent) {
         String msg = messageEvent.text().toLowerCase();
 
-        if (msg.contains("feel a surge of special attack power") && ctx.inventory.select().id(Items.GRANITE_MAUL_4153).poll().valid()) {
-            // powerSurgeActive = true;
+//        if (msg.contains("feel a surge of special attack power") && ctx.inventory.select().id(Items.GRANITE_MAUL_4153).poll().valid()) {
+//            // powerSurgeActive = true;
+//        }
+//
+//        if (msg.contains("surge of special attack power has ended") && powerSurgeActive) {
+//            //   powerSurgeActive = false;
+//            //  unequipPowerSurgeEqupment();
+//        }
+
+        if (msg.contains("worn off")) {
+            this.overloadRequired = true;
         }
 
-        if (msg.contains("surge of special attack power has ended") && powerSurgeActive) {
-            //   powerSurgeActive = false;
-            //  unequipPowerSurgeEqupment();
-        }
+        // Ensures this doesn't have to be checked too often since messaged fires on callback
+        this.invRect = ctx.widgets.component(7, 0).boundingRect();
+
+
     }
 
     private enum State {
@@ -179,14 +213,12 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
         }
 
         // Guzzle Rock Cake if HP in range && not overloading && time elapsed since last check decreasing as hp rises.
-        // more likely to notice hp gain as time elapses. random to prevent action on exact intervals
-        if (GaussianTools.takeActionNormal() && (ctx.combat.health() != lastGuzzleAttemptHP)) {
-            if (guzzleRockCake.activate()) {
-                lastGuzzleAttemptTimestamp = getRuntime();
-                AntibanTools.sleepDelay(AntibanTools.getRandomInRange(0,2));
+        if (!this.overloadRequired && ((ctx.combat.health() != lastGuzzleAttemptHP) || (ctx.combat.health() > 4))) {
+            if (guzzleRockCake.activate() && getGuzzleChance()) {
                 return State.GUZZLE;
+            } else {
+                lastGuzzleAttemptHP++;
             }
-            lastGuzzleAttemptHP = ctx.combat.health();
         }
 
         // Recurrent Damage
