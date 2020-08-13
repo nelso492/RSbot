@@ -1,7 +1,6 @@
 package shared.templates;
 
 import org.powerbot.script.rt4.ClientContext;
-import shared.tools.AntibanTools;
 
 import static org.powerbot.script.Condition.sleep;
 
@@ -22,15 +21,23 @@ public abstract class StructuredPhase extends AbstractPhase<ClientContext> {
         // If null, time to switch phases on completion
         if (this.currentAction != null) {
             if (this.currentAction.activate()) {
-                if (this.getStatus().equals(this.currentAction.getStatus())) {
-                    // This process is currently running, check for completion;
 
-                    System.out.println("Checking for completion: " + this.getStatus());
+                // If this process is currently running, check for completion
+                if (this.getStatus().equals(this.currentAction.getStatus())) {
+                    System.out.println("Validating: " + this.getStatus());
+
                     if (this.currentAction.isComplete()) {
                         this.currentAction = (StructuredAction) this.currentAction.getNextAction();
                     } else {
-                        System.out.println(this.currentAction.getStatus() + " is awaiting completion");
-                        sleep(); //Wait before checking again
+                        this.checkAttempt++;
+
+                        if (checkAttempt > 5) {
+                            this.currentAction.execute();
+                            this.checkAttempt = 0;
+                        } else {
+                            System.out.println(this.currentAction.getStatus() + " recheck " + checkAttempt + " of 5");
+                            sleep(); //Wait before checking again
+                        }
                     }
                 } else {
                     // This is a new Action, execute it
@@ -39,25 +46,24 @@ public abstract class StructuredPhase extends AbstractPhase<ClientContext> {
                     this.currentAction.execute();
                     this.setStatus(this.currentAction.getStatus());
                 }
-            } else {
+            }
+            else {
                 if (this.currentAction.isComplete()) {
-                    System.out.println("Action Complete: " + this.currentAction.getStatus());
                     this.currentAction = (StructuredAction) this.currentAction.getNextAction();
-                } else {
+                }
+                else {
                     // Sleep till retry
-
                     if (this.checkAttempt < 5) this.checkAttempt++;
-                    AntibanTools.sleepDelay(this.checkAttempt);
-
+                    sleep();
                 }
-
-                // Retry in case of misclick
-                if (!ctx.players.local().interacting().valid() && ctx.players.local().animation() == -1 && !ctx.players.local().inMotion() && this.currentAction != null && this.currentAction.activate()) {
-                    // Retry execution
-                    this.checkAttempt = 0;
-                    System.out.println("Retrying: " + this.currentAction.getStatus());
-                    this.currentAction.execute();
-                }
+//
+//                // Retry in case of misclick
+//                if (!ctx.players.local().interacting().valid() && ctx.players.local().animation() == -1 && !ctx.players.local().inMotion() && this.currentAction != null && this.currentAction.activate()) {
+//                    // Retry execution
+//                    this.checkAttempt = 0;
+//                    System.out.println("Retrying: " + this.currentAction.getStatus());
+//                    this.currentAction.execute();
+//                }
             }
         } else {
             System.out.println("Awaiting phase change");

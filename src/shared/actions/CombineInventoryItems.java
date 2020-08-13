@@ -1,9 +1,12 @@
 package shared.actions;
 
+import org.powerbot.script.Random;
 import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;
+import shared.tools.AntibanTools;
+import shared.tools.GaussianTools;
 
 import java.util.concurrent.Callable;
 
@@ -71,7 +74,11 @@ public class CombineInventoryItems extends AbstractAction<ClientContext> {
             public Boolean call() throws Exception {
                 return ctx.inventory.select().id(secondaryItemId).count() == 0 || ctx.widgets.component(233, 3).valid();
             }
-        }, 1000, (secondsTimeout * 1000)); // allow up to x seconds of wait time
+        }, Random.nextInt(900, 1200), (secondsTimeout * 1000)); // allow up to x seconds of wait time
+
+        if(GaussianTools.takeActionRarely()){
+            AntibanTools.sleepDelay(AntibanTools.getRandomInRange(2,10));
+        }
 
 
     }

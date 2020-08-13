@@ -33,5 +33,14 @@ public class GameObjects {
 
     public final static int BANK_BOOTH_1270 = 1270;
 
+    public final static int CANIFS_TALL_TREE_14843 = 14843;
+    public final static int CANIFS_GAP_1_14844 = 14844;
+    public final static int CANIFS_GAP_2_14845 = 14845;
+    public final static int CANIFS_GAP_3_14848 = 14848;
+    public final static int CANIFS_GAP_4_14846 = 14846;
+    public final static int CANIFS_GAP_5_14894 = 14894;
+    public final static int CANIFS_GAP_6_14847 = 14847;
+    public final static int CANIFS_GAP_7_14897 = 14897;
+
 
 }

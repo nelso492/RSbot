@@ -252,7 +252,7 @@ public class AntibanTools {
             x = 1000;
         }
 
-        int y = Random.nextInt(0, 550);
+        int y = Random.nextInt(-10, (int)(ctx.widgets.component(165, 30).height() * 1.25));
 
         ctx.input.move(new Point(x, y));
         sleepDelay(Random.nextInt(0,5));
@@ -327,6 +327,16 @@ public class AntibanTools {
             case 8: setRandomCameraAngle(ctx); break;
             case 9: setRandomCameraPitch(ctx); break;
             case 10: jiggleMouse(ctx); break;
+            default:doNothing();
+        }
+    }
+
+    public static void runAgilityAntiban(ClientContext ctx){
+        switch(AntibanTools.getRandomInRange(1, 5)){
+            case 1: moveMouseOffScreen(ctx, true); break;
+            case 2: moveMouseOffScreen(ctx, false); break;
+            case 3: hoverRandomNPC(ctx); break;
+            case 4: jiggleMouse(ctx); break;
             default:doNothing();
         }
     }

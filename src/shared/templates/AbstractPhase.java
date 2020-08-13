@@ -41,7 +41,7 @@ public abstract class AbstractPhase<C extends ClientContext> extends ClientAcces
     //region G&S
 
     public String getStatus() {
-        return name + "." + status;
+        return status;
     }
 
     public void setStatus(String status) {

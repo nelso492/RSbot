@@ -147,7 +147,7 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
         g.drawString("Runtime: " + GuiHelper.getReadableRuntime(getRuntime()), this.invRect.x + 15, this.invRect.y + 40);
 
         g.setColor(GuiHelper.getTextColorInformation());
-        g.drawString("Guzzled: " + GuiHelper.getReadableRuntime(this.lastGuzzleAttemptTimestamp) + " | " + this.lastGuzzleAttemptHP + "HP", this.invRect.x + 15, this.invRect.y + 70);
+        g.drawString("Guzzled: " + GuiHelper.getReadableRuntime(this.lastGuzzleAttemptTimestamp), this.invRect.x + 15, this.invRect.y + 70);
         g.drawString("Overloaded: " + GuiHelper.getReadableRuntime(this.lastOverloadTimestamp), this.invRect.x + 15, this.invRect.y + 90);
 
         g.setColor(GuiHelper.getTextColorImportant());
@@ -189,6 +189,9 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
         if (msg.contains("worn off")) {
             this.overloadRequired = true;
         }
+        if (msg.contains("drink some of your overload potion")) {
+            this.overloadRequired = false;
+        }
 
         // Ensures this doesn't have to be checked too often since messaged fires on callback
         this.invRect = ctx.widgets.component(7, 0).boundingRect();
@@ -203,7 +206,7 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
     private State checkState() {
 
         // Overload
-        if (overloadPotion.activate() && ctx.combat.health() > 50) {
+        if (overloadRequired && ctx.combat.health() > 50) {
             return State.OVERLOAD;
         }
 
@@ -217,7 +220,7 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
             if (guzzleRockCake.activate() && getGuzzleChance()) {
                 return State.GUZZLE;
             } else {
-                lastGuzzleAttemptHP++;
+                lastGuzzleAttemptHP = ctx.combat.health();
             }
         }
 
