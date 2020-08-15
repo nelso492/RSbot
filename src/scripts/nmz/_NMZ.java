@@ -39,14 +39,18 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
     private int lastGuzzleAttemptHP;
     private long lastGuzzleAttemptTimestamp;
 
+    private Rectangle invRect;
+
     private long nextBreak;
 
     private int[] overloadIds = new int[]{Items.OVERLOAD_1_11733, Items.OVERLOAD_2_11732, Items.OVERLOAD_3_11731, Items.OVERLOAD_4_11730};
 
     @Override
     public void start() {
+        this.invRect = ctx.widgets.component(7, 0).boundingRect();
+
         // Overload Potion (might ignore for now)
-        overloadPotion = new UsePotion(ctx, "Overload", overloadIds, Constants.SKILLS_HITPOINTS, 50, 50, false);
+        overloadPotion = new UsePotion(ctx, "Overload", overloadIds, Constants.SKILLS_HITPOINTS, 50, 52, false);
 
         // Absorption Potion
         absorptionPotion = new UseAbsorptionPotion(ctx);
@@ -75,13 +79,15 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
 
     @Override
     public void poll() {
+        this.invRect = ctx.widgets.component(7, 0).boundingRect();
+
 
         // Antiban Check
         switch (checkState()) {
             case GUZZLE:
-                lastGuzzleAttemptHP = ctx.combat.health();
                 status = guzzleRockCake.getStatus();
                 guzzleRockCake.execute();
+                this.lastGuzzleAttemptHP = 1;
                 break;
             case OVERLOAD:
                 status = overloadPotion.getStatus();
@@ -112,12 +118,13 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
             default:
                 if (getRuntime() > nextBreak) {
                     if (GaussianTools.takeActionNormal()) {
+                        status = "Antiban";
                         AntibanTools.runCommonAntiban(ctx);
                     }
                     this.nextBreak = getRuntime() + (AntibanTools.getRandomInRange(4, 9) * 3600);
+                } else {
+                    status = "Waiting";
                 }
-                status = "Waiting";
-
         }
     }
 
@@ -125,15 +132,19 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
     public void repaint(Graphics g) {
 
         g.setColor(GuiHelper.getBaseColor());
-        g.fillRoundRect(GuiHelper.getDialogX(), GuiHelper.getDialogY(), GuiHelper.getDialogWidth(), GuiHelper.getDialogHeight(), 4, 4);
+        g.fillRoundRect(this.invRect.x, this.invRect.y, this.invRect.width, this.invRect.height, 4, 4);
         g.setColor(GuiHelper.getTextColorWhite());
-        g.drawRoundRect(GuiHelper.getDialogX(), GuiHelper.getDialogY(), GuiHelper.getDialogWidth(), GuiHelper.getDialogHeight(), 4, 4);
+        g.drawRoundRect(this.invRect.x, this.invRect.y, this.invRect.width, this.invRect.height, 4, 4);
 
         // Default Paint
         g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
-        g.drawString("Status : " + (this.status), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(1));
-        g.drawString("Runtime: " + GuiHelper.getReadableRuntime(getRuntime()), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(2));
-        g.drawString("Last Overload : " + GuiHelper.getReadableRuntime(getRuntime() - lastOverloadTimestamp), GuiHelper.getDialogStartX(), GuiHelper.getStartY(4));
+        g.drawString("Status : " + (this.status), this.invRect.x + 15, this.invRect.y + 20);
+        g.drawString("Runtime: " + GuiHelper.getReadableRuntime(getRuntime()), this.invRect.x + 15, this.invRect.y + 40);
+
+        g.setColor(GuiHelper.getTextColorInformation());
+        g.drawString("Guzzled: " + GuiHelper.getReadableRuntime(this.lastGuzzleAttemptTimestamp), this.invRect.x + 15, this.invRect.y + 70);
+        g.drawString("Overloaded: " + GuiHelper.getReadableRuntime(this.lastOverloadTimestamp), this.invRect.x + 15, this.invRect.y + 90);
+//        g.drawString("Last Overload : " + GuiHelper.getReadableRuntime(getRuntime() - lastOverloadTimestamp), GuiHelper.getDialogStartX(), GuiHelper.getStartY(4));
 
     }
 
@@ -156,23 +167,26 @@ public class _NMZ extends PollingScript<ClientContext> implements PaintListener,
     }
 
     private State checkState() {
-        // Guzzle Rock Cake if HP in range && not overloading && time elapsed since last check decreasing as hp rises.
-        // more likely to notice hp gain as time elapses. random to prevent action on exact intervals
-        if (guzzleRockCake.activate() && (getRuntime() - lastGuzzleAttemptTimestamp) > (60000 / ctx.combat.health()) || ctx.combat.health() == 5) {
-            return State.GUZZLE;
-        } else {
-            lastGuzzleAttemptTimestamp = getRuntime();
-            lastGuzzleAttemptHP = ctx.combat.health();
-        }
 
         // Overload
-        if (overloadPotion.activate()) {
+        if (overloadPotion.activate() && ctx.combat.health() > 50) {
             return State.OVERLOAD;
         }
 
         // Absorption
-        if (absorptionPotion.activate() && ctx.inventory.select().id(this.overloadIds).count() > 0) {
+        if (absorptionPotion.activate() && ctx.inventory.select().id(this.overloadIds).count() > 0 && ctx.combat.health() < 10) {
             return State.ABSORPTION;
+        }
+
+        // Guzzle Rock Cake if HP in range && not overloading && time elapsed since last check decreasing as hp rises.
+        // more likely to notice hp gain as time elapses. random to prevent action on exact intervals
+        if (GaussianTools.takeActionNormal() && (ctx.combat.health() != lastGuzzleAttemptHP)) {
+            if (guzzleRockCake.activate()) {
+                lastGuzzleAttemptTimestamp = getRuntime();
+                AntibanTools.sleepDelay(AntibanTools.getRandomInRange(0,2));
+                return State.GUZZLE;
+            }
+            lastGuzzleAttemptHP = ctx.combat.health();
         }
 
         // Recurrent Damage

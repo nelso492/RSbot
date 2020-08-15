@@ -1,17 +1,17 @@
 package shared.actions;
 
-import shared.constants.Items;
-import shared.templates.AbstractAction;
-import shared.tools.CommonActions;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Game;
 import org.powerbot.script.rt4.Item;
 import org.powerbot.script.rt4.Magic;
+import shared.constants.Items;
+import shared.templates.AbstractAction;
+import shared.tools.AntibanTools;
+import shared.tools.CommonActions;
+import shared.tools.GaussianTools;
 
 import java.util.concurrent.Callable;
-
-import static org.powerbot.script.Condition.sleep;
 
 /**
  * High alch setup with options for staff use and inventory swap.
@@ -20,6 +20,8 @@ public class HighAlch extends AbstractAction<ClientContext> {
     private int[] alchableItemIds;
     private boolean backToInventory;
     private boolean usingStaff;
+
+    private Item alchTarget;
 
     public HighAlch(ClientContext ctx, String status, int[] alchableItemIds, boolean usingStaff, boolean backToInventory) {
         super(ctx, status);
@@ -34,6 +36,8 @@ public class HighAlch extends AbstractAction<ClientContext> {
 
     @Override
     public boolean activate() {
+        this.alchTarget = ctx.inventory.select().id(alchableItemIds).first().poll();
+
         return ctx.inventory.select().id(alchableItemIds).count() > 0 &&
                 ctx.inventory.select().id(Items.NATURE_RUNE_561).count() == 1 &&
                 ((ctx.inventory.select().id(Items.FIRE_RUNE_554).count() == 1 &&
@@ -44,18 +48,23 @@ public class HighAlch extends AbstractAction<ClientContext> {
     @Override
     public void execute() {
         // Open Magic Tab
-        CommonActions.openTab(ctx, Game.Tab.MAGIC);
+        if (ctx.game.tab() != Game.Tab.MAGIC) {
+            CommonActions.openTab(ctx, Game.Tab.MAGIC);
+        }
 
-        // Get a list of the items to cast high alch on
-        for( Item i : ctx.inventory.select().id(alchableItemIds) ) {
-            if( !ctx.magic.casting(Magic.Spell.HIGH_ALCHEMY) ) {
-                ctx.magic.cast(Magic.Spell.HIGH_ALCHEMY);
-            }
+        // Cast High Alch if not already
+        if (!ctx.magic.casting(Magic.Spell.HIGH_ALCHEMY)) {
+            ctx.magic.cast(Magic.Spell.HIGH_ALCHEMY);
+        }
+
+        // Confirm target exists
+        if (alchTarget.valid()) {
 
             // Cast Spell
-            i.click();
-            if( backToInventory ) {
+            ctx.input.click(alchTarget.nextPoint(), 1);
 
+            // Return to inventory
+            if (backToInventory) {
                 // Wait for animation to complete
                 Condition.wait(new Callable<Boolean>() {
                     @Override
@@ -65,19 +74,18 @@ public class HighAlch extends AbstractAction<ClientContext> {
                 }, 250, 20);
 
                 CommonActions.openTab(ctx, Game.Tab.INVENTORY);
-            }else{
+            } else {
                 Condition.wait(new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
                         return ctx.game.tab() == Game.Tab.MAGIC;
                     }
                 }, 250, 15);
+
+                if (GaussianTools.takeActionNever()) {
+                    AntibanTools.sleepDelay(AntibanTools.getRandomInRange(0, 5));
+                }
             }
-
-
         }
-
-
     }
-
 }

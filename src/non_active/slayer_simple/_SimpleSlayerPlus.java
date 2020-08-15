@@ -4,7 +4,10 @@ import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Constants;
 import org.powerbot.script.rt4.Equipment;
+<<<<<<< HEAD:src/scripts/slayer_simple/_SimpleSlayerPlus.java
 import org.powerbot.script.rt4.Game;
+=======
+>>>>>>> 9aa08e59baaf883509287c175f84823629cb01dd:src/non_active/slayer_simple/_SimpleSlayerPlus.java
 import shared.actions.*;
 import shared.constants.Items;
 import shared.models.LootItem;
@@ -16,6 +19,7 @@ import shared.tools.GuiHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import static org.powerbot.script.Condition.sleep;
 
@@ -92,6 +96,7 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
 
     private State checkState() {
 
+<<<<<<< HEAD:src/scripts/slayer_simple/_SimpleSlayerPlus.java
         // Highest Priority (heals, pots, gear)
         if (healAction.activate()) {
             status = "Heal";
@@ -121,8 +126,47 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
             status = "Combat Potion";
             return State.CombatPotion;
         }
+=======
+        if (ctx.players.local().interacting().valid()) {
 
+            // Checks while in combat
+            if (waitForLoot != null && waitForLoot.activate()) {
+                status = "Drop";
+                return State.WaitForLoot;
+            }
+            if (healAction.activate()) {
+                status = "Heal";
+                return State.Healing;
+            }
+            if (prayerPotion != null && prayerPotion.activate() && ctx.inventory.select().id(prayerPotionIds).count() > 0) {
+                status = "Prayer";
+                return State.PrayerPotion;
+            }
+            if (equipGuthans != null && equipGuthans.activate()) {
+                status = "Guthans";
+                return State.Guthans;
+            }
+            if (equipGear != null && equipGear.activate()) {
+                status = "Gear";
+                return State.Gear;
+            }
+            if (moveAwayFromTarget != null && moveAwayFromTarget.activate()) {
+                status = "Moving";
+                return State.MoveAwayFromTarget;
+            }
+            if (moveToSafeTile != null && moveToSafeTile.activate()) {
+                status = "Safetile";
+                return State.SafeTile;
+            }
+            if (ctx.combat.specialPercentage() >= 60 && !ctx.combat.specialAttack() && specWeaponIds.contains(ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id())) {
+                status = "Spec";
+                return State.Spec;
+            }
+>>>>>>> 9aa08e59baaf883509287c175f84823629cb01dd:src/non_active/slayer_simple/_SimpleSlayerPlus.java
 
+        } else {
+
+<<<<<<< HEAD:src/scripts/slayer_simple/_SimpleSlayerPlus.java
         // High Priority (task Specific)
         if (moveAwayFromTarget != null && moveAwayFromTarget.activate()) {
             status = "Moving";
@@ -170,14 +214,54 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
             status = "Alch";
             return State.Alch;
         }
+=======
+            // Checks while out of combat
+            if (this.buryBones != null && this.buryBones.activate() && ctx.skills.realLevel(Constants.SKILLS_PRAYER) - ctx.skills.level(Constants.SKILLS_PRAYER) > 20 && !ctx.players.local().interacting().valid()) {
+                status = "Bury";
+                return State.BuryBones;
+            }
+            if (bonesToPeaches != null && bonesToPeaches.activate() && ctx.inventory.select().id(Items.BONES_TO_PEACHES_8015).count() > 0) {
+                status = "B2P";
+                return State.BonesToPeaches;
+            }
+            if (combatPotion.activate() && ctx.inventory.select().id(combatPotionIds).count() > 0) {
+                status = "Combat Potion";
+                return State.CombatPotion;
+            }
+            if (lootAction.activate()) {
+                status = "Loot";
+                return State.Loot;
+            }
+            if (bonesToPeachesLootAction != null && bonesToPeachesLootAction.activate()) {
+                status = bonesToPeachesLootAction.getStatus();
+                return State.B2PLoot;
+            }
+            if (superiorCombatAction != null && superiorCombatAction.activate()) {
+                status = "Superior";
+                return State.SuperiorCombat;
+            }
+            if (combatAction.activate()) {
+                status = "Combat";
+                return State.Combat;
+            }
+            if (highAlch.activate()) {
+                status = "Alch";
+                return State.Alch;
+            }
+        }
+
+>>>>>>> 9aa08e59baaf883509287c175f84823629cb01dd:src/non_active/slayer_simple/_SimpleSlayerPlus.java
         if (toggleLevelUp.activate()) {
             status = "Level";
             return State.LevelUp;
         }
+<<<<<<< HEAD:src/scripts/slayer_simple/_SimpleSlayerPlus.java
         if (teletab != null && teletab.activate()) {
             status = "Tele";
             return State.Teletab;
         }
+=======
+>>>>>>> 9aa08e59baaf883509287c175f84823629cb01dd:src/non_active/slayer_simple/_SimpleSlayerPlus.java
 
         // Default
         return State.Wait;
@@ -253,7 +337,11 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         }
 
         // Loot Task
+<<<<<<< HEAD:src/scripts/slayer_simple/_SimpleSlayerPlus.java
         lootAction = new LootAction(ctx, "Loot", lootList, 5, true);
+=======
+        lootAction = new LootAction(ctx, "Loot", lootList, -1, true);
+>>>>>>> 9aa08e59baaf883509287c175f84823629cb01dd:src/non_active/slayer_simple/_SimpleSlayerPlus.java
 
         // Loot Drop
         if (taskConfig.isWaitingForLootDrop()) {
@@ -275,7 +363,11 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         if (ctx.equipment.itemAt(Equipment.Slot.MAIN_HAND).id() == Items.DRAGON_CROSSBOW_21902) {
             //Range Task
             combatPotionIds = new int[]{Items.RANGING_POTION4_2444, Items.RANGING_POTION3_169, Items.RANGING_POTION2_171, Items.RANGING_POTION1_173};
+<<<<<<< HEAD:src/scripts/slayer_simple/_SimpleSlayerPlus.java
             combatPotion = new UsePotion(ctx, "Range Pot", combatPotionIds, Constants.SKILLS_RANGE, ctx.skills.realLevel(Constants.SKILLS_RANGE) + 4, ctx.skills.realLevel(Constants.SKILLS_RANGE) + 6, true);
+=======
+            combatPotion = new UsePotion(ctx, "Range Pot", combatPotionIds, Constants.SKILLS_RANGE, ctx.skills.realLevel(Constants.SKILLS_RANGE) + 2, (int) (ctx.skills.realLevel(Constants.SKILLS_RANGE) * 1.1) + 4, true);
+>>>>>>> 9aa08e59baaf883509287c175f84823629cb01dd:src/non_active/slayer_simple/_SimpleSlayerPlus.java
         } else {
             combatPotionIds = new int[]{Items.SUPER_COMBAT_POTION1_12701, Items.SUPER_COMBAT_POTION2_12699, Items.SUPER_COMBAT_POTION3_12697, Items.SUPER_COMBAT_POTION4_12695};
             combatPotion = new UsePotion(ctx, "Combat Pot", combatPotionIds, Constants.SKILLS_STRENGTH, ctx.skills.realLevel(Constants.SKILLS_STRENGTH) + 4, ctx.skills.realLevel(Constants.SKILLS_STRENGTH) + 6, true);
@@ -284,10 +376,17 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
 
 
         // Check counts on Slayer Helm
+<<<<<<< HEAD:src/scripts/slayer_simple/_SimpleSlayerPlus.java
         CommonActions.openTab(ctx, Game.Tab.EQUIPMENT);
         ctx.equipment.itemAt(Equipment.Slot.HEAD).interact("Check");
         sleep();
         CommonActions.openTab(ctx, Game.Tab.INVENTORY);
+=======
+//        CommonActions.openTab(ctx, Game.Tab.EQUIPMENT);
+//        ctx.equipment.itemAt(Equipment.Slot.HEAD).interact("Check");
+//        sleep();
+//        CommonActions.openTab(ctx, Game.Tab.INVENTORY);
+>>>>>>> 9aa08e59baaf883509287c175f84823629cb01dd:src/non_active/slayer_simple/_SimpleSlayerPlus.java
 
         status = "Started";
     }
@@ -298,6 +397,7 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
 
         switch (checkState()) {
             case Healing:
+
                 healAction.execute();
                 break;
             case PrayerPotion:
@@ -323,6 +423,15 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
                 buryBones.execute();
                 break;
             case Loot:
+                if (healingMethod.equals("Prayer") && ctx.prayer.prayersActive()) {
+                    ctx.prayer.quickPrayer(false);
+                    Condition.wait(new Callable<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            return !ctx.prayer.quickSelectionActive();
+                        }
+                    }, 100, 10);
+                }
                 lootAction.execute();
                 sleep();
                 if (ctx.inventory.select().id(grimyHerbs).count() > 0 && ctx.inventory.select().id(Items.HERB_SACK_13226).count() == 1) {
@@ -334,9 +443,27 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
                 bonesToPeachesLootAction.execute();
                 break;
             case SuperiorCombat:
+                if (healingMethod.equals("Prayer") && !ctx.prayer.prayersActive()) {
+                    ctx.prayer.quickPrayer(true);
+                    Condition.wait(new Callable<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            return ctx.prayer.quickSelectionActive();
+                        }
+                    }, 100, 10);
+                }
                 superiorCombatAction.execute();
                 break;
             case Combat:
+                if (healingMethod.equals("Prayer") && !ctx.prayer.prayersActive()) {
+                    ctx.prayer.quickPrayer(true);
+                    Condition.wait(new Callable<Boolean>() {
+                        @Override
+                        public Boolean call() throws Exception {
+                            return ctx.prayer.quickSelectionActive();
+                        }
+                    }, 100, 10);
+                }
                 combatAction.execute();
                 break;
             case Spec:
@@ -399,12 +526,22 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
 
     @Override
     public void messaged(MessageEvent e) {
-        String msg = e.text();
+        String msg = e.text().toLowerCase();
 
+<<<<<<< HEAD:src/scripts/slayer_simple/_SimpleSlayerPlus.java
         if (msg.toLowerCase().contains("return to a slayer master")) {
             CommonActions.slayerRingTeleport(ctx, 1);
             ctx.controller.stop();
         }
+=======
+        if (msg.contains("return to a slayer master")) {
+            CommonActions.slayerRingTeleport(ctx, 1);
+            ctx.controller.stop();
+        }
+        if (msg.contains("some of your") && msg.contains("potion")) {
+            this.potionDosesUsed++;
+        }
+>>>>>>> 9aa08e59baaf883509287c175f84823629cb01dd:src/non_active/slayer_simple/_SimpleSlayerPlus.java
         if (msg.contains("monsters to complete your current slayer assignment")) {
             String[] msgparts = msg.split(" ");
 
@@ -820,7 +957,11 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
         lootList.addLootItem(new LootItem(Items.SOUL_RUNE_566));
         lootList.addLootItem(new LootItem(Items.BLOOD_RUNE_565));
 //        lootList.addLootItem(new LootItem(Items.FIRE_RUNE_554, 200, 1000));
+<<<<<<< HEAD:src/scripts/slayer_simple/_SimpleSlayerPlus.java
         lootList.addLootItem(new LootItem(Items.EARTH_RUNE_557, 75, 5000));
+=======
+//        lootList.addLootItem(new LootItem(Items.EARTH_RUNE_557, 75, 1000));
+>>>>>>> 9aa08e59baaf883509287c175f84823629cb01dd:src/non_active/slayer_simple/_SimpleSlayerPlus.java
 
         lootList.addLootItem(new LootItem(Items.GRIMY_RANARR_WEED_207));
         lootList.addLootItem(new LootItem(Items.SNAPE_GRASS_SEED_22879));
@@ -829,16 +970,19 @@ public class _SimpleSlayerPlus extends PollingScript<ClientContext> implements M
 
         standardRareDropTable();
 
-        //   lootList.addLootItem(new LootItem(22780)); // Wyrm Bones
-        //  buryBones = new BuryBones(ctx, "Bury", 22780, true);
-
         taskConfig.setXpPerKill(133.2);
         taskConfig.setUsingPrayer(true);
-        taskConfig.setCustomCombatConfig(new CombatConfig(npcName, -1, taskConfig.getEatFoodMinHealthPercentage(), lootList, false, safetile, 3));
+        taskConfig.setCustomCombatConfig(new CombatConfig(npcName, -1, taskConfig.getEatFoodMinHealthPercentage(), lootList, false, safetile, -1));
         taskConfig.setCustomCombatAction(new WyrmCombat(ctx, "Combat", taskConfig.getCustomCombatConfig(), alchables));
 
+        // Bury bones if using dragonbone amulet
+        if (CommonActions.promptForYesNo("Bury Bones", "")) {
+            this.buryBones = new BuryBones(ctx, "Bury", 22780, 4, true);
+            this.lootList.addLootItem(new LootItem(22780, 1, 5));
+        }
+
         // Add task to shift away from melee range
-        moveAwayFromTarget = new MoveAwayFromTarget(ctx, taskConfig.getCustomCombatConfig().getMinDistanceToTarget());
+        moveAwayFromTarget = new MoveAwayFromTarget(ctx, 3);
     }
 
     private void drake() {

@@ -319,15 +319,15 @@ public class AntibanTools {
         switch(Random.nextInt(0, 11)){
             case 1: toggleRun(ctx); break;
             case 2: moveMouseOffScreen(ctx, true); break;
-            case 3: checkStat(ctx, getRandomInRange(0,23)); break;
+          //  case 3: checkStat(ctx, getRandomInRange(0,23)); break;
             case 4: moveMouseOffScreen(ctx, false); break;
-            case 5: checkStat(ctx, getRandomInRange(0,4)); break;
+           // case 5: checkStat(ctx, getRandomInRange(0,4)); break;
             case 6: resetCamera(ctx); break;
             case 7: hoverRandomNPC(ctx); break;
             case 8: setRandomCameraAngle(ctx); break;
             case 9: setRandomCameraPitch(ctx); break;
             case 10: jiggleMouse(ctx); break;
-            case 11: doNothing(); break;
+            default:doNothing();
         }
     }
 }

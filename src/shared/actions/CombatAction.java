@@ -6,13 +6,10 @@ import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Npc;
-import scripts.slayer_simple.CombatConfig;
 import shared.models.LootList;
 import shared.templates.AbstractAction;
 import shared.tools.CommonActions;
-import shared.tools.GaussianTools;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,17 +33,17 @@ public class CombatAction extends AbstractAction<ClientContext> {
         super(ctx, status);
     }
 
-    public CombatAction(ClientContext ctx, CombatConfig c) {
-        super(ctx, "Combat");
-        this.npcName = c.getNpcName();
-        this.npcDeathAnimation = c.getNpcDeathAnimation();
-        this.minDistanceToTarget = c.getMinDistanceToTarget();
-        this.loot = c.getLoot();
-        this.minHealthPercent = c.getMinHealthPercent();
-        this.safeTile = c.getSafeTile();
-        this.multiCombatArea = c.isMultiCombatArea();
-
-    }
+//    public CombatAction(ClientContext ctx, CombatConfig c) {
+//        super(ctx, "Combat");
+//        this.npcName = c.getNpcName();
+//        this.npcDeathAnimation = c.getNpcDeathAnimation();
+//        this.minDistanceToTarget = c.getMinDistanceToTarget();
+//        this.loot = c.getLoot();
+//        this.minHealthPercent = c.getMinHealthPercent();
+//        this.safeTile = c.getSafeTile();
+//        this.multiCombatArea = c.isMultiCombatArea();
+//
+//    }
 
     public CombatAction(ClientContext ctx, String status, String npcName, int npcDeathAnimation, int minHealthPercent, LootList loot, boolean multiCombatArea, Tile safeTile, int minDistanceToTarget) {
         super(ctx, status);
@@ -63,12 +60,6 @@ public class CombatAction extends AbstractAction<ClientContext> {
     public boolean activate() {
         boolean hasMinHealth = ctx.combat.healthPercent() >= this.minHealthPercent;
         boolean interacting = (ctx.players.local().interacting().valid() && ctx.players.local().interacting().name().equals(this.npcName));
-//                || ctx.npcs.select().select(new Filter<Npc>() {
-//            @Override
-//            public boolean accept(Npc npc) {
-//                return npc.name().equals(npcName) && npc.interacting().valid() && npc.interacting().name().equalsIgnoreCase(ctx.players.local().name()) && npc.tile().distanceTo(ctx.players.local()) < 5;
-//            }
-//        }).poll().valid();
         boolean validNpcNearby =
                 ctx.npcs.select().select(new Filter<Npc>() {
                     @Override
@@ -88,13 +79,13 @@ public class CombatAction extends AbstractAction<ClientContext> {
         Npc target = ctx.npcs.select().select(new Filter<Npc>() {
             @Override
             public boolean accept(Npc npc) {
-                return npc.interacting().valid() && npc.name().equals(npcName) && npc.interacting().name().equalsIgnoreCase(ctx.players.local().name()) && npc.healthPercent() > 5;
+                return npc.name().equals(npcName) && npc.interacting().name().equalsIgnoreCase(ctx.players.local().name());
             }
         }).poll();
 
 
-        if (target.valid() && target.tile().matrix(ctx).reachable() && (target.tile().distanceTo(ctx.players.local()) < 2)) {
-            sleep();
+        if (target.valid() && target.tile().matrix(ctx).reachable()) {
+            waitForCombat();
         } else {
             // None Found. Find nearest valid target
             target = ctx.npcs.select().select(new Filter<Npc>() {
@@ -106,33 +97,12 @@ public class CombatAction extends AbstractAction<ClientContext> {
 
             Npc npc = target;
 
-            if (GaussianTools.takeActionRarely()) {
-                ctx.input.move(new Point(npc.nextPoint().x + Random.nextInt(-20, 20), npc.nextPoint().y + Random.nextInt(-20, 20)));
-                sleep();
-            }
-
-            // Add a touch of AFK
-//        AntibanTools.sleepDelay(AntibanTools.getRandomInRange(0, 1));
-
-            // Target Npc
-            if (npc.inViewport() && (!npc.interacting().valid() || npc.interacting().name().equals(ctx.players.local().name()))) {
+            // Target Npc && double check no interaction
+            if (npc.inViewport() && !npc.interacting().valid()) {
                 if (npc.interact("Attack", npc.name())) {
 
                     // Wait for the first hit
                     waitForCombat();
-
-                    // Triple check we've got a target
-//                if (ctx.players.local().interacting().valid()) {
-//                    if (this.npcDeathAnimation > 0) {
-//                        // Wait for drop like a good human
-//                        Condition.wait(new Callable<Boolean>() {
-//                            @Override
-//                            public Boolean call() throws Exception {
-//                                return !npc.valid() || validNpcForCombat(npc);
-//                            }
-//                        }, Random.nextInt(250, 500), 60);
-//                    }
-//                }
                 }
             } else {
                 if (this.safeTile == null) {
@@ -143,7 +113,7 @@ public class CombatAction extends AbstractAction<ClientContext> {
                         public Boolean call() throws Exception {
                             return npc.inViewport();
                         }
-                    }, 100, 20);
+                    }, 100, 15);
 
                     if (!npc.inViewport() && this.minDistanceToTarget > 1) {
                         Tile playerTile = ctx.players.local().tile();
@@ -193,11 +163,9 @@ public class CombatAction extends AbstractAction<ClientContext> {
 
     private boolean validNpcForCombat(Npc npc) {
         boolean approved =
-                npc.healthPercent() > 0 &&
+                npc.healthPercent() > 10 &&
                         !npc.interacting().valid();
-//                        && (this.minDistanceToTarget <= 0 || npc.tile().distanceTo(ctx.players.local()) >= this.minDistanceToTarget);
         return approved;
-        //        return (isMultiCombatArea() ||  || (getSafeTile() != null && getSafeTile().distanceTo(ctx.players.local()) == 0))) && npc.healthPercent() > 1;
     }
 
     private void waitForCombat() {

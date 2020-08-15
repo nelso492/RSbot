@@ -1,10 +1,12 @@
 package shared.actions;
 
+import org.powerbot.script.rt4.Game;
 import shared.templates.AbstractAction;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Item;
+import shared.tools.CommonActions;
 
 import java.util.concurrent.Callable;
 
@@ -53,6 +55,7 @@ public class EquipGear extends AbstractAction<ClientContext> {
 
     @Override
     public void execute() {
+        CommonActions.openTab(ctx, Game.Tab.INVENTORY);
         for (Item i : ctx.inventory.select().id(allIds)
         ) {
             if (i.id() == mainHandId || i.id() == offHandId)
