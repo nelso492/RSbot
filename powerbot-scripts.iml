@@ -7,16 +7,8 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/src/archive" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-      <excludeFolder url="file://$MODULE_DIR$/src/disabled" />
-=======
->>>>>>> 9ce0d8e... Reformatting for local copy.
-=======
-      <excludeFolder url="file://$MODULE_DIR$/src/disabled/combat_goblins" />
-      <excludeFolder url="file://$MODULE_DIR$/src/scripts/combat_minotaur" />
+      <excludeFolder url="file://$MODULE_DIR$/src/non_active" />
       <excludeFolder url="file://$MODULE_DIR$/src/scripts/fishing_harpoon_catherby" />
->>>>>>> 2fb47ac... Re-doing AntibanTools.java
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
