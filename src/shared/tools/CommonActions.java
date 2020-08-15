@@ -44,7 +44,7 @@ public class CommonActions {
                 }, 250, 10);
                 ctx.input.send("{VK_F2 up}");
 
-            } else if(tab == Game.Tab.MAGIC) {
+            } else if (tab == Game.Tab.MAGIC) {
                 ctx.input.send("{VK_F4 down}");
 
                 Condition.wait(new Callable<Boolean>() {
@@ -54,9 +54,7 @@ public class CommonActions {
                     }
                 }, 250, 10);
                 ctx.input.send("{VK_F4 up}");
-            }
-
-            else {
+            } else {
                 ctx.game.tab(tab);
 
                 Condition.wait(new Callable<Boolean>() {
@@ -211,6 +209,8 @@ public class CommonActions {
                 return "WC";
             case Constants.SKILLS_HITPOINTS:
                 return "HitPoints";
+            case Constants.SKILLS_AGILITY:
+                return "Agility";
             default:
                 return "None";
         }

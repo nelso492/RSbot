@@ -89,5 +89,24 @@ public class CommonAreas {
 
     public static Area ogressSafeZone() {return new Area(new Tile(2014, 9004), new Tile(2012, 9002));}
 
-    public static Area catherbyBank() {return new Area(new Tile(2812, 3441), new Tile(2807, 3438));}
+
+    public static Area canifs_start() {return new Area(new Tile(3502, 3490, 0), new Tile(3512, 3488, 0));}
+
+    public static Area canifs_roof_1() {return new Area(new Tile(3505, 3491, 2), new Tile(3509, 3498, 2));}
+    public static Area canifs_roof_2() {return new Area(new Tile(3503, 3504, 2), new Tile(3497, 3506, 2));}
+    public static Area canifs_roof_3() {return new Area(new Tile(3493, 3505, 2), new Tile(3487, 3499, 2));}
+    public static Area canifs_roof_4() {return new Area(new Tile(3480, 3500, 3), new Tile(3475, 3492, 3));}
+    public static Area canifs_roof_5() {return new Area(new Tile(3477, 3487, 2), new Tile(3480, 3482, 2));}
+    public static Area canifs_roof_6() {return new Area(new Tile(3488, 3477, 3), new Tile(3504, 3471, 3));}
+    public static Area canifs_roof_7() {return new Area(new Tile(3508, 3476, 2), new Tile(3512, 3483, 2));}
+
+    public static Area canifs_fall_1() {return new Area(new Tile(3481, 3496, 0), new Tile(3484, 3502, 0));}
+    public static Area canifs_fall_2() {return new Area(new Tile(3507, 3474, 0), new Tile(3505, 3480, 0));}
+
+
+    public static Area motherload_nw() {return new Area(new Tile(3733, 5690, 0), new Tile(3720, 5681, 0));}
+    public static Area motherload_nw_rockfalls() {return new Area(new Tile(3729, 5685, 0), new Tile(3739, 5676, 0));}
+
+    public static Area motherload_main() {return new Area(new Tile(3737, 5677, 0), new Tile(3759, 5658, 0));}
+
 }

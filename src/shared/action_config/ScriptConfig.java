@@ -1,10 +1,9 @@
 package shared.action_config;
 
+import org.powerbot.script.rt4.ClientContext;
 import shared.actions.ToggleLevelUp;
 import shared.actions.ToggleRunAction;
-import shared.tools.CommonActions;
 import shared.tools.GuiHelper;
-import org.powerbot.script.rt4.ClientContext;
 
 import java.awt.*;
 
@@ -20,9 +19,10 @@ public class ScriptConfig {
     ClientContext ctx;
 
     // GUI
-    private String status;
+    private String phase;
+    private String step;
     private int levelsGained = 0;
-    private final int[] trackedSkillIds;
+    private Rectangle invRect = new Rectangle();
 
 
     // DEFAULT TASKS
@@ -30,22 +30,26 @@ public class ScriptConfig {
     private final ToggleRunAction toggleRunAction;
 
     // CONSTRUCTOR
-    public ScriptConfig(ClientContext ctx, int[] skillIds) {
+    public ScriptConfig(ClientContext ctx) {
         this.ctx = ctx;
 
         // Default Properties
-        this.status = "Configuration";
+        this.phase = "Start";
+        this.step = "Config";
         this.ctx.properties.setProperty("randomevents.disable", "true");
-        this.trackedSkillIds = skillIds;
 
         // Action Setup
         this.toggleLevelUp = new ToggleLevelUp(this.ctx);
         this.toggleRunAction = new ToggleRunAction(this.ctx, "Run", 30);
+
+        this.invRect = ctx.widgets.component(7, 0).boundingRect();
+
     }
 
 
     // Pre-Poll Actions
     public void prePollAction() {
+
         // Reset any errant inventory selection
         if (ctx.inventory.selectedItem().valid()) {
             ctx.inventory.selectedItem().click(); // unselect itself
@@ -54,54 +58,55 @@ public class ScriptConfig {
         this.checkMiscState();
     }
 
-    public void paint(Graphics g, Long runtime) {
+    public void paint(Graphics g) {
+
         g.setColor(GuiHelper.getBaseColor());
-        g.fillRoundRect(GuiHelper.getDialogX(), GuiHelper.getDialogY(), GuiHelper.getDialogWidth(), GuiHelper.getDialogHeight(), 4, 4);
+        g.fillRoundRect(invRect.x, invRect.y, invRect.width, invRect.height, 4, 4);
         g.setColor(GuiHelper.getTextColorWhite());
-        g.drawRoundRect(GuiHelper.getDialogX(), GuiHelper.getDialogY(), GuiHelper.getDialogWidth(), GuiHelper.getDialogHeight(), 4, 4);
+        g.drawRoundRect(invRect.x, invRect.y, invRect.width, invRect.height, 4, 4);
 
         // Default Paint
         g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 14));
-        g.drawString("Status : " + (this.status), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(1));
-        g.drawString("Runtime: " + GuiHelper.getReadableRuntime(runtime), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(2));
-
-        g.setColor(GuiHelper.getTextColorImportant());
-        if (this.trackedSkillIds != null) {
-            for (int i = 0; i < this.trackedSkillIds.length; i++) {
-                if (this.trackedSkillIds[i] > -1)
-                    g.drawString(CommonActions.getSkillName(this.trackedSkillIds[i]) + ": " + ctx.skills.realLevel(this.trackedSkillIds[i]), GuiHelper.getDialogStartX(), GuiHelper.getDialogStartY(i + 3));
-            }
-        }
-
-        g.setColor(GuiHelper.getTextColorInformation());
-
-
     }
 
     // Check any non-phase STATE
     private void checkMiscState() {
         if (this.toggleLevelUp.activate()) {
-            this.status = "Level Up";
+            this.step = "Level Up";
             this.levelsGained++;
             this.toggleLevelUp.execute();
         }
 
         if (this.toggleRunAction.activate()) {
-            this.status = "Running";
+            this.step = "Running";
             this.toggleRunAction.execute();
         }
     }
 
-
-    public String getStatus() {
-        return status;
+    public String getPhase() {
+        return phase;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPhase(String phase) {
+        this.phase = phase;
+    }
+
+    public String getStep() {
+        return step;
+    }
+
+    public void setStep(String step) {
+        this.step = step;
     }
 
     public void incrementLevelsGained() {
         this.levelsGained++;
+    }
+
+    public int paintLineY(int line){
+        return invRect.y + (line * 20);
+    }
+    public int paintLineX(){
+        return invRect.x + 10;
     }
 }
